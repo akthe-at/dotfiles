@@ -1,0 +1,33 @@
+
+[tool.ruff]
+extend-include = ["*.ipynb"]
+
+# ...but use a different line length.
+line-length = 88
+
+
+[tool.ruff.lint]
+select = [
+  # pycodestyle
+  "E",
+  # Pyflakes
+  "F",
+  # pyupgrade
+  #    "UP",
+  # flake8-bugbear
+  "B",
+  # flake8-simplify
+  #  "SIM",
+  # isort
+  "I",
+  # Warning,
+  "W",
+  # pep8 naming
+  "N",
+  # pydoc style
+  "D",
+  # flake8 django
+  "DJ",
+  # Ruff specific
+  "RUF",
+]
