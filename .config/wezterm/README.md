@@ -1,4 +1,4 @@
-# My wezterm configuration
+# My wezterm configuration - Forked from https://github.com/sravioli/wezterm
 
 <!--toc:start-->
 - [My wezterm configuration](#my-wezterm-configuration)
