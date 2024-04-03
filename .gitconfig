@@ -1,0 +1,37 @@
+[core]
+	editor = nvim
+  autocrlf = false
+
+[mergetool "fugitive"]
+	cmd = nvim  -c \"Gdiff\" \"$MERGED\"
+[merge]
+	tool = fugitive
+[mergetool]
+	keepBackup = false
+[diff]
+    tool = default-difftool
+[difftool "default-difftool"]
+  cmd = code --wait --diff $LOCAL $REMOTE
+
+[pull]
+
+[push]
+  autoSetupRemote = true
+
+[user]
+	email = arkelly2@medicine.wisc.edu
+	name = Adam K.
+	username = akthe-at
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+[credential "helperselector"]
+	selected = wincred
+[github]
+	user = akthe-at
+	token = token
+[url "ssh://git@github.com/"]
+[credential]
+	helper = manager
