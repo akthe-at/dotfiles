@@ -1,0 +1,11 @@
+{
+  "language": "tsql",
+  "tabWidth": 2,
+  "keywordCase": "lower",
+  "dataTypeCase": "lower",
+  "functionCase": "lower",
+  "identifierCase": "lower",
+  "denseOperators": true,
+  "newlineBeforeSemicolon": true,
+  "linesBetweenQueries": 2
+}
