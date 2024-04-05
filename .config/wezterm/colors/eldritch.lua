@@ -2,6 +2,7 @@
 local main = {
   rosewater = "#f5e0dc",
   flamingo = "#f2cdcd",
+  eld_pink = "#f265b5",
   pink = "#ebbcba",
   mauve = "#cba6f7",
   red = "#eb6f92",
@@ -88,7 +89,7 @@ local colorscheme = {
     background = main.base,
     inactive_tab_edge = main.base,
     active_tab = {
-      fg_color = main.cursor_bg,
+      fg_color = main.eld_pink,
       bg_color = main.base,
       intensity = "Normal",
       italic = false,
