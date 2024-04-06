@@ -67,33 +67,33 @@ return {
     --   })
     -- end,
   },
-  {
-    "sainnhe/everforest",
-    name = "everforest",
-    enabled = true,
-    lazy = true,
-    keys = {
-      { "<leader>uC", LazyVim.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
-    },
-    priority = 1000,
-    config = function()
-      vim.g.everforest_background = "hard"
-      vim.g.everforest_dim_inactive_windows = 1
-      vim.g.everforest_ui_contrast = "high"
-      vim.g.everforest_enable_italic = 1
-      vim.g.everforest_better_performance = 1
-    end,
-  },
-  {
-    "fynnfluegge/monet.nvim",
-    name = "monet",
-    lazy = true,
-    enabled = false,
-    keys = {
-      { "<leader>uC", LazyVim.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
-    },
-    opts = { transparent_background = false },
-  },
+  -- {
+  --   "sainnhe/everforest",
+  --   name = "everforest",
+  --   enabled = true,
+  --   lazy = true,
+  --   keys = {
+  --     { "<leader>uC", LazyVim.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
+  --   },
+  --   priority = 1000,
+  --   config = function()
+  --     vim.g.everforest_background = "hard"
+  --     vim.g.everforest_dim_inactive_windows = 1
+  --     vim.g.everforest_ui_contrast = "high"
+  --     vim.g.everforest_enable_italic = 1
+  --     vim.g.everforest_better_performance = 1
+  --   end,
+  -- },
+  -- {
+  --   "fynnfluegge/monet.nvim",
+  --   name = "monet",
+  --   lazy = true,
+  --   enabled = false,
+  --   keys = {
+  --     { "<leader>uC", LazyVim.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
+  --   },
+  --   opts = { transparent_background = false },
+  -- },
   {
     "catppuccin/nvim",
     lazy = true,
@@ -157,28 +157,28 @@ return {
       },
     },
   },
-  {
-    "rebelot/kanagawa.nvim",
-    enabled = true,
-    lazy = true,
-    keys = {
-      { "<leader>uC", LazyVim.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
-    },
-    priority = 1000,
-    opts = {
-      transparent = false,
-      theme = "wave",
-    },
-  },
-  {
-    "ribru17/bamboo.nvim",
-    enabled = false,
-    lazy = true,
-    keys = {
-      { "<leader>uC", LazyVim.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
-    },
-    priority = 1000,
-  },
+  -- {
+  --   "rebelot/kanagawa.nvim",
+  --   enabled = true,
+  --   lazy = true,
+  --   keys = {
+  --     { "<leader>uC", LazyVim.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
+  --   },
+  --   priority = 1000,
+  --   opts = {
+  --     transparent = false,
+  --     theme = "wave",
+  --   },
+  -- },
+  -- {
+  --   "ribru17/bamboo.nvim",
+  --   enabled = false,
+  --   lazy = true,
+  --   keys = {
+  --     { "<leader>uC", LazyVim.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
+  --   },
+  --   priority = 1000,
+  -- },
   {
     "rockyzhang24/arctic.nvim",
     enabled = true,
@@ -191,16 +191,16 @@ return {
     name = "arctic",
     dependencies = { "rktjmp/lush.nvim" },
   },
-  {
-    "craftzdog/solarized-osaka.nvim",
-    lazy = false,
-    keys = {
-      { "<leader>uC", LazyVim.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
-    },
-    enabled = true,
-    priority = 1000,
-    opts = {},
-  },
+  -- {
+  --   "craftzdog/solarized-osaka.nvim",
+  --   lazy = false,
+  --   keys = {
+  --     { "<leader>uC", LazyVim.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
+  --   },
+  --   enabled = true,
+  --   priority = 1000,
+  --   opts = {},
+  -- },
   {
     "ellisonleao/gruvbox.nvim",
     priority = 1000,
