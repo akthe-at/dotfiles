@@ -1,70 +1,13 @@
 return {
-  { "danymat/neogen", config = true },
-  {
-    "LunarVim/bigfile.nvim",
-    opts = {
-      filesize = 2, -- MiB (2 MiB is just over 2MB)
-      features = {
-        "indent_blankline",
-        "lsp",
-        "treesitter",
-        "syntax",
-        -- "matchparen", -- I'm not sure about this having a large impact on perf, and it stays disabled, so I'm going to comment it out
-        "vimopts",
-        "filetype",
-        {
-          name = "neoscroll",
-          disable = function()
-            vim.api.nvim_buf_set_var(0, "disable_neoscroll", true)
-          end,
-        },
-      },
-    },
-  },
-  {
-    "lukas-reineke/headlines.nvim",
-    ft = { "markdown", "rmd", "qmd" },
-    dependencies = "nvim-treesitter/nvim-treesitter",
-    config = function()
-      local custom = {
-        codeblock_highlight = false,
-        dash_string = "━",
-      }
-      local qmd = vim.tbl_deep_extend("force", custom, { treesitter_language = "markdown" })
-      require("headlines").setup({
-        markdown = custom,
-        quarto = vim.tbl_deep_extend("force", require("headlines").config.markdown, qmd),
-      })
-    end,
-  },
-  {
-    "ThePrimeagen/refactoring.nvim",
-    keys = {
-      {
-        "<leader>rf",
-        function()
-          require("refactoring").select_refactor({
-            show_success_message = true,
-          })
-        end,
-        mode = "v",
-        noremap = true,
-        silent = true,
-        expr = false,
-      },
-    },
-    opts = {},
-  },
   {
     "LazyVim/LazyVim",
     opts = {
       -- colorscheme = "tokyonight-night",
       -- colorscheme = "tokyonight",
-      -- colorscheme = "kanagawa",
       -- colorscheme = "dracula",
-      -- colorscheme = "rose-pine",
+      colorscheme = "rose-pine",
       -- colorscheme = "rose-pine-dawn",
-      colorscheme = "eldritch",
+      -- colorscheme = "eldritch",
       -- colorscheme = "catppuccin",
       -- colorscheme = "miss-dracula",
       -- colorscheme = "gruvbox",
@@ -88,8 +31,8 @@ return {
         enabled = false,
       },
       servers = {
-        clangd = {},
-        gopls = {},
+        -- clangd = {},
+        -- gopls = {},
         bashls = {},
         r_language_server = {},
         pyright = {
@@ -102,7 +45,7 @@ return {
               analysis = {
                 -- ignore = { "*" },
               },
-              typeCheckingMode = "standard",
+              typeCheckingMode = "strict",
             },
           },
         },
@@ -111,7 +54,7 @@ return {
         powershell_es = {},
         marksman = {},
         html = { filetypes = { "html", "htmldjango" } },
-        rust_analyzer = {},
+        -- rust_analyzer = {},
         tailwindcss = {
           filetypes_exclude = { "markdown" },
           filetypes_include = { "html", "htmldjango" },
@@ -144,5 +87,109 @@ return {
         },
       },
     },
+  },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    version = false, -- last release is way too old and doesn't work on Windows
+    build = ":TSUpdate",
+    event = { "LazyFile", "VeryLazy" },
+    init = function(plugin)
+      -- PERF: add nvim-treesitter queries to the rtp and it's custom query predicates early
+      -- This is needed because a bunch of plugins no longer `require("nvim-treesitter")`, which
+      -- no longer trigger the **nvim-treeitter** module to be loaded in time.
+      -- Luckily, the only thins that those plugins need are the custom queries, which we make available
+      -- during startup.
+      require("lazy.core.loader").add_to_rtp(plugin)
+      require("nvim-treesitter.query_predicates")
+    end,
+    dependencies = {
+      {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        config = function()
+          -- When in diff mode, we want to use the default
+          -- vim text objects c & C instead of the treesitter ones.
+          local move = require("nvim-treesitter.textobjects.move") ---@type table<string,fun(...)>
+          local configs = require("nvim-treesitter.configs")
+          for name, fn in pairs(move) do
+            if name:find("goto") == 1 then
+              move[name] = function(q, ...)
+                if vim.wo.diff then
+                  local config = configs.get_module("textobjects.move")[name] ---@type table<string,string>
+                  for key, query in pairs(config or {}) do
+                    if q == query and key:find("[%]%[][cC]") then
+                      vim.cmd("normal! " .. key)
+                      return
+                    end
+                  end
+                end
+                return fn(q, ...)
+              end
+            end
+          end
+        end,
+      },
+    },
+    cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
+    keys = {
+      { "<c-space>", desc = "Increment selection" },
+      { "<bs>", desc = "Decrement selection", mode = "x" },
+    },
+    ---@type TSConfig
+    ---@diagnostic disable-next-line: missing-fields
+    opts = {
+      highlight = { enable = true },
+      indent = { enable = true },
+      ensure_installed = {
+        "c",
+        "lua",
+        "vim",
+        "vimdoc",
+        "bash",
+        "html",
+        "markdown",
+        "htmldjango",
+        "markdown_inline",
+        "python",
+        "r",
+        "css",
+        "sql",
+        "query",
+        "regex",
+        "yaml",
+      },
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = "<c-space>",
+          node_incremental = "<c-space>",
+          scope_incremental = false,
+          node_decremental = "<bs>",
+        },
+      },
+      textobjects = {
+        move = {
+          enable = true,
+          goto_next_start = { ["]f"] = "@function.outer", ["]c"] = "@class.outer" },
+          goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer" },
+          goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer" },
+          goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer" },
+        },
+      },
+    },
+    ---@param opts TSConfig
+    config = function(_, opts)
+      if type(opts.ensure_installed) == "table" then
+        ---@type table<string, boolean>
+        local added = {}
+        opts.ensure_installed = vim.tbl_filter(function(lang)
+          if added[lang] then
+            return false
+          end
+          added[lang] = true
+          return true
+        end, opts.ensure_installed)
+      end
+      require("nvim-treesitter.configs").setup(opts)
+    end,
   },
 }
