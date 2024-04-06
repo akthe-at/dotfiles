@@ -11,9 +11,9 @@ Config.anti_alias_custom_block_glyphs = true
 
 Config.font = wez.font_with_fallback {
   {
-    family = "JetBrainsMono Nerd Font",
-    -- family = "ComicShannsMono Nerd Font",
-    weight = "Medium",
+    family = "ComicShannsMono Nerd Font",
+    -- family = "D2CodingLigature Nerd Font",
+    weight = "Regular",
     harfbuzz_features = {
       -- "cv01", ---styles: a
       -- "cv02", ---styles: g
@@ -53,7 +53,7 @@ Config.font = wez.font_with_fallback {
   { family = "LegacyComputing" },
 }
 
-Config.font_size = 10
+Config.font_size = 12
 Config.cell_width = 0.9
 Config.line_height = 1.1
 Config.underline_position = -6
