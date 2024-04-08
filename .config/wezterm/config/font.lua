@@ -11,7 +11,9 @@ Config.anti_alias_custom_block_glyphs = true
 
 Config.font = wez.font_with_fallback {
   {
-    family = "ComicShannsMono Nerd Font",
+    -- family = "ComicShannsMono Nerd Font",
+    -- family = "Hack Nerd Font",
+    family = "JetBrainsMono Nerd Font",
     -- family = "D2CodingLigature Nerd Font",
     weight = "Regular",
     harfbuzz_features = {
@@ -53,11 +55,9 @@ Config.font = wez.font_with_fallback {
   { family = "LegacyComputing" },
 }
 
-Config.font_size = 12
+Config.font_size = 11
 Config.cell_width = 0.9
 Config.line_height = 1.1
-Config.underline_position = -6
-Config.underline_thickness = "250%"
 Config.warn_about_missing_glyphs = false
 
 local monaspace_features =
