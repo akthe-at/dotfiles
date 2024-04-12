@@ -89,7 +89,7 @@ local colorscheme = {
     background = main.base,
     inactive_tab_edge = main.base,
     active_tab = {
-      fg_color = main.eld_pink,
+      fg_color = main.cursor_bg,
       bg_color = main.base,
       intensity = "Normal",
       italic = false,
@@ -118,7 +118,7 @@ local colorscheme = {
     },
     new_tab_hover = {
       fg_color = main.base,
-      bg_color = main.cursor_bg,
+      bg_color = main.eld_pink,
       italic = true,
       intensity = "Normal",
       strikethrough = false,

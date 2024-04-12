@@ -27,7 +27,7 @@ wez.on("update-status", function(window, pane)
   if name and modes[name] then
     local txt = modes[name].text or ""
     mode_indicator_width, bg = strwidth(txt), modes[name].bg
-    LeftStatus:push(bg, theme.background, txt, { "DemiBold" })
+    LeftStatus:push(bg, theme.background, txt, { "Medium" })
   end
 
   window:set_left_status(wez.format(LeftStatus))
@@ -83,7 +83,7 @@ wez.on("update-status", function(window, pane)
 
     ---add cell or empty string
     cell = usable_width <= 0 and " " or " " .. cell .. " "
-    RightStatus:push(colors[i], theme.tab_bar.background, cell, { "DemiBold" })
+    RightStatus:push(colors[i], theme.tab_bar.background, cell, { "Medium" })
   end
 
   window:set_right_status(wez.format(RightStatus))

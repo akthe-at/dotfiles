@@ -13,7 +13,8 @@ Config.font = wez.font_with_fallback {
   {
     -- family = "ComicShannsMono Nerd Font",
     -- family = "Hack Nerd Font",
-    family = "JetBrainsMono Nerd Font",
+    -- family = "JetBrainsMono Nerd Font",
+    family = "CommitMonoAK",
     -- family = "D2CodingLigature Nerd Font",
     weight = "Regular",
     harfbuzz_features = {
@@ -55,7 +56,7 @@ Config.font = wez.font_with_fallback {
   { family = "LegacyComputing" },
 }
 
-Config.font_size = 11
+Config.font_size = 12
 Config.cell_width = 0.9
 Config.line_height = 1.1
 Config.warn_about_missing_glyphs = false
@@ -70,6 +71,7 @@ Config.font_rules = {
     font = wez.font_with_fallback {
       {
         family = "Monaspace Radon", --"Monaspace Radon Var",
+        -- family = "CommitMonoAK", --"Monaspace Krypton Var",
         style = "Normal",
         weight = "Regular",
         stretch = "Expanded",
@@ -78,26 +80,13 @@ Config.font_rules = {
       { family = "Symbols Nerd Font" },
     },
   },
-  -- {
-  --   intensity = "Half",
-  --   italic = true,
-  --   font = wez.font_with_fallback {
-  --     {
-  --       family = "ComicShannsMono Nerd Font", --"Monaspace Krypton Var", MapleMono
-  --       style = "Italic",
-  --       weight = "DemiBold",
-  --       harfbuzz_features = monaspace_features,
-  --       scale = 1.1,
-  --     },
-  --     { family = "Symbols Nerd Font" },
-  --   },
-  -- },
   {
     intensity = "Bold",
     italic = true,
     font = wez.font_with_fallback {
       {
         family = "Monaspace Krypton Var", --"Monaspace Krypton Var",
+        -- family = "CommitMonoAK", --"Monaspace Krypton Var",
         style = "Italic",
         weight = "Black",
         harfbuzz_features = monaspace_features,

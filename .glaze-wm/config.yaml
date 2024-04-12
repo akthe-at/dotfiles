@@ -53,7 +53,7 @@ general:
 
 gaps:
   # Gap between adjacent windows.
-  inner_gap: "5px"
+  inner_gap: "2px"
 
   # Gap between windows and the screen edge.
   outer_gap: "5px"
@@ -75,7 +75,7 @@ bar:
   opacity: 1
   background: *crust
   foreground: *mauve
-  font_family: "ComicShannsMono Nerd Font"
+  font_family: "JetBrainsMono Nerd Font"
   font_size: "13px"
   padding: "6px 6px"
   offset_x: "0"
@@ -92,16 +92,9 @@ bar:
   components_center:
     - type: "window title"
   components_right:
-    - type: "music"
-      label_not_playing: ""
-      label_paused: "{song_title - {artist_name} ⏸"
-      label_playing: "{song_title} - {artist_name} ▶"
-      max_title_length: 20
-      max_artist_length: 10
     - type: "memory"
       label: " RAM: {percent_usage}%"
       refresh_interval_ms: 2000
-    # - type: "system tray"
     - type: "tiling direction"
       label_horizontal: "⮂"
       label_vertical: "⮁"

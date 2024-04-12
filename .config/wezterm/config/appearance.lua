@@ -61,7 +61,7 @@ Config.visual_bell = {
 }
 
 ---window appearance
-Config.window_padding = { left = 1, right = 1, top = 1, bottom = 1 }
+Config.window_padding = { left = 1, right = 1, top = 1, bottom = 0 }
 Config.window_decorations = "RESIZE"
 Config.integrated_title_button_alignment = "Right"
 Config.integrated_title_button_style = "Windows"
