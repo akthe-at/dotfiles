@@ -15,7 +15,7 @@ return {
     config = function()
       require("eldritch").setup({
         dim_inactive = true,
-        transparent = false,
+        transparent = true,
         hide_inactive_statusline = true,
         lualine_bold = true,
       })
@@ -279,8 +279,8 @@ return {
     },
     config = function()
       require("rose-pine").setup({
-        variant = "moon",
-        dark_variant = "moon",
+        variant = "main",
+        dark_variant = "main",
         dim_inactive_windows = true,
         extend_background_behind_borders = false,
         styles = { bold = true, italic = true, transparency = false },
