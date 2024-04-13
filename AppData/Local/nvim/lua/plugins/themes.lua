@@ -104,7 +104,7 @@ return {
     priority = 1000,
     name = "catppuccin",
     opts = {
-      flavour = "mocha",
+      flavour = "macchiato",
       dim_inactive = {
         enabled = true,
         shade = "dark",
@@ -154,6 +154,12 @@ return {
           peach = "#fcc6a7",
           green = "#d2fac5",
         },
+
+        -- macchiato = {
+        --   -- I don't think these colours are pastel enough by default!
+        --   peach = "#fcc6a7",
+        --   green = "#d2fac5",
+        -- },
       },
     },
   },
