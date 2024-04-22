@@ -7,6 +7,18 @@ local StatusBar = require "utils.layout" ---@class Layout
 
 local strwidth = fun.strwidth
 
+local function recompute_line_height(window)
+  local window_dims = window:get_dimensions()
+  local height = window_dims.pixel_height
+  local overrides = window:get_config_overrides() or {}
+  overrides.line_height = 1.2
+  window:set_config_overrides(overrides)
+end
+
+wez.on("window-resized", function(window, _)
+  recompute_line_height(window)
+end)
+
 -- luacheck: push ignore 561
 wez.on("update-status", function(window, pane)
   local theme = require("colors")[fun.get_scheme()]
@@ -92,4 +104,3 @@ end)
 -- luacheck: pop
 
 -- vim: fdm=marker fdl=1
-

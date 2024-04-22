@@ -58,7 +58,7 @@ Config.font = wez.font_with_fallback {
 
 Config.font_size = 12
 Config.cell_width = 0.9
-Config.line_height = 1.1
+-- Config.line_height = 1.1
 Config.warn_about_missing_glyphs = false
 
 local monaspace_features =
@@ -98,4 +98,3 @@ Config.font_rules = {
 }
 
 return Config
-

@@ -7,9 +7,9 @@ local fun = require "utils.fun" ---@class Fun
 ---@class Config
 local Config = {}
 
--- Config.default_prog = { "pwsh.exe" }
+Config.default_prog = { "pwsh.exe" }
 
-Config.default_prog = { "C:/Users/ARK010/scoop/apps/git/current/bin/bash.exe", "-l" }
+-- Config.default_prog = { "C:/Users/ARK010/scoop/apps/git/current/bin/bash.exe", "-l" }
 
 Config.launch_menu = {
   {
@@ -42,4 +42,3 @@ Config.ssh_domains = {}
 Config.unix_domains = {}
 
 return Config
-

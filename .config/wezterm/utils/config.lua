@@ -3,10 +3,12 @@ local Config = {}
 
 ---@class WezTerm
 local wez = require "wezterm"
+
 function Config:new()
   self.config = {}
   if wez.config_builder then
     self.config = wez.config_builder()
+
     self.config:set_strict_mode(true)
   end
   self = setmetatable(self.config, { __index = Config })
@@ -37,4 +39,3 @@ function Config:add(spec)
 end
 
 return Config
-

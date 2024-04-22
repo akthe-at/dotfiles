@@ -117,4 +117,3 @@ for lhs, rhs in pairs(keys) do
 end
 
 return Config
-
