@@ -123,6 +123,7 @@ wk.register({
   ["<c-LeftMouse>"] = { "<cmd>lua vim.lsp.buf.definition()<CR>", "go to definition" },
   ["<localleader>ir"] = { insert_r_chunk, "r code chunk" },
   ["<localleader>ip"] = { insert_py_chunk, "python code chunk" },
+  ["zl"] = { ":Telescope spell_suggest<cr>", "[l]ist spelling suggestions" },
 }, { mode = "n", silent = true })
 
 -- visual mode
@@ -147,11 +148,11 @@ local function new_terminal_python()
 end
 
 local function new_terminal_r()
-  new_terminal("R")
+  new_terminal("R --no-save")
 end
 
 local function new_terminal_ipython()
-  new_terminal("ipython")
+  new_terminal("ipython --no-confirm-exit")
 end
 
 local function new_terminal_shell()
@@ -265,3 +266,9 @@ vim.keymap.set("n", "<leader>gp", ":Neogit pull<CR>", { silent = true, noremap =
 vim.keymap.set("n", "<leader>gP", ":Neogit push<CR>", { silent = true, noremap = true })
 vim.keymap.set("n", "<leader>gb", ":Telescope git_branches<CR>", { silent = true, noremap = true })
 vim.keymap.set("n", "<leader>gB", ":Git blame<CR>", { silent = true, noremap = true })
+
+-- -- Smart Splits
+-- vim.keymap.set("n", "C-ah", require("smart-splits").move_cursor_left)
+-- vim.keymap.set("n", "C-aj", require("smart-splits").move_cursor_down)
+-- vim.keymap.set("n", "C-ak", require("smart-splits").move_cursor_up)
+-- vim.keymap.set("n", "C-al", require("smart-splits").move_cursor_right)

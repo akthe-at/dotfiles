@@ -1,11 +1,27 @@
+local pick_theme = function()
+  local themes = {
+    "tokyonight-night",
+    "dracula",
+    "rose-pine",
+    "eldritch",
+    "catppuccin",
+    -- "miss-dracula",
+    "gruvbox",
+    "gruvbox-material",
+    "everforest",
+  }
+  math.randomseed(os.time())
+  local theme = themes[math.random(1, #themes)]
+  return theme
+end
 return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "tokyonight-night",
+      -- colorscheme = "tokyonight-night",
       -- colorscheme = "tokyonight",
       -- colorscheme = "dracula",
-      -- colorscheme = "rose-pine",
+      colorscheme = pick_theme(),
       -- colorscheme = "rose-pine-dawn",
       -- colorscheme = "eldritch",
       -- colorscheme = "catppuccin",
@@ -14,19 +30,13 @@ return {
     },
   },
   {
-    "willothy/wezterm.nvim",
-    config = true,
-    cmd = "WeztermSpawn",
-    event = { "LazyFile" },
-  },
-  {
     "neovim/nvim-lspconfig",
     ---@class PluginLspOpts
     opts = {
       ---@type lspconfig.options
-      inlay_hints = {
-        enabled = true,
-      },
+      -- inlay_hints = {
+      --   enabled = true,
+      -- },
       codelens = {
         enabled = false,
       },
@@ -38,6 +48,7 @@ return {
         pyright = {
           enabled = false,
         },
+        ruff_lsp = { enabled = false },
         basedpyright = {
           settings = {
             disableOrganizeImports = true,
@@ -45,13 +56,11 @@ return {
               analysis = {
                 -- ignore = { "*" },
               },
-              typeCheckingMode = "strict",
+              typeCheckingMode = "standard",
             },
           },
         },
-        ruff_lsp = {},
-        -- ruff = {},
-        htmx = {},
+        ruff = {},
         powershell_es = {},
         marksman = {},
         html = { filetypes = { "html", "htmldjango" } },
@@ -143,6 +152,8 @@ return {
       ensure_installed = {
         "c",
         "lua",
+        "luadoc",
+        "latex",
         "vim",
         "vimdoc",
         "bash",

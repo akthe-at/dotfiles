@@ -13,8 +13,8 @@ return {
     "nvim-treesitter/nvim-treesitter-context",
     enabled = false,
   },
-  -- {
-  --   "rcarriga/nvim-notify",
-  --   enabled = false,
-  -- },
+  {
+    "rcarriga/nvim-notify",
+    enabled = false,
+  },
 }

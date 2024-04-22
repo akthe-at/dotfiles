@@ -67,23 +67,23 @@ return {
     --   })
     -- end,
   },
-  -- {
-  --   "sainnhe/everforest",
-  --   name = "everforest",
-  --   enabled = true,
-  --   lazy = true,
-  --   keys = {
-  --     { "<leader>uC", LazyVim.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
-  --   },
-  --   priority = 1000,
-  --   config = function()
-  --     vim.g.everforest_background = "hard"
-  --     vim.g.everforest_dim_inactive_windows = 1
-  --     vim.g.everforest_ui_contrast = "high"
-  --     vim.g.everforest_enable_italic = 1
-  --     vim.g.everforest_better_performance = 1
-  --   end,
-  -- },
+  {
+    "sainnhe/everforest",
+    name = "everforest",
+    enabled = true,
+    lazy = true,
+    keys = {
+      { "<leader>uC", LazyVim.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
+    },
+    priority = 1000,
+    config = function()
+      vim.g.everforest_background = "hard"
+      vim.g.everforest_dim_inactive_windows = 1
+      vim.g.everforest_ui_contrast = "high"
+      vim.g.everforest_enable_italic = 1
+      vim.g.everforest_better_performance = 1
+    end,
+  },
   -- {
   --   "fynnfluegge/monet.nvim",
   --   name = "monet",
@@ -266,7 +266,7 @@ return {
   },
   {
     "sainnhe/gruvbox-material",
-    enabled = false,
+    enabled = true,
     keys = {
       { "<leader>uC", LazyVim.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
     },
