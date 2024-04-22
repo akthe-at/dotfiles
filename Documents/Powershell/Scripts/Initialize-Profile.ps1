@@ -8,7 +8,7 @@ function Initialize-Profile
     # Prompt
     Import-Module AdvancedHistory
     Import-Module DynamicTitle
-    Import-Module Posh-Git
+#    Import-Module Posh-Git
     Import-Module PSReadLine
     if ($PSVersionTable.PSEdition -ne 'Core')
     {

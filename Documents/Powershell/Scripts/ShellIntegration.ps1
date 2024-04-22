@@ -5,7 +5,7 @@ function Set-ShellIntegration
 {
     param
     (
-        [ValidateSet('WindowsTerminal', 'ITerm2', 'WezTerm','vscode')]
+        [ValidateSet('WindowsTerminal', 'WezTerm', 'vscode')]
         [String]$TerminalProgram = $env:TERM_PROGRAM
     )
 
@@ -75,9 +75,6 @@ function Set-ShellIntegration
         {
             'WindowsTerminal'
             { $setWorkingDirectory = "$([char]27)]9;9;`"$currentLocation`"$([char]7)" 
-            }
-            'ITerm2'
-            { $setWorkingDirectory = "$([char]27)]1337;CurrentDir=$currentLocation$([char]7)" 
             }
             'WezTerm'
             {

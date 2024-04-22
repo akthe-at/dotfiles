@@ -1,3 +1,10 @@
+function cd... { Set-Location ..\.. }
+function cd.... { Set-Location ..\..\.. }
+
+function touch($file) {
+    "" | Out-File $file -Encoding ASCII
+}
+
 function Set-StyleScriptAlias
 {
   [alias("StyleScript")]
@@ -19,13 +26,7 @@ trap
 # I wish $Profile was in $Home, but since it's not:
 $ProfileDir = $PSScriptRoot
 
-$DataHome = if ($ENV:XDG_CONFIG_HOME)
-{
-  $ENV:XDG_DATA_HOME
-} else
-{
-  [IO.Path]::Combine($HOME, "Documents")
-}
+$DataHome = [IO.Path]::Combine($HOME, "Documents")
 
 
 if ($Host.UI.RawUI.KeyAvailable)
@@ -111,12 +112,11 @@ if (Get-Command 'starship' -ErrorAction SilentlyContinue)
 
 Invoke-Expression (&starship init powershell)
 
-
 # oh-my-posh.exe init pwsh --config "$env:POSH_THEMES_PATH\catppuccin.omp.json" | Invoke-Expression
 Set-PSReadLineOption -PredictionViewStyle InlineView
 # set wezterm as the TERM env
 # $Env:TERM = "wezterm"
-$Env:KOMOREBI_CONFIG_HOME = 'C:\Users\ARK010\.config\komorebi'
-$Env:WHKD_CONFIG_HOME = 'C:\Users\ARK010\.config\komorebi'
+# $Env:KOMOREBI_CONFIG_HOME = 'C:\Users\ARK010\.config\komorebi'
+# $Env:WHKD_CONFIG_HOME = 'C:\Users\ARK010\.config\komorebi'
 
 
