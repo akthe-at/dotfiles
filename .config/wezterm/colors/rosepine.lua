@@ -14,18 +14,18 @@ local main = {
   teal = "#94e2d5",
   sky = "#89dceb",
   sapphire = "#31748f",
-  blue = "#9ccfd8",
+  foam = "#9ccfd8",
   test = "#e0def4",
   color0 = "#26233a",
   color1 = "#eb6f92",
-  color2 = "#9ccfd8",
+  color2 = "#3e8fb0",
   color3 = "#f6c177",
   color4 = "#31748f",
   color5 = "#c4a7e7",
   color6 = "#ebbcba",
   color7 = "#e0def4",
   color8 = "#6e6a86",
-  color9 = "#eb6f92",
+  color9 = "#ea9a97",
   color10 = "#9ccfd8",
   color11 = "#f6c177",
   color12 = "#31748f",
@@ -34,7 +34,7 @@ local main = {
   color15 = "#e0def4",
   highlight_bg_color = "#191724",
   highlight_fg_color = "#e0def4",
-  lavender = "#c4a7e7",
+  lavender = "#c4a7e7", --(iris)
   text = "#e0def4",
   subtext1 = "#bac2de",
   subtext0 = "#a6adc8",
@@ -44,7 +44,7 @@ local main = {
   surface2 = "#585b70",
   surface1 = "#6e6a86",
   surface = "#1f1d2e",
-  base = "#191724",
+  base = "#232136",
   mantle = "#181825",
   crust = "#11111b",
 }
@@ -55,14 +55,14 @@ local colorscheme = {
   cursor_bg = main.rosewater,
   cursor_border = main.maroon,
   cursor_fg = main.crust,
-  selection_bg = main.surface2,
-  selection_fg = main.text,
+  selection_bg = main.foam,
+  selection_fg = "rgba(0% 0% 0% 0%)",
   ansi = {
     "#0C0C0C", --
     "#C50F1F", --
     "#13A10E", --
     "#c4a7e7", --
-    main.color14, --
+    main.color1, --
     "#881798", --
     "#3A96DD", --
     "#CCCCCC", --
@@ -86,12 +86,12 @@ local colorscheme = {
     },
     inactive_tab = {
       bg_color = main.base,
-      fg_color = main.rosewater,
+      fg_color = main.color9,
     },
 
     inactive_tab_hover = {
-      bg_color = main.color2,
-      fg_color = main.color2,
+      bg_color = main.crust,
+      fg_color = main.base,
       italic = false,
     },
     new_tab = {
@@ -99,7 +99,7 @@ local colorscheme = {
       fg_color = main.base,
     },
     new_tab_hover = {
-      bg_color = main.color2,
+      bg_color = main.foam,
       fg_color = main.base,
       italic = true,
       strikethrough = false,
@@ -125,4 +125,3 @@ local colorscheme = {
 }
 
 return colorscheme
-

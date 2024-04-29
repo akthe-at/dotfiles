@@ -52,7 +52,7 @@ local main = {
   compose_cursor = "#f7c67f",
   foreground = "#ebfafa",
   scrollbar_thumb = "#37f499",
-  selection_bg = "rgba(26.666668% 27.843138% 35.294117% 50%)",
+  selection_bg = "#f265bf", --rgba(26.666668% 27.843138% 35.294117% 50%)",
   selection_fg = "rgba(0% 0% 0% 0%)",
   split = "#a48cf2",
 }
@@ -87,7 +87,7 @@ local colorscheme = {
   },
   tab_bar = {
     background = main.base,
-    inactive_tab_edge = main.base,
+    inactive_tab_edge = main.eld_pink,
     active_tab = {
       fg_color = main.cursor_bg,
       bg_color = main.base,
@@ -102,8 +102,8 @@ local colorscheme = {
     },
 
     inactive_tab_hover = {
-      fg_color = main.base,
-      bg_color = main.cursor_border,
+      bg_color = main.base,
+      fg_color = main.eld_pink,
       italic = false,
       strikethrough = false,
       underline = "None",
@@ -144,4 +144,3 @@ local colorscheme = {
 }
 
 return colorscheme
-

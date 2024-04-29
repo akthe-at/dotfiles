@@ -95,4 +95,3 @@ wez.on("format-tab-title", function(tab, _, _, config, hover, max_width)
 
   return TabTitle
 end)
-

@@ -2,8 +2,17 @@ return {
   { "xiyaowong/transparent.nvim", lazy = false },
   {
     "luckasRanarison/tailwind-tools.nvim",
-    ft = { "html" },
+    ft = { "html", "htmldjango" },
     opts = {},
+  },
+  {
+    "xero/miasma.nvim",
+    priority = 1000,
+    keys = {
+      { "<leader>uC", LazyVim.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
+    },
+    opts = {},
+    config = function() end,
   },
   {
     "eldritch-theme/eldritch.nvim",
@@ -11,7 +20,6 @@ return {
     keys = {
       { "<leader>uC", LazyVim.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
     },
-    opts = {},
     config = function()
       require("eldritch").setup({
         dim_inactive = true,
@@ -20,6 +28,9 @@ return {
         lualine_bold = true,
       })
       vim.o.termguicolors = true
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+        border = "rounded",
+      })
     end,
   },
   -- {
@@ -61,11 +72,11 @@ return {
       { "<leader>uC", LazyVim.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
     },
     opts = {},
-    -- config = function()
-    --   vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-    --     border = "rounded",
-    --   })
-    -- end,
+    config = function()
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+        border = "rounded",
+      })
+    end,
   },
   {
     "sainnhe/everforest",
@@ -82,6 +93,9 @@ return {
       vim.g.everforest_ui_contrast = "high"
       vim.g.everforest_enable_italic = 1
       vim.g.everforest_better_performance = 1
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+        border = "rounded",
+      })
     end,
   },
   -- {
@@ -196,6 +210,11 @@ return {
     branch = "main",
     name = "arctic",
     dependencies = { "rktjmp/lush.nvim" },
+    config = function()
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+        border = "rounded",
+      })
+    end,
   },
   -- {
   --   "craftzdog/solarized-osaka.nvim",
@@ -215,7 +234,11 @@ return {
     keys = {
       { "<leader>uC", LazyVim.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
     },
-    config = true,
+    config = function()
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+        border = "rounded",
+      })
+    end,
     opts = {
       terminal_colors = true, -- add neovim terminal colors
       undercurl = true,
@@ -245,13 +268,16 @@ return {
     "folke/tokyonight.nvim",
     priority = 1000,
     enabled = true,
+    keys = {
+      { "<leader>uC", LazyVim.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
+    },
     opts = {
-      -- sidebars = "dark",
-      -- style = "night",
-      -- floats = "dark",
-      -- dim_inactive = true,
-      -- hide_inactive_statusline = true,
-      -- lualine_bold = true,
+      sidebars = "dark",
+      style = "night",
+      floats = "dark",
+      dim_inactive = true,
+      hide_inactive_statusline = true,
+      lualine_bold = true,
     },
     config = function()
       require("tokyonight").setup({
@@ -262,6 +288,9 @@ return {
         lualine_bold = true,
       })
       vim.o.termguicolors = true
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+        border = "rounded",
+      })
     end,
   },
   {
@@ -272,13 +301,17 @@ return {
     },
     priority = 1000,
     lazy = true,
-    config = true,
+    config = function()
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+        border = "rounded",
+      })
+    end,
     opts = {},
   },
   {
     "rose-pine/neovim",
-    enabled = true,
     name = "rose-pine",
+    enabled = true,
     priority = 1000,
     keys = {
       { "<leader>uC", LazyVim.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
@@ -311,12 +344,13 @@ return {
           CmpWinBorder = { fg = "overlay", bg = "base" },
         },
       })
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+        border = "rounded",
+      })
     end,
   },
   -- {
-  --   "asilvam133/rose-pine.nvim",
-  --   name = "rosepine",
-  --   lazy = true,
+  --   "akthe-at/rose-pine.nvim",
   --   keys = {
   --     { "<leader>uC", LazyVim.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
   --   },
@@ -329,9 +363,9 @@ return {
   --         dim_inactive_windows = true,
   --         extend_background_behind_borders = true,
   --         styles = { italic = true, transparency = false },
-  --         groups = {
-  --           border = "pine", --"pine",
-  --         },
+  --         -- groups = {
+  --         --   border = "pine", --"pine",
+  --         -- },
   --       }),
   --     }
   --   end,

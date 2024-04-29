@@ -10,8 +10,14 @@ return {
     "folke/noice.nvim",
     event = "VeryLazy",
     opts = {
+      mini = {
+        position = {
+          row = -2,
+          col = "100%",
+        },
+      },
       cmdline = {
-        enabled = true,
+        enabled = false,
         view = "cmdline",
       },
       messages = {
@@ -42,7 +48,7 @@ return {
         },
       },
       presets = {
-        bottom_search = true,
+        bottom_search = false,
         command_palette = false,
         long_message_to_split = true,
         inc_rename = true,
@@ -59,19 +65,6 @@ return {
     { "<c-f>", function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end, silent = true, expr = true, desc = "Scroll forward", mode = {"i", "n", "s"} },
     { "<c-b>", function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true, expr = true, desc = "Scroll backward", mode = {"i", "n", "s"}},
   },
-    config = function()
-      require("noice").setup({
-        -- move lsp_progress higher up to avoid overlap with lualine.
-        views = {
-          mini = {
-            position = {
-              row = -2,
-              col = "100%",
-            },
-          },
-        },
-      })
-    end,
   },
   {
     enabled = true,

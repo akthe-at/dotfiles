@@ -160,7 +160,7 @@ end
 ---@return '"kanagawa-wave"'|'"custom"'|'"rosepine"'|'"dracula"'|'"eldritch"'|'"kanagawa-dragon"' colorscheme name of the colorscheme
 M.get_scheme = function()
   if (wez.gui and wez.gui.get_appearance() or "Dark"):find "Dark" then
-    return "eldritch"
+    return "rosepine"
   end
   return "custom"
 end
@@ -339,4 +339,3 @@ M.strwidth = function(str, num)
 end
 
 return M
-

@@ -60,7 +60,7 @@ wez.on("update-status", function(window, pane)
   -- )
 
   local datetime = wez.strftime "%a %b %-d %H:%M"
-  local cwd, hostname = fun.get_cwd_hostname(pane, true) -- current hostname turned to _ because unused.
+  local cwd, _ = fun.get_cwd_hostname(pane, true) -- current hostname turned to _ because unused.
   local workspace_name = window:active_workspace()
 
   --~ {{{2 Calculate the used width by the tabs
@@ -83,7 +83,7 @@ wez.on("update-status", function(window, pane)
   local last_fg = Config.use_fancy_tab_bar and fancy_bg or theme.tab_bar.background
 
   ---push each cell and the cells separator
-  for i, cell in ipairs { cwd, hostname, workspace_name, datetime } do
+  for i, cell in ipairs { cwd, workspace_name, datetime } do
     local cell_bg = colors[i]
     local cell_fg = i == 1 and last_fg or colors[i - 1]
     local sep = icons.Separators.StatusBar.right

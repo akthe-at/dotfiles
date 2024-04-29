@@ -66,6 +66,7 @@ return {
   },
   {
     "hrsh7th/nvim-cmp",
+    event = "InsertEnter",
     dependencies = {
       "onsails/lspkind.nvim",
       {
@@ -85,7 +86,6 @@ return {
       "f3fora/cmp-spell",
       "ray-x/cmp-treesitter",
       "kdheepak/cmp-latex-symbols",
-      "jmbuhr/cmp-pandoc-references",
       "jmbuhr/otter.nvim",
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-path",
@@ -112,7 +112,7 @@ return {
       opts.sources = {
         -- { name = "copilot" },
         { name = "nvim_lsp_signature_help" },
-        { name = "nvim_lsp", keyword_length = 1 },
+        { name = "nvim_lsp" },
         { name = "otter" },
         { name = "luasnip", keyworld_length = 2 },
         { name = "path" },

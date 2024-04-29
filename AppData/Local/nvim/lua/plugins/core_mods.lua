@@ -1,29 +1,31 @@
-local pick_theme = function()
-  local themes = {
-    "tokyonight-night",
-    "dracula",
-    "rose-pine",
-    "eldritch",
-    "catppuccin",
-    -- "miss-dracula",
-    "gruvbox",
-    "gruvbox-material",
-    "everforest",
-  }
-  math.randomseed(os.time())
-  local theme = themes[math.random(1, #themes)]
-  return theme
-end
+local lsp = vim.g.lazyvim_python_lsp or "pyright"
 return {
+  {
+    "pwntester/octo.nvim",
+    cmd = "Octo",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "ibhagwan/fzf-lua",
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("octo").setup({
+        picker = "fzf-lua",
+      })
+    end,
+  },
   {
     "LazyVim/LazyVim",
     opts = {
       -- colorscheme = "tokyonight-night",
       -- colorscheme = "tokyonight",
       -- colorscheme = "dracula",
-      colorscheme = pick_theme(),
       -- colorscheme = "rose-pine-dawn",
+      colorscheme = "rose-pine-moon",
+      -- colorscheme = "rose-pine",
+      -- colorscheme = "miasma",
       -- colorscheme = "eldritch",
+      -- colorscheme = "kanagawa",
       -- colorscheme = "catppuccin",
       -- colorscheme = "miss-dracula",
       -- colorscheme = "gruvbox",
@@ -34,9 +36,9 @@ return {
     ---@class PluginLspOpts
     opts = {
       ---@type lspconfig.options
-      -- inlay_hints = {
-      --   enabled = true,
-      -- },
+      inlay_hints = {
+        enabled = false,
+      },
       codelens = {
         enabled = false,
       },
@@ -45,10 +47,6 @@ return {
         -- gopls = {},
         bashls = {},
         r_language_server = {},
-        pyright = {
-          enabled = false,
-        },
-        ruff_lsp = { enabled = false },
         basedpyright = {
           settings = {
             disableOrganizeImports = true,
@@ -60,13 +58,13 @@ return {
             },
           },
         },
-        ruff = {},
         powershell_es = {},
+        ruff = {},
         marksman = {},
         html = { filetypes = { "html", "htmldjango" } },
         -- rust_analyzer = {},
         tailwindcss = {
-          filetypes_exclude = { "markdown" },
+          filetypes_exclude = { "markdown", "md" },
           filetypes_include = { "html", "htmldjango" },
         },
         lua_ls = {

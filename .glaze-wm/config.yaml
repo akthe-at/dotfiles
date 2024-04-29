@@ -140,16 +140,21 @@ workspaces:
 
 
 window_rules:
-  # default programs for workspace 2
-  - command: "move to workspace 4"
-    match_process_name: "Spotify"
-
   # default programs for workspace 1
   - command: "move to workspace 1"
     match_process_name: "outlook"
 
+  # default programs for workspace 2
+  - command: "move to workspace 2"
+    match_process_name: "thorium"
+
+  # default programs for workspace 3
   - command: "move to workspace 3"
     match_process_name: "wezterm-gui"
+ 
+    # default programs for workspace 4
+  - command: "move to workspace 4"
+    match_process_name: "Spotify"
 
   # Task Manager requires admin privileges to manage and should be ignored unless running
   # the WM as admin.
@@ -258,6 +263,14 @@ keybindings:
   # to start Windows Terminal and Git Bash respectively.
   - command: "exec C:/Users/ARK010/scoop/apps/wezterm-nightly/current/wezterm-gui.exe"
     binding: "Alt+Enter"
+
+  # Launch thorium browser 
+  - command: "exec thorium.exe"
+    binding: "Alt+Shift+B"
+    #
+# Launch file explorer 
+  - command: "exec explorer.exe"
+    binding: "Alt+Shift+F"
 
   # Focus the workspace that last had focus.
   - command: "focus workspace recent"
