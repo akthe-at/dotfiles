@@ -1,8 +1,5 @@
---
-
---
 local main = {
-  rosewater = "#f5e0dc",
+  rosewater = "#ebbcba",
   flamingo = "#f2cdcd",
   pink = "#ebbcba",
   mauve = "#cba6f7",
@@ -44,7 +41,7 @@ local main = {
   surface2 = "#585b70",
   surface1 = "#6e6a86",
   surface = "#1f1d2e",
-  base = "#232136",
+  base = "#21202e",
   mantle = "#181825",
   crust = "#11111b",
 }
@@ -55,14 +52,14 @@ local colorscheme = {
   cursor_bg = main.rosewater,
   cursor_border = main.maroon,
   cursor_fg = main.crust,
-  selection_bg = main.foam,
+  selection_bg = main.color3,
   selection_fg = "rgba(0% 0% 0% 0%)",
   ansi = {
     "#0C0C0C", --
     "#C50F1F", --
     "#13A10E", --
     "#c4a7e7", --
-    main.color1, --
+    main.lavender, --
     "#881798", --
     "#3A96DD", --
     "#CCCCCC", --
@@ -90,7 +87,7 @@ local colorscheme = {
     },
 
     inactive_tab_hover = {
-      bg_color = main.crust,
+      bg_color = main.base,
       fg_color = main.base,
       italic = false,
     },
@@ -99,7 +96,7 @@ local colorscheme = {
       fg_color = main.base,
     },
     new_tab_hover = {
-      bg_color = main.foam,
+      bg_color = main.color3,
       fg_color = main.base,
       italic = true,
       strikethrough = false,

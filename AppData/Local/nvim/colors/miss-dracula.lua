@@ -13,7 +13,7 @@ local colors = {
   black = "#000000",
   bright_blue = "#D0B5F3",
   bright_cyan = "#BCF4F5",
-  bright_green = "#97EDA2",
+  bright_green = "#37f499",
   bright_magenta = "#E7A1D7",
   bright_red = "#EC6A88",
   bright_white = "#FFFFFF",
@@ -30,8 +30,8 @@ local colors = {
   menu = "#21222C",
   nontext = "#3B4048",
   orange = "#FFBFA9",
-  pink = "#E48CC1",
-  purple = "#BAA0E8",
+  pink = "#f265b5",
+  purple = "#a48cf2",
   red = "#E95678",
   selection = "#3C4148",
   transparent_black = "#1E1F29",
@@ -234,6 +234,8 @@ local groups = vim.tbl_extend("error", statusline_groups, {
   ["@struct"] = { fg = colors.cyan },
   ["@typeParameter"] = { fg = colors.cyan },
   ["@lsp.type.namespace.python"] = { link = "@variable" },
+
+  LazyDimmed = { fg = colors.grey },
 
   -- LSP.
   DiagnosticDeprecated = { strikethrough = true, fg = colors.fg },

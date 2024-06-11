@@ -20,7 +20,7 @@ wez.on("format-tab-title", function(tab, _, _, config, hover, max_width)
   ---set colors based on states
   if tab.is_active then
     fg = theme.tab_bar.active_tab.fg_color
-    attributes = { "Regular" }
+    attributes = { "DemiBold" }
   elseif hover then
     fg = theme.selection_bg
   else

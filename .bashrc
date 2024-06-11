@@ -1,7 +1,26 @@
-alias ls='ls -F --color=auto --show-control-chars'
-alias ll='ls -l'
-alias lt='ls --human-readable --size -1 -S --classify'
+alias ls='eza --icons=always'
+alias ll='eza -l --icons=always'
+alias lt='eza -T --icons=always'
 alias config='~/scoop/apps/git/current/bin/git.exe --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
+alias gwt="~/.scripts/create-wt.sh"
+alias vim="nvim"
+alias gbc="~/.scripts/git-bare-clone.sh"
+shopt -s cmdhist
+export INPUTRC=~/scoop/apps/git/current/etc/inputrc
+
+#wezterm
+export WEZTERM_EXECUTABLE='C:/Users/ARK010/scoop/apps/wezterm-nightly/current/wezterm.exe'
+alias wezmux='bash ~/.scripts/wezmux.sh'
+
+# yazi quick start
+function yy() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
 
 # Disable the bell
 if [[ $iatest -gt 0 ]]; then bind "set bell-style visible"; fi
@@ -72,7 +91,6 @@ alias apt-get='sudo apt-get'
 alias multitail='multitail --no-repeat -c'
 alias freshclam='sudo freshclam'
 alias vi='nvim'
-alias svi='sudo vi'
 alias vis='nvim "+set si"'
 
 # Change directory aliases
@@ -84,26 +102,43 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 
 # Alias's for multiple directory listing commands
-alias la='ls -Alh'                # show hidden files
-alias ls='ls -aFh --color=always' # add colors and file type extensions
-alias lx='ls -lXBh'               # sort by extension
-alias lk='ls -lSrh'               # sort by size
-alias lc='ls -lcrh'               # sort by change time
-alias lu='ls -lurh'               # sort by access time
-alias lr='ls -lRh'                # recursive ls
-alias lt='ls -ltrh'               # sort by date
-alias lm='ls -alh |more'          # pipe through 'more'
-alias lw='ls -xAh'                # wide listing format
-alias ll='ls -Fls'                # long listing format
-alias labc='ls -lap'              #alphabetical sort
-alias lf="ls -l | egrep -v '^d'"  # files only
-alias ldir="ls -l | egrep '^d'"   # directories only
+alias la='ls -Alh' # show hidden files
+# alias ls='ls -aFh --color=always' # add colors and file type extensions
+alias lx='ls -lXBh' # sort by extension
+alias lk='ls -lSrh' # sort by size
+alias lc='ls -lcrh' # sort by change time
+alias lu='ls -lurh' # sort by access time
+alias lr='ls -lRh'  # recursive ls
+# alias lt='ls -ltrh'               # sort by date
+alias lm='ls -alh |more' # pipe through 'more'
+alias lw='ls -xAh'       # wide listing format
+# alias ll='ls -Fls'                # long listing format
+alias labc='ls -lap'             #alphabetical sort
+alias lf="ls -l | egrep -v '^d'" # files only
+alias ldir="ls -l | egrep '^d'"  # directories only
 
 # Search command line history
 alias h="history | grep "
 
 # Search files in the current folder
 alias f="find . | grep "
+
+function activate_pyenv() {
+	env_paths=("env/Scripts/activate" ".venv/Scripts/activate" "venv/Scripts/activate")
+	found=false
+
+	for path in "${env_paths[@]}"; do
+		if [ -f "$path" ]; then
+			source $path
+			found=true
+			break
+		fi
+	done
+
+	if [ "$found" = false ]; then
+		echo "No virtual environment found in this directory"
+	fi
+}
 
 _z_cd() {
 	cd "$@" || return "$?"
@@ -132,6 +167,7 @@ zi() {
 	_zoxide_result="$(zoxide query -i -- "$@")" && _z_cd "$_zoxide_result"
 }
 
+alias ape='activate_pyenv'
 alias za='zoxide add'
 
 alias zq='zoxide query'
@@ -156,5 +192,6 @@ case "$PROMPT_COMMAND" in
 *) PROMPT_COMMAND="_zoxide_hook${PROMPT_COMMAND:+;${PROMPT_COMMAND}}" ;;
 esac
 
-# eval "$(oh-my-posh init bash --config C:/Users/ARK010/AppData/Local/Programs/oh-my-posh/themes/jandedobbeleer.omp.json)"
-eval "$(starship init bash)"
+# eval "$(oh-my-posh init bash --config C:/Users/ARK010/scoop/apps/oh-my-posh/current/themes/rosepine.omp.json)"
+eval "$(oh-my-posh init bash --config C:/Users/ARK010/.config/ohmyposh/rosepine.toml)"
+# eval "$(starship init bash)"

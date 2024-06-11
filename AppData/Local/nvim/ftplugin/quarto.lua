@@ -20,6 +20,9 @@ vim.api.nvim_set_hl(ns, "@markup.strikethrough", { strikethrough = false })
 vim.api.nvim_set_hl(ns, "@markup.doublestrikethrough", { strikethrough = true })
 vim.api.nvim_win_set_hl_ns(0, ns)
 
+if vim.fn.has("nvim-0.10.0") == 0 then
+  return
+end
 -- highlight code cells similar to
 -- 'lukas-reineke/headlines.nvim'
 -- (disabled in lua/plugins/ui.lua)

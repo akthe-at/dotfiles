@@ -4,6 +4,7 @@ local wezterm = require "wezterm"
 local sessionizer = require "sessionizer"
 local backdrops = require "utils.backdrops"
 local session_manager = require "wezterm-session-manager/session-manager"
+local font = require "fontselector"
 
 ---@class Config
 local Config = {}
@@ -50,7 +51,8 @@ local keys = {
 
   ---key tables
   ["<leader>w"] = act.ActivateKeyTable { name = "window_mode", one_shot = false },
-  ["<leader>f"] = act.ActivateKeyTable { name = "font_mode", one_shot = false },
+  ["<leader>F"] = act.ActivateKeyTable { name = "font_mode", one_shot = false },
+  ["<leader>f"] = font.selector_action(),
   ["<leader>c"] = act.ActivateCopyMode,
   ["<leader>s"] = act.Search "CurrentSelectionOrEmptyString",
   ["<leader>S"] = wezterm.action_callback(session_manager.save_state),
@@ -64,9 +66,6 @@ local keys = {
     action = wezterm.action_callback(function(_, tab, line)
       if line then
         wezterm.custom_tab_titles[tab.id] = line
-        print(_)
-        print(tab)
-        print(line)
       end
     end),
   },
@@ -101,7 +100,7 @@ local keys = {
   ["<leader>,"] = wezterm.action.SpawnCommandInNewTab {
     cwd = os.getenv "WEZTERM_CONFIG_DIR",
     args = {
-      "C:/Users/ARK010/scoop/shims/nvim.exe",
+      "nvim",
       os.getenv "WEZTERM_CONFIG_FILE",
     },
   },

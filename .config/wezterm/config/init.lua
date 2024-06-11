@@ -5,4 +5,3 @@ return require("utils.fun").tbl_merge(
   (require "config.tab-bar"),
   (require "config.general")
 )
-

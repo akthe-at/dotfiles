@@ -1,3 +1,4 @@
+local wezterm = require "wezterm"
 ---@class Config
 local Config = {}
 
@@ -8,9 +9,14 @@ Config.color_scheme = scheme
 
 Config.background = {
   {
+    source = { File = wezterm.GLOBAL.background },
+    horizontal_align = "Center",
+  },
+  {
     source = { Color = theme.background },
     width = "100%",
     height = "100%",
+    opacity = 0.96,
   },
 }
 
@@ -62,6 +68,8 @@ Config.visual_bell = {
 
 ---window appearance
 Config.window_padding = { left = 1, right = 1, top = 1, bottom = 0 }
+-- Config.window_background_opacity = 0
+-- Config.win32_system_backdrop = "Acrylic"
 Config.window_decorations = "RESIZE"
 Config.integrated_title_button_alignment = "Right"
 Config.integrated_title_button_style = "Windows"
@@ -88,5 +96,8 @@ for _, tab_button in ipairs { "new_tab", "new_tab_hover" } do
     { Text = require("utils.icons").Separators.TabBar.left },
   }
 end
+
+Config.window_background_opacity = 1
+Config.win32_system_backdrop = "Auto"
 
 return Config

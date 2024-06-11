@@ -67,6 +67,9 @@ M.Battery = {
     ["90"] = wez.nerdfonts.md_battery_90,
     ["100"] = wez.nerdfonts.md_battery,
   },
+  Full = {
+    ["100"] = wez.nerdfonts.md_battery,
+  },
 }
 
 M.Admin = wez.nerdfonts.md_lightning_bolt
@@ -87,4 +90,3 @@ M.Numbers = {
 }
 
 return M
-

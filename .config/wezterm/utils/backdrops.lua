@@ -1,5 +1,5 @@
 local wezterm = require "wezterm"
-local platform = require "utils.platform"
+local fun = require "utils.fun" ---@class Fun
 local colors = require "colors.custom"
 
 -- Seeding random numbers before generating for use
@@ -10,7 +10,7 @@ math.random()
 math.random()
 math.random()
 
-local PATH_SEP = platform.is_win and "\\" or "/"
+local PATH_SEP = fun.is_windows() and "\\" or "/"
 
 ---@class BackDrops
 ---@field current_idx number index of current image
@@ -49,12 +49,13 @@ function BackDrops:_set_opt(window)
     background = {
       {
         source = { File = wezterm.GLOBAL.background },
+        horizontal_align = "Center",
       },
       {
         source = { Color = colors.background },
         height = "100%",
         width = "100%",
-        opacity = 0.85,
+        opacity = 0.96,
       },
     },
   }
@@ -75,7 +76,6 @@ function BackDrops:choices()
   return choices
 end
 
----MUST BE RUN BEFORE APPEARANCE OPTIONS ARE SET
 ---Select a random file and redefine the global `wezterm.GLOBAL.background` variable
 ---Pass in `Window` object to override the background options to apply change
 ---@param window any? WezTerm `Window` see: https://wezfurlong.org/wezterm/config/lua/window/index.html
@@ -127,4 +127,3 @@ function BackDrops:set_img(window, idx)
 end
 
 return BackDrops:init()
-

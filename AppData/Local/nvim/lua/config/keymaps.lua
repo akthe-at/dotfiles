@@ -3,6 +3,68 @@
 local neogit = require("neogit")
 local wk = require("which-key")
 
+-- the following keymap avoid the x delete key from overwriting the system clipboard
+vim.keymap.set("n", "x", '"_x')
+
+-- Launch Lua Debugger
+vim.keymap.set("n", "<leader>dl", '<cmd>lua require"osv".launch({port = 8086})<CR>', { desc = "Launch Lua Debugger" })
+
+-- Toggle an Oil.Nvim floating Window --
+vim.keymap.set("n", "<leader>e", "<cmd>lua require('oil').toggle_float()<CR>", { desc = "Oil" })
+--
+-- OBSIDIAN KEYMAPS --
+vim.keymap.set("n", "<leader>on", "<cmd>ObsidianNew<CR>", { desc = "Create a new note" })
+vim.keymap.set("n", "<leader>ot", "<cmd>ObsidianTemplate<CR>", { desc = "Create a new note from template" })
+vim.keymap.set("n", "<leader>oo", "<cmd>ObsidianOpen<CR>", { desc = "Open a note in Obsidian App" })
+vim.keymap.set("n", "<leader>ob", "<cmd>ObsidianBacklinks<CR>", { desc = "Show Obsidian Backlinks" })
+vim.keymap.set("n", "<leader>ol", "<cmd>ObsidianLinks<CR>", { desc = "Show Obsidian Links" })
+vim.keymap.set("n", "<leader>os", "<cmd>ObsidianSearch<CR>", { desc = "Search in Obsidian" })
+vim.keymap.set("n", "<leader>oq", "<cmd>ObsidianQuickSwitch<CR>", { desc = "Quick switch to a note" })
+vim.keymap.set("n", "<leader>od", "<cmd>ObsidianToday<CR>", { desc = "Open today's note" })
+
+-- next greatest remap ever : asbjornHaland
+-- Don't use anymore because by default yank goes to system clipboard for now, may change in the future.
+-- vim.keymap.set({ 'n', 'v' }, '<leader>y', [["+y]])
+
+-- Some more keymaps I dont use currently
+-- vim.keymap.set('i', '<S-n>', '<esc><cmd>m .+1<cr>==gi', { desc = 'Move down' })
+-- vim.keymap.set('i', '<S-m>', '<esc><cmd>m .-2<cr>==gi', { desc = 'Move up' })
+-- vim.keymap.set("n", "<leader>uC", ":Telescope themes<CR>", { silent = true, noremap = true })
+
+-- vim.keymap.set({ "n", "v" }, "<leader>D", '"_d')
+vim.keymap.set("x", "<leader>p", [["_dP]])
+
+vim.keymap.set("n", "<leader>sp", "<cmd>CdProject<CR>", { desc = "[S]earch [P]rojects" })
+
+-- Move Lines
+vim.keymap.set("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move down" })
+vim.keymap.set("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move up" })
+vim.keymap.set("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move down" })
+vim.keymap.set("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move up" })
+vim.keymap.set("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
+vim.keymap.set("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
+
+vim.keymap.set("n", "J", "mzJ`z")
+
+vim.keymap.set("n", "<leader>rw", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+
+-- Toggle DBUI --
+vim.keymap.set("n", "<leader>wt", "<cmd>DBUIToggle<CR>", { desc = "[T]oggle DB UI" })
+vim.keymap.set("n", "<leader>wc", "<cmd>DBUIClose<CR>", { desc = "[C]lose DB UI/Connection" })
+
+----neogit commands-------------------
+vim.keymap.set("n", "<leader>gns", neogit.open, { desc = "Neogit Status" })
+vim.keymap.set("n", "<leader>gnc", ":Neogit commit<CR>", { desc = "Neogit Commit" })
+vim.keymap.set("n", "<leader>gnp", ":Neogit pull<CR>", { desc = "Neogit Pull" })
+vim.keymap.set("n", "<leader>gnP", ":Neogit push<CR>", { desc = "Neogit push" })
+vim.keymap.set("n", "<leader>gB", ":Telescope git_branches<CR>", { desc = "Telescope [g]it_[B]ranches" })
+vim.keymap.set("n", "<leader>gnb", ":Git blame<CR>", { desc = "Git Blame" })
+
+-----------------------------
+--huez
+-- vim.keymap.set("n", "<leader>co", "<cmd>Huez<cr>", { desc = "Start Huez" })
+-- end huez -----------------
+
 -----------------------------
 -- START OF QUARTO SECTION --
 -----------------------------
@@ -135,8 +197,6 @@ wk.register({
 wk.register({
   ["<m-->"] = { " <- ", "assign" },
   ["<m-m>"] = { " |>", "pipe" },
-  ["<localleader>ir"] = { insert_r_chunk, "r code chunk" },
-  ["<localleader>ip"] = { insert_py_chunk, "python code chunk" },
 }, { mode = "i" })
 
 local function new_terminal(lang)
@@ -168,7 +228,6 @@ wk.register({
 wk.register({
   c = {
     name = "[c]ode / [c]ell / [c]hunk",
-    q = { ":SlimeConfig<cr>", "slime [c]onfig" },
     n = { new_terminal_shell, "[n]ew terminal with shell" },
     R = {
       function()
@@ -179,9 +238,6 @@ wk.register({
     },
     P = { new_terminal_python, "new [p]ython terminal" },
     I = { new_terminal_ipython, "new [i]python terminal" },
-    o = {
-      name = "[o]open code chunk",
-    },
   },
   q = {
     name = "[q]uarto",
@@ -214,61 +270,3 @@ wk.register({
 -- END OF QUARTO SECTION --
 -----------------------------
 -----------------------------
-
--- the following keymap avoid the x delete key from overwriting the system clipboard
-vim.keymap.set("n", "x", '"_x')
-
--- Launch Lua Debugger
-vim.keymap.set("n", "<leader>dl", '<cmd>lua require"osv".launch({port = 8086})<CR>', { desc = "Launch Lua Debugger" })
-
--- Toggle an Oil.Nvim floating Window --
-vim.keymap.set("n", "<leader>e", "<cmd>lua require('oil').toggle_float()<CR>", { desc = "Oil" })
---
--- OBSIDIAN KEYMAPS --
-vim.keymap.set("n", "<leader>on", "<cmd>ObsidianNew<CR>", { desc = "Create a new note" })
-vim.keymap.set("n", "<leader>ot", "<cmd>ObsidianTemplate<CR>", { desc = "Create a new note from template" })
-vim.keymap.set("n", "<leader>oo", "<cmd>ObsidianOpen<CR>", { desc = "Open a note in Obsidian App" })
-vim.keymap.set("n", "<leader>ob", "<cmd>ObsidianBacklinks<CR>", { desc = "Show Obsidian Backlinks" })
-vim.keymap.set("n", "<leader>ol", "<cmd>ObsidianLinks<CR>", { desc = "Show Obsidian Links" })
-vim.keymap.set("n", "<leader>os", "<cmd>ObsidianSearch<CR>", { desc = "Search in Obsidian" })
-vim.keymap.set("n", "<leader>oq", "<cmd>ObsidianQuickSwitch<CR>", { desc = "Quick switch to a note" })
-vim.keymap.set("n", "<leader>od", "<cmd>ObsidianToday<CR>", { desc = "Open today's note" })
-
--- next greatest remap ever : asbjornHaland
--- Don't use anymore because by default yank goes to system clipboard for now, may change in the future.
--- vim.keymap.set({ 'n', 'v' }, '<leader>y', [["+y]])
--- Some more keymaps I dont use currently
--- vim.keymap.set('i', '<S-n>', '<esc><cmd>m .+1<cr>==gi', { desc = 'Move down' })
--- vim.keymap.set('i', '<S-m>', '<esc><cmd>m .-2<cr>==gi', { desc = 'Move up' })
--- vim.keymap.set("n", "<leader>uC", ":Telescope themes<CR>", { silent = true, noremap = true })
-
-vim.keymap.set({ "n", "v" }, "<leader>D", '"_d')
-vim.keymap.set("x", "<leader>p", [["_dP]])
-
-vim.keymap.set("n", "<leader>sp", "<cmd>CdProject<CR>", { desc = "[S]earch [P]rojects" })
-
--- Move Lines
-vim.keymap.set("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move down" })
-vim.keymap.set("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move up" })
-vim.keymap.set("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move down" })
-vim.keymap.set("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move up" })
-vim.keymap.set("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
-vim.keymap.set("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
-
-vim.keymap.set("n", "J", "mzJ`z")
-
-vim.keymap.set("n", "<leader>rw", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
-
---neogit commands
-vim.keymap.set("n", "<leader>gs", neogit.open, { silent = true, noremap = true })
-vim.keymap.set("n", "<leader>gc", ":Neogit commit<CR>", { silent = true, noremap = true })
-vim.keymap.set("n", "<leader>gp", ":Neogit pull<CR>", { silent = true, noremap = true })
-vim.keymap.set("n", "<leader>gP", ":Neogit push<CR>", { silent = true, noremap = true })
-vim.keymap.set("n", "<leader>gb", ":Telescope git_branches<CR>", { silent = true, noremap = true })
-vim.keymap.set("n", "<leader>gB", ":Git blame<CR>", { silent = true, noremap = true })
-
--- -- Smart Splits
--- vim.keymap.set("n", "C-ah", require("smart-splits").move_cursor_left)
--- vim.keymap.set("n", "C-aj", require("smart-splits").move_cursor_down)
--- vim.keymap.set("n", "C-ak", require("smart-splits").move_cursor_up)
--- vim.keymap.set("n", "C-al", require("smart-splits").move_cursor_right)

@@ -6,6 +6,38 @@ local insert = table.insert
 ---@class Fun
 local M = {}
 
+---Checks on which target triple wezterm was built on.
+---@return boolean is_windows
+M.is_windows = function()
+  local target_triple = wez.target_triple
+  ---check for the most common windows target triple first
+  if target_triple == "x86_64-pc-windows-msvc" then
+    return true
+  end
+  local windows_triples = {
+    ["aarch64-pc-windows-gnullvm"] = {},
+    ["aarch64-pc-windows-msvc"] = {},
+    ["aarch64-uwp-windows-msvc"] = {},
+    ["arm64ec-pc-windows-msvc"] = {},
+    ["i586-pc-windows-msvc"] = {},
+    ["i686-pc-windows-gnu"] = {},
+    ["i686-pc-windows-gnullvm"] = {},
+    ["i686-pc-windows-msvc"] = {},
+    ["i686-uwp-windows-gnu"] = {},
+    ["i686-uwp-windows-msvc"] = {},
+    ["i686-win7-windows-msvc"] = {},
+    ["thumbv7a-pc-windows-msvc"] = {},
+    ["thumbv7a-uwp-windows-msvc"] = {},
+    ["x86_64-pc-windows-gnu"] = {},
+    ["x86_64-pc-windows-gnullvm"] = {},
+    ["x86_64-pc-windows-msvc"] = {},
+    ["x86_64-uwp-windows-gnu"] = {},
+    ["x86_64-uwp-windows-msvc"] = {},
+    ["x86_64-win7-windows-msvc"] = {},
+  }
+  return windows_triples[target_triple] and true or false
+end
+
 ---User home directory
 ---@return string home path to the suer home directory.
 M.home = (os.getenv "USERPROFILE" or os.getenv "HOME" or wez.home_dir or ""):gsub(
@@ -117,7 +149,7 @@ M.get_cwd_hostname = function(pane, search_git_root_instead)
     hostname = hostname:gsub("^%l", string.upper)
   end
 
-  if M.is_windows then
+  if M.is_windows() then
     cwd = cwd:gsub("/" .. M.home .. "(.-)$", "~%1")
   else
     cwd = cwd:gsub(M.home .. "(.-)$", "~%1")
@@ -157,12 +189,12 @@ M.tbl_merge = function(t1, ...)
 end
 
 ---Returns the colorscheme name absed on the system appearance
----@return '"kanagawa-wave"'|'"custom"'|'"rosepine"'|'"dracula"'|'"eldritch"'|'"kanagawa-dragon"' colorscheme name of the colorscheme
+---@return '"kanagawa-wave"'|'"custom"'|'"rosepine"'|'"neovim"'|'"dracula"'|'"eldritch"'|'"kanagawa-dragon"' colorscheme name of the colorscheme
 M.get_scheme = function()
   if (wez.gui and wez.gui.get_appearance() or "Dark"):find "Dark" then
     return "rosepine"
   end
-  return "custom"
+  return "neovim"
 end
 
 M.gsplit = function(s, sep, opts)
@@ -336,6 +368,25 @@ M.strwidth = function(str, num)
     end
   end
   return cells
+end
+
+---comment
+---@param path string
+---@param len any
+M.pathshortener = function(path, len)
+  local path_separator = M.is_windows() and "\\" or "/"
+  local splitted_path = M.split(path, path_separator)
+  local short_path = ""
+  for _, dir in ipairs(splitted_path) do
+    local short_dir = dir:sub(1, len)
+    if short_dir == "" then
+      break
+    end
+    short_path = short_path
+      .. (short_dir == "." and dir:sub(1, len + 1) or short_dir)
+      .. path_separator
+  end
+  wez.log_info(short_path)
 end
 
 return M

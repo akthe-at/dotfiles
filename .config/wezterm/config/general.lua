@@ -3,19 +3,21 @@ local wez = require "wezterm"
 
 local icons = require "utils.icons" ---@class Icons
 local fun = require "utils.fun" ---@class Fun
-
----@class Config
+------@class Config
 local Config = {}
+if fun.is_windows() then
+  Config.default_prog = { "pwsh", "-NoLogo", "-ExecutionPolicy", "RemoteSigned" } --"-NoProfileLoadTime"
+  -- Config.default_prog = { "bash", "-l" }
+else
+  Config.default_prog = { "bash", "-l" }
+end
 
-Config.default_prog = { "pwsh.exe" }
-
--- Config.default_prog = { "C:/Users/ARK010/scoop/apps/git/current/bin/bash.exe", "-l" }
-
+-- Config.default_prog = { "bash", "-l" }
 Config.launch_menu = {
   {
     label = icons.Pwsh .. " PowerShell V7",
     args = {
-      "pwsh.exe",
+      "pwsh",
       "-NoLogo",
       "-ExecutionPolicy",
       "RemoteSigned",
@@ -36,7 +38,19 @@ Config.wsl_domains = {}
 Config.default_cwd = fun.home
 
 -- ref: https://wezfurlong.org/wezterm/config/lua/SshDomain.html
-Config.ssh_domains = {}
+Config.ssh_domains = {
+  {
+    name = "PyA",
+    remote_address = "ssh.pythonanywhere.com",
+    username = "uwwssi",
+    ssh_option = {
+      identityfile = "~/.ssh/id_rsa.pub",
+    },
+    multiplexing = "None",
+    default_prog = { "bash" },
+    assume_shell = "Posix",
+  },
+}
 
 -- ref: https://wezfurlong.org/wezterm/multiplexing.html#unix-domains
 Config.unix_domains = {}

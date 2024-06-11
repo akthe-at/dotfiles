@@ -1,15 +1,12 @@
--- ~.config/wezterm/sessionizer.lua
-
 local wezterm = require "wezterm"
-local platform = require "utils/platform"
 local act = wezterm.action
-
+local fun = require "utils.fun" ---@class Fun
 local M = {}
 
 --- Converts Windows backslash to forwardslash
 ---@param path string
 local function normalize_path(path)
-  return platform.is_win and path:gsub("\\", "/") or path
+  return fun.is_windows() and path:gsub("\\", "/") or path
 end
 
 local home = normalize_path "C:/Users/ARK010/"
@@ -57,7 +54,7 @@ local git = (
 )
 err_if_not(git, "git not found")
 
-local srcPath = home .. "/Documents"
+local srcPath = home .. "Documents"
 err_if_not(srcPath, srcPath .. " not found")
 
 local search_folders = {
@@ -96,7 +93,7 @@ M.start = function(window, pane)
   --  │ └───31 unlisted
   --  └──other                # 3rd party project
   --     └──103 unlisted
-  local cmd = merge_tables({ fd, "-HI", "-td", "--max-depth=2", "." }, search_folders)
+  local cmd = merge_tables({ fd, "-HI", "-td", "--max-depth=1", "." }, search_folders)
   wezterm.log_info "cmd: "
   wezterm.log_info(cmd)
 
@@ -139,4 +136,3 @@ M.start = function(window, pane)
 end
 
 return M
-
