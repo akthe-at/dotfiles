@@ -1,6 +1,7 @@
 return {
   {
     "mfussenegger/nvim-dap-python",
+    ft = "python",
   -- stylua: ignore
   keys = {
     { "<leader>dPt", function() require('dap-python').test_method() end, desc = "Debug Method", ft = "python" },

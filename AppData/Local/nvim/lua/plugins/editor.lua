@@ -1,6 +1,7 @@
 return {
   {
     "letieu/wezterm-move.nvim",
+    lazy = true,
     keys = { -- Lazy loading, don't need call setup() function
       {
         "<C-h>",
@@ -32,18 +33,20 @@ return {
     "willothy/wezterm.nvim",
     config = true,
     cmd = "WeztermSpawn",
-    event = { "LazyFile" },
   },
   {
-    "ibhagwan/fzf-lua",
-    cmd = "FzfLua",
-    branch = "windows",
-    -- optional for icon support
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = function()
-      -- calling `setup` is optional for customization
-      require("fzf-lua").setup({ "telescope" })
-    end,
+    "echasnovski/mini.files",
+    priority = 999,
+    opts = {
+      windows = {
+        preview = true,
+        width_focus = 30,
+        width_preview = 30,
+      },
+      options = {
+        use_as_default_explorer = true,
+      },
+    },
   },
   {
     "stevearc/oil.nvim",
@@ -135,8 +138,8 @@ return {
       float = {
         -- Padding around the floating window
         padding = 5,
-        max_width = 48,
-        max_height = 18,
+        max_width = 68,
+        max_height = 38,
         border = "rounded",
         win_options = {
           winblend = 0,
@@ -191,7 +194,7 @@ return {
   {
     "nvimdev/dashboard-nvim",
     enabled = true,
-    event = "VimEnter",
+    lazy = false,
     opts = function()
       local logo = [[
     ⠀⠀⠀⠀⠀⠀⠀⣠⡤⠶⡄⠀⠀⠀⠀⠀⠀⠀⢠⠶⣦⣀⠀⠀⠀⠀⠀⠀⠀
@@ -223,15 +226,15 @@ return {
         -- stylua: ignore
         -- Add in fzflua to replace some Telescope dashboard commands
         center = {
-          { action = "FzfLua files",                                             desc = " Find file",       icon = " ", key = "f" },
+          { action = LazyVim.pick(),                                             desc = " Find file",       icon = " ", key = "f" },
           { action = "ene | startinsert",                                        desc = " New file",        icon = " ", key = "n" },
-          { action = "FzfLua oldfiles",                                       desc = " Recent files",    icon = " ", key = "r" },
-          { action = "FzfLua live_grep_native",                                  desc = " Find text",       icon = " ", key = "g" },
-          { action = [[lua LazyVim.telescope.config_files()()]], desc = " Config",          icon = " ", key = "c" },
+          { action = LazyVim.pick("oldfiles"),                                       desc = " Recent files",    icon = " ", key = "r" },
+          { action = LazyVim.pick("live_grep"),                                  desc = " Find text",       icon = " ", key = "g" },
+          { action = LazyVim.pick.config_files(), desc = " Config",          icon = " ", key = "c" },
           { action = 'lua require("persistence").load()',                        desc = " Restore Session", icon = " ", key = "s" },
           { action = "LazyExtras",                                               desc = " Lazy Extras",     icon = " ", key = "x" },
           { action = "Lazy",                                                     desc = " Lazy",            icon = "󰒲 ", key = "l" },
-          { action = "qa",                                                       desc = " Quit",            icon = " ", key = "q" },
+          { action = function() vim.api.nvim_input("<cmd>qa<cr>") end,                                                       desc = " Quit",            icon = " ", key = "q" },
         },
           footer = function()
             local stats = require("lazy").stats()
