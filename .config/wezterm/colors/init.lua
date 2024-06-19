@@ -6,5 +6,4 @@ return {
   ["rosepine"] = require "colors.rosepine",
   ["dracula"] = require "colors.dracula",
   ["eldritch"] = require "colors.eldritch",
-  ["neovim"] = require "colors.neovim",
 }

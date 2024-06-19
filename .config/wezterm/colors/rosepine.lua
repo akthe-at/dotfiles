@@ -24,7 +24,6 @@ local main = {
   color8 = "#6e6a86",
   color9 = "#ea9a97",
   color10 = "#9ccfd8",
-  color11 = "#f6c177",
   color12 = "#31748f",
   color13 = "#c4a7e7",
   color14 = "#ebbcba",
@@ -59,7 +58,7 @@ local colorscheme = {
     "#C50F1F", --
     "#13A10E", --
     "#c4a7e7", --
-    main.lavender, --
+    main.sapphire, --
     "#881798", --
     "#3A96DD", --
     "#CCCCCC", --
@@ -92,11 +91,11 @@ local colorscheme = {
       italic = false,
     },
     new_tab = {
-      bg_color = main.rosewater,
+      bg_color = main.color1,
       fg_color = main.base,
     },
     new_tab_hover = {
-      bg_color = main.color3,
+      bg_color = main.rosewater,
       fg_color = main.base,
       italic = true,
       strikethrough = false,

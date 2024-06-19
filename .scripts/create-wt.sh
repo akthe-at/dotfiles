@@ -14,9 +14,18 @@ script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
 
 usage() {
 	cat <<EOF
-Usage: $(basename "${BASH_SOURCE[0]}") [-h] [-v] [-f] [-b] [-B] [-p] [-N] <path>
+Usage: $(basename "${BASH_SOURCE[0]}") [-h] [-v] [-f] [-b branch_name] [-B base_branch_name] [-p prefix] [-N] <path>
 
-Script the creation of a new worktree.
+This script facilitates setting up a new worktree, including creating a new worktree, installing dependencies, and creating a new branch.
+
+Order of arguments:
+1. -h, --help: This should be the first argument if you want to display the help message and exit.
+2. -v, --verbose: This should be the second argument if you want to enable verbose mode.
+3. -b, --branch: This should be the third argument if you want to specify the branch to create. It should be followed by the branch name.
+4. -B, --base: This should be the fourth argument if you want to specify the base branch for the new worktree. It should be followed by the base branch name.
+5. -p, --prefix: This should be the fifth argument if you want to specify the prefix to apply to the branch name. It should be followed by the prefix.
+6. -N, --no-create-upstream: This should be the sixth argument if you do not want to create an upstream branch.
+7. <path>: This should be the last argument. It specifies the path where the new worktree will be created.
 
 Available options:
 
@@ -27,13 +36,20 @@ Available options:
 -p, --prefix                  The prefix to apply to the branch name (default: $(git config github.user)/)
 -N, --no-create-upstream      Do not create an upstream branch
 
-
 This script performs the following steps:
 
 1. Create a new worktree, based off the base branch (default: main)
 2. Create a new upstream branch to track the work
-2. Install dependencies
-3. Run a build
+3. Install dependencies
+4. Run a build
+
+Examples:
+
+1. Create a new worktree with a new branch:
+   ./create-wt.sh -b new-feature -B main -p feature/ ~/worktrees/new-feature
+
+2. Create a new worktree from an existing branch:
+   ./create-wt.sh ~/worktrees/existing-feature
 EOF
 	exit
 }

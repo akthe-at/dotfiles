@@ -10,18 +10,6 @@ local StatusBar = require "utils.layout"
 
 local strwidth = fun.is_windows() and string.len or fun.strwidth
 
-local function recompute_line_height(window)
-  local window_dims = window:get_dimensions()
-  local height = window_dims.pixel_height
-  local overrides = window:get_config_overrides() or {}
-  overrides.line_height = 1.1 * height / window_dims.rows
-  window:set_config_overrides(overrides)
-end
-
-wez.on("window-resized", function(window, _)
-  recompute_line_height(window)
-end)
-
 -- luacheck: push ignore 561
 wez.on("update-status", function(window, pane)
   local theme = require("colors")[fun.get_scheme()]
@@ -34,7 +22,7 @@ wez.on("update-status", function(window, pane)
   }
 
   local bg = theme.ansi[5]
-  local mode_indicator_width = 0
+  local mode_indicator_width = 4
 
   -- {{{1 LEFT STATUS
   local LeftStatus = StatusBar:new() ---@class Layout
@@ -42,7 +30,7 @@ wez.on("update-status", function(window, pane)
   if name and modes[name] then
     local txt = modes[name].text or ""
     mode_indicator_width, bg = strwidth(txt) + 2, modes[name].bg
-    LeftStatus:push(bg, theme.background, txt, { "Medium" })
+    LeftStatus:push(bg, theme.tab_bar.text_color, txt, { "Medium" })
   end
 
   window:set_left_status(wez.format(LeftStatus))
@@ -83,7 +71,7 @@ wez.on("update-status", function(window, pane)
   local status_bar_cells = {
     { cwd, fun.pathshortener(cwd, 4), fun.pathshortener(cwd, 1) },
     -- { session_name .. ":" .. workspace_name, workspace_name:sub(1, 1) },
-    { workspace_name, workspace_name:sub(1, 1) },
+    { fun.basename(workspace_name), fun.basename(workspace_name) },
     { wez.strftime "%a %b %-d %H:%M", wez.strftime "%d/%m %R", wez.strftime "%R" },
     { battery.full, battery.lvl .. "%", battery.ico },
   }

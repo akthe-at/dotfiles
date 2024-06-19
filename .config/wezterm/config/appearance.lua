@@ -29,13 +29,14 @@ Config.inactive_pane_hsb = {
 Config.bold_brightens_ansi_colors = "BrightAndBold"
 
 ---char select and command palette
+-- Config.char_select_bg_color = theme.brights[6]
 Config.char_select_bg_color = theme.brights[6]
 Config.char_select_fg_color = theme.background
 Config.char_select_font_size = 12
 
-Config.command_palette_bg_color = theme.brights[6]
+Config.command_palette_bg_color = theme.brights[1]
 Config.command_palette_fg_color = theme.background
-Config.command_palette_font_size = 14
+Config.command_palette_font_size = 12
 Config.command_palette_rows = 20
 
 ---cursor

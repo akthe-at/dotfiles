@@ -4,10 +4,10 @@ local fontselector = require "fontselector"
 ---@class Config
 local Config = {}
 
-Config.adjust_window_size_when_changing_font_size = false
+Config.adjust_window_size_when_changing_font_size = true
 Config.allow_square_glyphs_to_overflow_width = "WhenFollowedBySpace"
 Config.anti_alias_custom_block_glyphs = true
--- Config.font_size = 12
+Config.font_size = 12
 Config.cell_width = 0.9
 Config.warn_about_missing_glyphs = false
 Config.use_resize_increments = false
@@ -32,6 +32,7 @@ fontselector.register_fonts {
   { name = "D2CodingLigature Nerd Font", mod = "font-d2coding" },
   { name = "Cascadia Code PL", mod = "font-cascadiaPL" },
   { name = "Cascadia Code Mono NF", mod = "font-cascadiaNF" },
+  { name = "AT Name Mono Trial", mod = "font-namemono" },
 }
 
 Config.font = wez.font_with_fallback {

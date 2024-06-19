@@ -104,6 +104,14 @@ local keys = {
       os.getenv "WEZTERM_CONFIG_FILE",
     },
   },
+  -- Open Neovim Config Directly
+  ["<leader>."] = wezterm.action.SpawnCommandInNewTab {
+    cwd = os.getenv "NEOVIM_CONFIG_DIR",
+    args = {
+      "nvim",
+      os.getenv "NEOVIM_CONFIG_FILE",
+    },
+  },
 }
 
 for i = 1, 9 do
