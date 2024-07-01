@@ -25,6 +25,13 @@ require("lazy").setup({
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
   install = { missing = true, colorscheme = { "default" } },
+  dev = {
+    ---@type string | fun(plugin: LazyPlugin): string directory where you store your local plugin projects
+    path = "~/.plugins",
+    ---@type string[] plugins that match these patterns will use your local versions instead of being fetched from GitHub
+    patterns = {}, -- For example {"folke"}
+    fallback = false, -- Fallback to git when local plugin doesn't exist
+  },
   checker = { enabled = false }, -- automatically check for plugin updates
   performance = {
     rtp = {

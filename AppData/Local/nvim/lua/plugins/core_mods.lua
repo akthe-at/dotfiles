@@ -1,14 +1,45 @@
-return { -- lazy.nvim
+return {
+  -- {
+  --   dir = "C:/Users/ARK010/.plugins/venv-selector.nvim",
+  --   dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+  --   dev = true,
+  --   enabled = true,
+  --   lazy = false,
+  --   cmd = "VenvSelect",
+  --   opts = {
+  --     settings = {
+  --       options = {
+  --         picker = "fzf-lua",
+  --         debug = true,
+  --         notify_user_on_venv_activation = true,
+  --       },
+  --     },
+  --   },
+  --   --  Call config for python files and load the cached venv automatically
+  --   ft = "python",
+  --   keys = { { "<leader>cv", "<cmd>:VenvSelect<cr>", desc = "Select VirtualEnv", ft = "python" } },
+  -- },
   {
-    "m4xshen/hardtime.nvim",
-    lazy = false,
-    dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
+    "linux-cultist/venv-selector.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
     opts = {
-      -- Add "oil" to the disabled_filetypes
-      disabled_filetypes = { "qf", "netrw", "NvimTree", "lazy", "mason", "oil" },
-      max_count = 3,
-      disable_mouse = false,
+      settings = {
+        options = {
+          debug = false,
+        },
+      },
     },
+  },
+  {
+    "meanderingprogrammer/markdown.nvim",
+    name = "render-markdown", -- Only needed if you have another plugin named markdown.nvim
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter", -- Mandatory
+      "nvim-tree/nvim-web-devicons", -- Optional but recommended
+    },
+    config = function()
+      require("render-markdown").setup({})
+    end,
   },
   {
     "pwntester/octo.nvim",
@@ -29,12 +60,16 @@ return { -- lazy.nvim
     version = false,
     opts = {
       -- colorscheme = "tokyonight-night",
+      -- colorscheme = "bamboo",
       -- colorscheme = "tokyonight",
+      -- colorscheme = "tokyonight-day",
       -- colorscheme = "dracula",
       -- colorscheme = "rose-pine-dawn",
-      -- colorscheme = "rose-pine-moon",
+      colorscheme = "rose-pine-moon",
+      -- colorscheme = "rose-pine",
+      -- colorscheme = "bluloco",
+      -- colorscheme = "everforest",
       -- colorscheme = "cyberdream",
-      colorscheme = "rose-pine",
       -- colorscheme = "night-owl",
       -- colorscheme = "arctic",
       -- colorscheme = "gruvbox-material",
@@ -170,6 +205,13 @@ return { -- lazy.nvim
               },
             },
           },
+          djlsp = {
+            cmd = { "djlsp" },
+            filetypes = { "html", "htmldjango" },
+            settings = {
+              djlsp = {},
+            },
+          },
         },
         setup = {},
       }
@@ -232,7 +274,7 @@ return { -- lazy.nvim
       if type(opts.diagnostics.virtual_text) == "table" and opts.diagnostics.virtual_text.prefix == "icons" then
         opts.diagnostics.virtual_text.prefix = vim.fn.has("nvim-0.10.0") == 0 and "●"
           or function(diagnostic)
-            local icons = require("lazyvim.config").icons.diagnostics
+            local icons = LazyVim.config.icons.diagnostics
             for d, icon in pairs(icons) do
               if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
                 return icon
@@ -348,10 +390,10 @@ return { -- lazy.nvim
       textobjects = {
         move = {
           enable = true,
-          goto_next_start = { ["]f"] = "@function.outer", ["]c"] = "@class.outer" },
-          goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer" },
-          goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer" },
-          goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer" },
+          goto_next_start = { ["]f"] = "@function.outer", ["]c"] = "@class.outer", ["]a"] = "@parameter.inner" },
+          goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer", ["]A"] = "@parameter.inner" },
+          goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer", ["[a"] = "@parameter.inner" },
+          goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer", ["[A"] = "@parameter.inner" },
         },
       },
     },

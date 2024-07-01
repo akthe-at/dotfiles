@@ -36,6 +36,7 @@ return {
   {
     "NeogitOrg/neogit",
     enabled = true,
+    lazy = true,
     branch = "master",
     cmd = "Neogit",
     dependencies = {

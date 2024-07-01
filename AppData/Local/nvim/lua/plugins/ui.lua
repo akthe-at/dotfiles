@@ -25,6 +25,11 @@ return {
       --     -- col = "100%",
       --   },
       -- },
+      popupmenu = {
+        enabled = true,
+        backend = "nui",
+        kind_icons = {},
+      },
       cmdline = {
         enabled = true,
         view = "cmdline",
@@ -37,15 +42,25 @@ return {
           enabled = true,
           view = "mini",
         },
+        hover = {
+          enabled = true,
+          silent = false,
+          view = nil,
+          opts = {},
+        },
         signature = {
+          enabled = true,
           auto_open = {
-            enabled = false,
+            enabled = true,
+            trigger = true,
+            luasnip = true,
+            throttle = 50,
           },
         },
         override = {
-          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-          ["vim.lsp.util.stylize_markdown"] = true,
-          ["cmp.entry.get_documentation"] = true,
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = false,
+          ["vim.lsp.util.stylize_markdown"] = false,
+          ["cmp.entry.get_documentation"] = false,
         },
       },
       routes = {
@@ -65,8 +80,8 @@ return {
         bottom_search = true,
         command_palette = true,
         long_message_to_split = true,
-        inc_rename = false,
-        lsp_doc_border = true, -- add a border to hover docs and signature help
+        inc_rename = true,
+        -- lsp_doc_border = true, -- add a border to hover docs and signature help
       },
     },
   -- stylua: ignore

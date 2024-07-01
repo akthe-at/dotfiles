@@ -17,6 +17,7 @@ vim.opt.undofile = true
 vim.opt.undodir = os.getenv("USERPROFILE") .. "/nvim-data/undo"
 vim.opt.fillchars = { eob = " " }
 LazyVim.terminal.setup("pwsh")
+LazyVim.pick("fzf")
 
 -- --If I want to use bash as my shell in the neovim terminal I uncomment the following lines.
 -- vim.o.shell = "C:/Users/ARK010/scoop/apps/git/current/bin/bash.exe"
@@ -34,15 +35,15 @@ LazyVim.terminal.setup("pwsh")
 --   vim.opt[option] = value
 -- end
 
--- vim.api.nvim_set_hl(0, "LineNrAbove", { fg = "#cc241d", bold = false })
--- vim.api.nvim_set_hl(0, "LineNrBelow", { fg = "#cc241d", bold = false })
 vim.api.nvim_set_hl(0, "LineNrAbove", { fg = "#eb6f92", bold = false })
 vim.api.nvim_set_hl(0, "LineNrBelow", { fg = "#eb6f92", bold = false })
-vim.opt.colorcolumn = "88"
+vim.opt.colorcolumn = "80"
 vim.opt.mouse = "a"
 vim.g.python3_host_prog = vim.fn.expand("~/.virtualenvs/neovim/Scripts/python")
 
 vim.g.root_spec = { { ".git", "lua" }, "cwd" }
+
 -- Remove "How-to disable mouse" from right-click menu
 pcall(vim.cmd.aunmenu, [[PopUp.How-to\ disable\ mouse]])
 pcall(vim.cmd.aunmenu, [[PopUp.-1-]])
+pcall(vim.cmd.aunmenu, [[PopUp.Paste]])

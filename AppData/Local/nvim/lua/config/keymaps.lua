@@ -11,7 +11,7 @@ vim.keymap.set("n", "<leader>dl", '<cmd>lua require"osv".launch({port = 8086})<C
 
 -- Toggle an Oil.Nvim floating Window --
 vim.keymap.set("n", "<leader>e", "<cmd>lua require('oil').toggle_float()<CR>", { desc = "Oil" })
---
+vim.keymap.set("n", "<leader>E", "<CMD>Oil<CR>", { desc = "Open Oil Buffer" })
 -- OBSIDIAN KEYMAPS --
 vim.keymap.set("n", "<leader>on", "<cmd>ObsidianNew<CR>", { desc = "Create a new note" })
 vim.keymap.set("n", "<leader>ot", "<cmd>ObsidianTemplate<CR>", { desc = "Create a new note from template" })
@@ -29,7 +29,6 @@ vim.keymap.set("n", "<leader>od", "<cmd>ObsidianToday<CR>", { desc = "Open today
 -- Some more keymaps I dont use currently
 -- vim.keymap.set('i', '<S-n>', '<esc><cmd>m .+1<cr>==gi', { desc = 'Move down' })
 -- vim.keymap.set('i', '<S-m>', '<esc><cmd>m .-2<cr>==gi', { desc = 'Move up' })
--- vim.keymap.set("n", "<leader>uC", ":Telescope themes<CR>", { silent = true, noremap = true })
 
 -- vim.keymap.set({ "n", "v" }, "<leader>D", '"_d')
 vim.keymap.set("x", "<leader>p", [["_dP]])
@@ -57,7 +56,7 @@ vim.keymap.set("n", "<leader>gns", neogit.open, { desc = "Neogit Status" })
 vim.keymap.set("n", "<leader>gnc", ":Neogit commit<CR>", { desc = "Neogit Commit" })
 vim.keymap.set("n", "<leader>gnp", ":Neogit pull<CR>", { desc = "Neogit Pull" })
 vim.keymap.set("n", "<leader>gnP", ":Neogit push<CR>", { desc = "Neogit push" })
-vim.keymap.set("n", "<leader>gB", ":Telescope git_branches<CR>", { desc = "Telescope [g]it_[B]ranches" })
+vim.keymap.set("n", "<leader>gB", ":FzfLua git_branches<CR>", { desc = "FzfLua [g]it_[B]ranches" })
 vim.keymap.set("n", "<leader>gnb", ":Git blame<CR>", { desc = "Git Blame" })
 
 -----------------------------
@@ -185,7 +184,7 @@ wk.register({
   ["<c-LeftMouse>"] = { "<cmd>lua vim.lsp.buf.definition()<CR>", "go to definition" },
   ["<localleader>ir"] = { insert_r_chunk, "r code chunk" },
   ["<localleader>ip"] = { insert_py_chunk, "python code chunk" },
-  ["zl"] = { ":Telescope spell_suggest<cr>", "[l]ist spelling suggestions" },
+  ["zl"] = { ":FzfLua spell_suggest<cr>", "[l]ist spelling suggestions" },
 }, { mode = "n", silent = true })
 
 -- visual mode
@@ -253,7 +252,7 @@ wk.register({
   },
   o = {
     name = "[otter]&[r] R specific tools",
-    a = { require("otter").dev_setup, "otter [a]ctivate" },
+    a = { require("otter").activate, "otter [a]ctivate" },
     d = { require("otter").deactivate, "otter [d]eactivate" },
     c = { "O# %%<cr>", "magic [c]omment code chunk # %%" },
     r = { insert_r_chunk, "[r] code chunk" },

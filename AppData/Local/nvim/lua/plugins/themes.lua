@@ -13,18 +13,6 @@ return {
     end,
   },
   {
-    "vague2k/huez.nvim",
-    event = "VimEnter",
-    enabled = false,
-    lazy = true,
-    cmd = { "Huez", "HuezLive", "HuezEnable", "HuezFavorites" },
-    priority = 9999,
-    import = "huez-manager.import",
-    config = function()
-      require("huez").setup({})
-    end,
-  },
-  {
     "luckasRanarison/tailwind-tools.nvim",
     ft = { "html", "htmldjango" },
     opts = { document_coolor = { enabled = false } },
@@ -36,9 +24,6 @@ return {
     "scottmckendry/cyberdream.nvim",
     enabled = true,
     priority = 1000,
-    keys = {
-      { "<leader>uC", LazyVim.pick("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
-    },
     opts = {},
     config = function()
       vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
@@ -50,9 +35,6 @@ return {
     "eldritch-theme/eldritch.nvim",
     enabled = true,
     priority = 1000,
-    keys = {
-      { "<leader>uC", LazyVim.pick("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
-    },
     opts = {
       dim_inactive = true,
       hide_inactive_statusline = true,
@@ -72,9 +54,6 @@ return {
   --   "mofiqul/dracula.nvim",
   --   enabled = true,
   --   priority = 1000,
-  --   keys = {
-  --     { "<leader>uC", LazyVim.pick("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
-  --   },
   --   opts = {},
   --   config = function()
   --     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
@@ -86,9 +65,6 @@ return {
   --   "maxmx03/dracula.nvim",
   --   enabled = true,
   --   priority = 1000,
-  --   keys = {
-  --     { "<leader>uC", LazyVim.pick("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
-  --   },
   --   opts = {},
   --   config = function()
   --     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
@@ -100,9 +76,6 @@ return {
     "binhtran432k/dracula.nvim", -- There are a lot of dracula esque nvim themes but I like this one the most so far.
     enabled = true,
     priority = 1000,
-    keys = {
-      { "<leader>uC", LazyVim.pick("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
-    },
     opts = {},
     config = function() end,
   },
@@ -110,9 +83,6 @@ return {
     "sainnhe/everforest",
     name = "everforest",
     enabled = true,
-    keys = {
-      { "<leader>uC", LazyVim.pick("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
-    },
     priority = 1000,
     config = function()
       vim.g.everforest_background = "hard"
@@ -125,114 +95,59 @@ return {
       })
     end,
   },
-  -- {
-  --   "fynnfluegge/monet.nvim",
-  --   name = "monet",
-  --   enabled = false,
-  --   keys = {
-  --     { "<leader>uC", LazyVim.pick("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
-  --   },
-  --   opts = { transparent_background = false },
-  -- },
   {
-    "catppuccin/nvim",
-    keys = {
-      { "<leader>uC", LazyVim.pick("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
-    },
+    "rebelot/kanagawa.nvim",
     enabled = true,
     priority = 1000,
-    name = "catppuccin",
     opts = {
-      flavour = "macchiato",
-      dim_inactive = {
-        enabled = true,
-        shade = "dark",
-        percentage = 0.15,
-      },
-      transparent_background = false,
-      integrations = {
-        aerial = true,
-        alpha = true,
-        -- colorful_winsep = {
-        --   enabled = false,
-        --   color = "red",
-        -- },
-        harpoon = true,
-        fidget = true,
-        cmp = true,
-        dashboard = true,
-        flash = true,
-        gitsigns = true,
-        headlines = true,
-        illuminate = true,
-        indent_blankline = { enabled = true },
-        leap = true,
-        lsp_trouble = true,
-        mason = true,
-        markdown = true,
-        mini = true,
-        native_lsp = {
-          enabled = true,
-          underlines = {
-            errors = { "undercurl" },
-            hints = { "undercurl" },
-            warnings = { "undercurl" },
-            information = { "undercurl" },
+      colors = {
+        theme = {
+          all = {
+            ui = {
+              bg_gutter = "none",
+            },
           },
         },
-        navic = { enabled = true },
-        neotest = true,
-        neotree = true,
-        noice = true,
-        notify = true,
-        semantic_tokens = true,
-        telescope = true,
-        treesitter = true,
-        treesitter_context = true,
-        which_key = true,
       },
-      color_overrides = {
-        mocha = {
-          -- I don't think these colours are pastel enough by default!
-          peach = "#fcc6a7",
-          green = "#d2fac5",
-        },
-
-        -- macchiato = {
-        --   -- I don't think these colours are pastel enough by default!
-        --   peach = "#fcc6a7",
-        --   green = "#d2fac5",
-        -- },
-      },
+      -- transparent = false,
+      theme = "wave",
     },
   },
-  -- {
-  --   "rebelot/kanagawa.nvim",
-  --   enabled = true,
-  --   keys = {
-  --     { "<leader>uC", LazyVim.pick("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
-  --   },
-  --   priority = 1000,
-  --   opts = {
-  --     transparent = false,
-  --     theme = "wave",
-  --   },
-  -- },
-  -- {
-  --   "ribru17/bamboo.nvim",
-  --   enabled = false,
-  --   keys = {
-  --     { "<leader>uC", LazyVim.pick("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
-  --   },
-  --   priority = 1000,
-  -- },
+  -- Using lazy.nvim
+  {
+    "ribru17/bamboo.nvim",
+    lazy = true,
+    priority = 1000,
+    config = function()
+      require("bamboo").setup({
+        -- optional configuration here
+        style = "multiplex",
+        lualine = { transparent = true },
+      })
+      require("bamboo").load()
+    end,
+  },
+  {
+    "uloco/bluloco.nvim",
+    lazy = true,
+    enabled = true,
+    priority = 1000,
+    dependencies = { "rktjmp/lush.nvim" },
+    config = function()
+      require("bluloco").setup({
+        style = "dark",
+        italics = true,
+        transparent = false,
+        termainl = vim.fn.has("gui_running") == 1,
+        guicursor = true,
+      })
+      vim.opt.termguicolors = true
+    end,
+  },
   {
     "rockyzhang24/arctic.nvim",
-    enabled = false,
+    enabled = true,
     branch = "v2",
-    keys = {
-      { "<leader>uC", LazyVim.pick("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
-    },
     priority = 1000,
     name = "arctic",
     dependencies = { "rktjmp/lush.nvim" },
@@ -242,22 +157,16 @@ return {
       })
     end,
   },
-  -- {
-  --   "craftzdog/solarized-osaka.nvim",
-  --   keys = {
-  --     { "<leader>uC", LazyVim.pick("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
-  --   },
-  --   enabled = true,
-  --   priority = 1000,
-  --   opts = {},
-  -- },
+  {
+    "craftzdog/solarized-osaka.nvim",
+    enabled = true,
+    priority = 1000,
+    opts = {},
+  },
   {
     "ellisonleao/gruvbox.nvim",
     priority = 1000,
-    enabled = false,
-    keys = {
-      { "<leader>uC", LazyVim.pick("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
-    },
+    enabled = true,
     config = function()
       vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
         border = "rounded",
@@ -292,9 +201,6 @@ return {
     "folke/tokyonight.nvim",
     priority = 1000,
     enabled = true,
-    keys = {
-      { "<leader>uC", LazyVim.pick("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
-    },
     opts = {
       sidebars = "dark",
       style = "night",
@@ -319,17 +225,14 @@ return {
   },
   {
     "sainnhe/gruvbox-material",
-    enabled = false,
-    keys = {
-      { "<leader>uC", LazyVim.pick("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
-    },
+    enabled = true,
     priority = 1000,
     config = function()
       vim.g.gruvbox_material_enable_italic = 1
       vim.g.gruvbox_material_background = "hard"
       vim.g.gruvbox_material_ui_contrast = "soft"
       vim.g.gruvbox_material_dim_inactive_windows = 1
-      vim.g.gruvbox_material_foreground = "original"
+      vim.g.gruvbox_material_foreground = "material"
       vim.g.gruvbox_material_enable_bold = 1
       vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
         border = "rounded",
@@ -342,15 +245,12 @@ return {
     name = "rose-pine",
     enabled = true,
     priority = 1000,
-    keys = {
-      { "<leader>uC", LazyVim.pick("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
-    },
     config = function()
       require("rose-pine").setup({
         variant = "main",
         dark_variant = "main",
         dim_inactive_windows = true,
-        extend_background_behind_borders = true,
+        extend_background_behind_borders = false,
         styles = { bold = true, italic = true, transparency = false },
         groups = {
           border = "pine", --"pine",
@@ -384,9 +284,6 @@ return {
   --   name = "rose-pine",
   --   enabled = false,
   --   priority = 1000,
-  --   keys = {
-  --     { "<leader>uC", LazyVim.pick("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
-  --   },
   --   config = function()
   --     require("rose-pine").setup({
   --       variant = "main",
@@ -423,9 +320,6 @@ return {
   -- },
   -- {
   --   "akthe-at/rose-pine.nvim",
-  --   keys = {
-  --     { "<leader>uC", LazyVim.pick("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
-  --   },
   --   priority = 1000,
   --   config = function()
   --     return {

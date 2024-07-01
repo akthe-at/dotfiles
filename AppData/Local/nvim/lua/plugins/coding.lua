@@ -1,3 +1,19 @@
+local M = {}
+
+---@param kind string
+function M.pick(kind)
+  return function()
+    local actions = require("CopilotChat.actions")
+    local items = actions[kind .. "_actions"]()
+    if not items then
+      LazyVim.warn("No " .. kind .. " found on the current line")
+      return
+    end
+    local ok = pcall(require, "fzf-lua")
+    require("CopilotChat.integrations." .. (ok and "fzflua" or "telescope")).pick(items)
+  end
+end
+
 return {
   {
     "numToStr/Comment.nvim",
@@ -11,6 +27,7 @@ return {
   },
   {
     "stevearc/conform.nvim",
+    lazy = true,
     dependencies = { "mason.nvim" },
     cmd = "ConformInfo",
     opts = {
@@ -36,6 +53,7 @@ return {
         lua = { "stylua" },
         css = { "prettier" },
         htmldjango = { "djlint" },
+        quarto = { "injected" },
         javascript = { "prettier" },
         -- r = { "rpretty" },
         sh = { "shfmt" },
@@ -76,6 +94,8 @@ return {
       }
     end,
     keys = {
+      { "<c-s>", "<CR>", ft = "copilot-chat", desc = "Submit Prompt", remap = true },
+      { "<leader>a", "", desc = "+ai", mode = { "n", "v" } },
       {
         "<leader>aa",
         function()
@@ -103,17 +123,15 @@ return {
         desc = "Quick Chat (CopilotChat)",
         mode = { "n", "v" },
       },
+      -- Show help actions with telescope
+      { "<leader>ad", M.pick("help"), desc = "Diagnostic Help (CopilotChat)", mode = { "n", "v" } },
+      -- Show prompts actions with telescope
+      { "<leader>ap", M.pick("prompt"), desc = "Prompt Actions (CopilotChat)", mode = { "n", "v" } },
     },
-    init = function()
-      LazyVim.on_load("which-key.nvim", function()
-        vim.schedule(function()
-          require("which-key").register({ a = { name = "+CopilotChat (AI)" } }, { prefix = "<leader>" })
-        end)
-      end)
-    end,
     config = function(_, opts)
       local chat = require("CopilotChat")
       require("CopilotChat.integrations.cmp").setup()
+
       vim.api.nvim_create_autocmd("BufEnter", {
         pattern = "copilot-chat",
         callback = function()
@@ -121,42 +139,14 @@ return {
           vim.opt_local.number = false
         end,
       })
+
       chat.setup(opts)
     end,
-  },
-  {
-    "nvim-telescope/telescope.nvim",
-    optional = true,
-    keys = {
-      -- Show help actions with telescope
-      {
-        "<leader>ad",
-        function()
-          local actions = require("CopilotChat.actions")
-          local help = actions.help_actions()
-          if not help then
-            LazyVim.warn("No diagnostics found on the current line")
-            return
-          end
-          require("CopilotChat.integrations.telescope").pick(help)
-        end,
-        desc = "Diagnostic Help (CopilotChat)",
-      },
-      -- Show prompts actions with telescope
-      {
-        "<leader>ap",
-        function()
-          local actions = require("CopilotChat.actions")
-          require("CopilotChat.integrations.telescope").pick(actions.prompt_actions())
-        end,
-        desc = "Prompt Actions (CopilotChat)",
-      },
-    },
   },
   -- Edgy integration
   {
     "folke/edgy.nvim",
-    --optional = true,
+    optional = true,
     opts = function(_, opts)
       opts.right = opts.right or {}
       table.insert(opts.right, {
@@ -173,7 +163,7 @@ return {
     dependencies = {
       "f3fora/cmp-spell",
       "ray-x/cmp-treesitter",
-      "jmbuhr/otter.nvim",
+      -- "jmbuhr/otter.nvim",
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-buffer",
@@ -202,11 +192,13 @@ return {
     opts = function(_, opts)
       local cmp = require("cmp")
       local defaults = require("cmp.config.default")()
+      local auto_select = true
       return {
         auto_brackets = {},
         completion = {
-          completeopt = "menu,menuone,noinsert",
+          completeopt = "menu,menuone,noinsert" .. (auto_select and "" or ",noselect"),
         },
+        preselect = auto_select and cmp.PreselectMode.Item or cmp.PreselectMode.None,
         window = {
           completion = cmp.config.window.bordered(),
           documentation = cmp.config.window.bordered(),
@@ -227,7 +219,7 @@ return {
           { name = "cmp_r" },
           { name = "tailwindcss" },
           { name = "luasnip" },
-          { name = "otter" },
+          -- { name = "otter" },
           { name = "path" },
           { name = "buffer", keyword_length = 3 },
           { name = "spell" },
@@ -235,7 +227,31 @@ return {
           { name = "treesitter" },
         }),
         view = { entries = { follow_cursor = true } },
+        formatting = {
+          format = function(entry, item)
+            local icons = LazyVim.config.icons.kinds
+            if icons[item.kind] then
+              item.kind = icons[item.kind] .. item.kind
+            end
+            local widths = {
+              abbr = vim.g.cmp_widths and vim.g.cmp_widths.abbr or 40,
+              menu = vim.g.cmp_widths and vim.g.cmp_widths.menu or 30,
+            }
+
+            for key, width in pairs(widths) do
+              if item[key] and vim.fn.strdisplaywidth(item[key]) > width then
+                item[key] = vim.fn.strcharpart(item[key], 0, width - 1) .. "…"
+              end
+            end
+            return item
+          end,
+        },
         sorting = defaults.sorting,
+        experimental = {
+          ghost_text = {
+            hl_group = "CmpGhostText",
+          },
+        },
       },
         table.insert(opts.sources, 1, {
           name = "copilot",
@@ -243,6 +259,7 @@ return {
           priority = 100,
         })
     end,
+    main = "lazyvim.util.cmp",
     ---@param opts cmp.ConfigSchema | {auto_brackets?: string[]}
     config = function(_, opts)
       for _, source in ipairs(opts.sources) do

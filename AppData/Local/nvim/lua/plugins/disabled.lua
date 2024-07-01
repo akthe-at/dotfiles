@@ -26,8 +26,26 @@ return {
     "folke/ts-comments.nvim",
     enabled = false,
   },
+  { "nvim-treesitter/nvim-tresitter-textobjects", enabled = false },
   {
     "windwp/nvim-ts-autotag",
     enabled = false,
   },
+  -- {
+  --   "stevearc/dressing.nvim",
+  --   enabled = false,
+  -- },
+  -- {
+  --   "nvim-telescope/telescope-fzf-native.nvim",
+  --   enabled = false,
+  -- },
+  -- { "nvim-telescope/telescope.nvim", enabled = false },
+  -- {
+  --   "ibhagwan/fzf-lua",
+  --   enabled = false,
+  -- },
+  -- {
+  --   "linux-cultist/venv-selector.nvim",
+  --   -- enabled = false,
+  -- },
 }

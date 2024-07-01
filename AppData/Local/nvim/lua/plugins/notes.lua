@@ -86,7 +86,7 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim", -- Required.
       "hrsh7th/nvim-cmp",
-      "nvim-telescope/telescope.nvim",
+      -- "nvim-telescope/telescope.nvim",
       "nvim-treesitter/nvim-treesitter",
       "ibhagwan/fzf-lua",
     },

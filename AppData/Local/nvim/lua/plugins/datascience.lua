@@ -271,7 +271,7 @@ return {
         opts = {
           handle_leading_whitespace = true,
           lsp = {
-            hover = { border = "none" },
+            hover = {},
           },
         },
       },
@@ -285,7 +285,7 @@ return {
         debug = false,
         closePreviewOnExit = true,
         lspFeatures = {
-          languages = { "r", "python", "sql", "bash", "julia", "html", "javacsripts" },
+          languages = { "lua", "r", "python", "sql", "bash", "julia", "html", "javacsripts" },
           chunks = "all",
           diagnostics = {
             enabled = true,

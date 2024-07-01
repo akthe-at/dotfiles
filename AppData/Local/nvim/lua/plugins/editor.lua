@@ -80,11 +80,10 @@ return {
         concealcursor = "nvic",
       },
       -- Send deleted files to the trash instead of permanently deleting them (:help oil-trash)
-      delete_to_trash = false,
+      delete_to_trash = true,
       -- Skip the confirmation popup for simple operations
       skip_confirm_for_simple_edits = true,
       -- Change this to customize the command used when deleting to trash
-      trash_command = "trash-put",
       -- Selecting a new/moved/renamed file or directory will prompt you to save changes first
       prompt_save_on_select_new_entry = true,
       -- Oil will automatically delete hidden buffers after this delay
@@ -93,6 +92,10 @@ return {
       cleanup_delay_ms = 2000,
       -- Keymaps in oil buffer. Can be any value that `vim.keymap.set` accepts OR a table of keymap
       -- options with a `callback` (e.g. { callback = function() ... end, desc = "", mode = "n" })
+      lsp_file_methods = {
+        timeout_ms = 1000,
+        autosave_changes = true,
+      },
       -- Additionally, if it is a string that matches "actions.<name>",
       -- it will use the mapping at require("oil.actions").<name>
       -- Set to `false` to remove a keymap
@@ -172,6 +175,7 @@ return {
         win_options = {
           winblend = 0,
         },
+        update_on_cursor_moved = true,
       },
       -- Configuration for the floating progress window
       progress = {
@@ -226,7 +230,7 @@ return {
         -- stylua: ignore
         -- Add in fzflua to replace some Telescope dashboard commands
         center = {
-          { action = LazyVim.pick(),                                             desc = " Find file",       icon = " ", key = "f" },
+          { action = LazyVim.pick("files"),                                             desc = " Find file",       icon = " ", key = "f" },
           { action = "ene | startinsert",                                        desc = " New file",        icon = " ", key = "n" },
           { action = LazyVim.pick("oldfiles"),                                       desc = " Recent files",    icon = " ", key = "r" },
           { action = LazyVim.pick("live_grep"),                                  desc = " Find text",       icon = " ", key = "g" },
@@ -282,7 +286,7 @@ return {
           ".Rproj",
         },
         choice_format = "both", -- optional, you can switch to "name" or "path"
-        projects_picker = "telescope", -- optional, you can switch to `telescope`
+        projects_picker = "vim-ui", -- optional, you can switch to `telescope`
         -- do whatever you like by hooks
         hooks = {
           {
