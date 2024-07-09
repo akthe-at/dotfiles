@@ -91,13 +91,13 @@ local colorscheme = {
       italic = false,
     },
     new_tab = {
-      bg_color = main.color1,
-      fg_color = main.base,
+      bg_color = main.base,
+      fg_color = main.color1,
     },
     new_tab_hover = {
-      bg_color = main.rosewater,
-      fg_color = main.base,
-      italic = true,
+      bg_color = main.base,
+      fg_color = main.rosewater,
+      italic = false,
       strikethrough = false,
     },
   },

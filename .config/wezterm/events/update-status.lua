@@ -1,28 +1,23 @@
----@class WezTerm
+---@class Wezterm
 local wez = require "wezterm"
 
 ---@class Fun
 local fun = require "utils.fun"
+
 ---@class Icons
 local icons = require "utils.icons"
+
 ---@class Layout
 local StatusBar = require "utils.layout"
 
-local strwidth = fun.is_windows() and string.len or fun.strwidth
+local strwidth = fun.platform().is_win and string.len or fun.strwidth
 
--- luacheck: push ignore 561
 wez.on("update-status", function(window, pane)
   local theme = require("colors")[fun.get_scheme()]
-  local modes = {
-    copy_mode = { text = " 󰆏 COPY ", bg = theme.brights[3] },
-    search_mode = { text = " 󰍉 SEARCH ", bg = theme.brights[4] },
-    window_mode = { text = " 󱂬 WINDOW ", bg = theme.ansi[6] },
-    font_mode = { text = " 󰛖 FONT ", bg = theme.indexed[16] or theme.ansi[8] },
-    lock_mode = { text = "  LOCK ", bg = theme.ansi[8] },
-  }
+  local modes = require "utils.modes-list"
 
   local bg = theme.ansi[5]
-  local mode_indicator_width = 4
+  local mode_indicator_width = 0
 
   -- {{{1 LEFT STATUS
   local LeftStatus = StatusBar:new() ---@class Layout
@@ -30,7 +25,7 @@ wez.on("update-status", function(window, pane)
   if name and modes[name] then
     local txt = modes[name].text or ""
     mode_indicator_width, bg = strwidth(txt) + 2, modes[name].bg
-    LeftStatus:push(bg, theme.tab_bar.text_color, txt, { "Medium" })
+    LeftStatus:push(bg, theme.background, txt, { "Bold" })
   end
 
   window:set_left_status(wez.format(LeftStatus))
@@ -38,6 +33,63 @@ wez.on("update-status", function(window, pane)
 
   -- {{{1 RIGHT STATUS
   local RightStatus = StatusBar:new() ---@class Layout
+
+  --~~ {{{2 Calculate the used width by the tabs
+  local MuxWindow = window:mux_window()
+  local tab_bar_width = 0
+  for _, MuxTab in ipairs(MuxWindow:tabs()) do
+    local tab_title = MuxTab:panes()[1]:get_title()
+    tab_bar_width = tab_bar_width + strwidth(tab_title) + 2
+  end
+
+  local Config = MuxWindow:gui_window():effective_config() ---@class Config
+  local has_button = Config.show_new_tab_button_in_tab_bar
+  local new_tab_button = has_button and Config.tab_bar_style.new_tab or ""
+  tab_bar_width = tab_bar_width + mode_indicator_width + strwidth(new_tab_button) + 2
+  --~~ }}}
+
+  local usable_width = pane:get_dimensions().cols - tab_bar_width - 6
+
+  --~ {{{2 MODAL PROMPTS
+  if name and modes[name] then
+    local mode = modes[name]
+    local prompt_bg, map_fg, txt_fg = theme.tab_bar.background, mode.bg, theme.foreground
+    local sep = icons.Separators.StatusBar.modal
+
+    local key_tbl = require("mappings.modes")[2][name]
+    for idx, map_tbl in ipairs(key_tbl) do
+      local map, desc = map_tbl[1], map_tbl[3]
+      if map:find "%b<>" then
+        map = map:gsub("(%b<>)", function(str)
+          return str:sub(2, -2)
+        end)
+      end
+
+      local prompt_len = strwidth(map .. desc) + mode.pad
+      if usable_width > 0 and desc ~= "" then
+        RightStatus:push(prompt_bg, txt_fg, "<", { "Bold" })
+        RightStatus:push(prompt_bg, map_fg, map)
+        RightStatus:push(prompt_bg, txt_fg, ">")
+        RightStatus:push(prompt_bg, txt_fg, fun.pad(desc), { "Normal", "Italic" })
+
+        ---add separator only if it's not the last item and there's enough space
+        local next_prompt = key_tbl[idx]
+        local next_prompt_len = strwidth(next_prompt[1] .. next_prompt[3]) + 4
+        if idx < #key_tbl and usable_width - next_prompt_len > 0 then
+          RightStatus:push(prompt_bg, theme.brights[1], sep .. " ", { "NoItalic" })
+        elseif usable_width - next_prompt_len <= 0 then
+          RightStatus:push(prompt_bg, theme.brights[1], sep .. " ...", { "NoItalic" })
+        end
+      end
+
+      usable_width = usable_width - prompt_len
+    end
+
+    window:set_right_status(wez.format(RightStatus))
+    return ---return early to not render status bar
+  end --~ }}}
+
+  --~ {{{2 STATUS BAR
 
   bg = wez.color.parse(bg)
   local colors = { bg:darken(0.15), bg, bg:lighten(0.15), bg:lighten(0.25) }
@@ -53,21 +105,6 @@ wez.on("update-status", function(window, pane)
   local cwd, hostname = fun.get_cwd_hostname(pane, true) -- current hostname turned to _ because unused.
   local workspace_name = window:active_workspace()
 
-  --~ {{{2 Calculate the used width by the tabs
-  local MuxWindow = window:mux_window()
-  local tab_bar_width = 0
-  for _, MuxTab in ipairs(MuxWindow:tabs()) do
-    local tab_title = MuxTab:panes()[1]:get_title()
-    tab_bar_width = tab_bar_width + strwidth(tab_title) + 4 ---other padding
-  end
-
-  local Config = MuxWindow:gui_window():effective_config() ---@class Config
-  local has_button = Config.show_new_tab_button_in_tab_bar
-  local new_tab_button = has_button and Config.tab_bar_style.new_tab or ""
-  tab_bar_width = tab_bar_width + mode_indicator_width + strwidth(new_tab_button)
-  wez.log_info(tab_bar_width, pane:get_dimensions().cols)
-  --~ }}}
-
   local status_bar_cells = {
     { cwd, fun.pathshortener(cwd, 4), fun.pathshortener(cwd, 1) },
     -- { session_name .. ":" .. workspace_name, workspace_name:sub(1, 1) },
@@ -76,7 +113,6 @@ wez.on("update-status", function(window, pane)
     { battery.full, battery.lvl .. "%", battery.ico },
   }
 
-  local usable_width = pane:get_dimensions().cols - tab_bar_width - 4 ---padding
   local fancy_bg = Config.window_frame.active_titlebar_bg
   local last_fg = Config.use_fancy_tab_bar and fancy_bg or theme.tab_bar.background
 
@@ -109,10 +145,11 @@ wez.on("update-status", function(window, pane)
     RightStatus:push(colors[i], theme.tab_bar.background, cell_to_use, { "Medium" })
 
     ---update the usuable_width
-    usable_width = usable_width - strwidth(cell_to_use) - strwidth(sep) - 2
+    usable_width = usable_width - strwidth(cell_to_use) - strwidth(sep) - 2 -- padding
   end
 
   window:set_right_status(wez.format(RightStatus))
+  --~ }}}
   -- }}}
 end)
 -- luacheck: pop

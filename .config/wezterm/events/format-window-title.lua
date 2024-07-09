@@ -1,4 +1,4 @@
-local wez = require "wezterm" ---@class WezTerm
+local wez = require "wezterm" ---@class Wezterm
 local fun = require "utils.functions" ---@class UtilityFunctions
 
 wez.on("format-window-title", function(tab, pane, tabs, _, _)
@@ -26,4 +26,3 @@ wez.on("format-window-title", function(tab, pane, tabs, _, _)
 
   return zoomed .. index .. title
 end)
-

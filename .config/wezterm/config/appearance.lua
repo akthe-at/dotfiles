@@ -92,9 +92,9 @@ Config.window_close_confirmation = "AlwaysPrompt"
 Config.tab_bar_style = {}
 for _, tab_button in ipairs { "new_tab", "new_tab_hover" } do
   Config.tab_bar_style[tab_button] = require("wezterm").format {
-    { Text = require("utils.icons").Separators.TabBar.right },
-    { Text = " + " },
     { Text = require("utils.icons").Separators.TabBar.left },
+    { Text = "█ " .. "+" .. " █" },
+    { Text = require("utils.icons").Separators.TabBar.right },
   }
 end
 

@@ -6,7 +6,7 @@ local M = {}
 --- Converts Windows backslash to forwardslash
 ---@param path string
 local function normalize_path(path)
-  return fun.is_windows() and path:gsub("\\", "/") or path
+  return fun.platform().is_win and path:gsub("\\", "/") or path
 end
 
 local home = normalize_path "C:/Users/ARK010/"

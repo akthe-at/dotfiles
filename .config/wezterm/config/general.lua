@@ -1,11 +1,13 @@
----@class WezTerm
+---@class Wezterm
 local wez = require "wezterm"
-
 local icons = require "utils.icons" ---@class Icons
 local fun = require "utils.fun" ---@class Fun
+
+local env = fun.load_env()
+
 ------@class Config
 local Config = {}
-if fun.is_windows() then
+if fun.platform().is_win then
   Config.default_prog = { "pwsh", "-NoLogo", "-ExecutionPolicy", "RemoteSigned" } --"-NoProfileLoadTime"
   -- Config.default_prog = { "bash", "-l" }
 else
@@ -26,7 +28,7 @@ Config.launch_menu = {
   },
   {
     label = icons.Git .. " Git bash",
-    args = { "C:/Users/ARK010/scoop/apps/git/current/bin/bash.exe", "-l" },
+    args = { "bash", "-l" },
     cwd = "~",
   },
   { label = "Command Prompt", args = { "cmd.exe" }, cwd = "~" },
@@ -38,11 +40,12 @@ Config.wsl_domains = {}
 Config.default_cwd = fun.home
 
 -- ref: https://wezfurlong.org/wezterm/config/lua/SshDomain.html
+-- TODO: replacing all my hard-coded paths with a local .env file that is read in would probably much better to make my config more interchangable between personal/work compueter
 Config.ssh_domains = {
   {
     name = "PyA",
-    remote_address = "ssh.pythonanywhere.com",
-    username = "uwwssi",
+    remote_address = env["remote_address"],
+    username = env["username"],
     ssh_option = {
       identityfile = "~/.ssh/id_rsa.pub",
     },

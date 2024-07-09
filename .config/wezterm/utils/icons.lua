@@ -2,7 +2,7 @@
 ---@class Icons
 local M = {}
 
----@class WezTerm
+---@class Wezterm
 local wez = require "wezterm"
 
 ---@class SeparatorsIcons: StatusBarIcons, TabBarIcons
@@ -13,6 +13,7 @@ M.Separators = {
   StatusBar = {
     left = wez.nerdfonts.pl_left_hard_divider,
     right = wez.nerdfonts.pl_right_hard_divider,
+    modal = wez.nerdfonts.ple_forwardslash_separator,
   },
 
   ---@class TabBarIcons: string, string, string
@@ -20,13 +21,36 @@ M.Separators = {
   ---@field left     string ``
   ---@field right    string ``
   TabBar = {
-    leftmost = "▐",
-    left = wez.nerdfonts.ple_upper_right_triangle,
-    right = wez.nerdfonts.ple_lower_left_triangle,
+    leftmost = " ",
+    left = " ", --wez.nerdfonts.ple_upper_right_triangle,
+    right = "", --wez.nerdfonts.ple_lower_left_triangle,
   },
-
   FullBlock = "█",
 }
+
+-- ---@class SeparatorsIcons: StatusBarIcons, TabBarIcons
+-- M.Separators = {
+--   ---@class StatusBarIcons: string, string
+--   ---@field left  string ``
+--   ---@field right string ``
+--   StatusBar = {
+--     left = wez.nerdfonts.pl_left_hard_divider,
+--     right = wez.nerdfonts.pl_right_hard_divider,
+--     modal = wez.nerdfonts.ple_forwardslash_separator,
+--   },
+--
+--   ---@class TabBarIcons: string, string, string
+--   ---@field leftmost string `▐`
+--   ---@field left     string ``
+--   ---@field right    string ``
+--   TabBar = {
+--     leftmost = "▐",
+--     left = wez.nerdfonts.ple_upper_right_triangle,
+--     right = wez.nerdfonts.ple_lower_left_triangle,
+--   },
+--
+--   FullBlock = "█",
+-- }
 
 M.Vim = ""
 

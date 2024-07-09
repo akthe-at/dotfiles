@@ -7,6 +7,7 @@ wezterm.on("gui-startup", function(cmd)
   local tab, pane, window = mux.spawn_window(cmd or {})
   -- window:gui_window():maximize() -- maximizes the window at startup but I don't currently use this.
   local gui = window:gui_window()
+
   local width = 0.95 * screen.width
   local height = 0.90 * screen.height
   gui:set_inner_size(width, height)

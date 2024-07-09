@@ -1,4 +1,4 @@
-local wez = require "wezterm" ---@class WezTerm
+local wez = require "wezterm" ---@class Wezterm
 local wcwidth, utf8 = require "utils.wcwidth", require "utf8"
 local insert = table.insert
 
@@ -6,36 +6,24 @@ local insert = table.insert
 ---@class Fun
 local M = {}
 
----Checks on which target triple wezterm was built on.
----@return boolean is_windows
-M.is_windows = function()
-  local target_triple = wez.target_triple
-  ---check for the most common windows target triple first
-  if target_triple == "x86_64-pc-windows-msvc" then
-    return true
-  end
-  local windows_triples = {
-    ["aarch64-pc-windows-gnullvm"] = {},
-    ["aarch64-pc-windows-msvc"] = {},
-    ["aarch64-uwp-windows-msvc"] = {},
-    ["arm64ec-pc-windows-msvc"] = {},
-    ["i586-pc-windows-msvc"] = {},
-    ["i686-pc-windows-gnu"] = {},
-    ["i686-pc-windows-gnullvm"] = {},
-    ["i686-pc-windows-msvc"] = {},
-    ["i686-uwp-windows-gnu"] = {},
-    ["i686-uwp-windows-msvc"] = {},
-    ["i686-win7-windows-msvc"] = {},
-    ["thumbv7a-pc-windows-msvc"] = {},
-    ["thumbv7a-uwp-windows-msvc"] = {},
-    ["x86_64-pc-windows-gnu"] = {},
-    ["x86_64-pc-windows-gnullvm"] = {},
-    ["x86_64-pc-windows-msvc"] = {},
-    ["x86_64-uwp-windows-gnu"] = {},
-    ["x86_64-uwp-windows-msvc"] = {},
-    ["x86_64-win7-windows-msvc"] = {},
-  }
-  return windows_triples[target_triple] and true or false
+---@class Platform
+---@field os string The operating system name ("windows", "linux", "mac", or "unknown").
+---@field is_win boolean Whether the platform is Windows.
+---@field is_linux boolean Whether the platform is Linux.
+---@field is_mac boolean Whether the platform is Mac.
+---
+---Determines the platform based on the target triple.
+---@return Platform platform
+M.platform = function()
+  local triple = wez.target_triple
+  local is_win = triple:find "windows" ~= nil
+  local is_linux = triple:find "linux" ~= nil
+  local is_mac = triple:find "apple" ~= nil
+  local os = is_win and "windows"
+    or is_linux and "linux"
+    or "is_mac" and "mac"
+    or "unknown"
+  return { os = os, is_win = is_win, is_linux = is_linux, is_mac = is_mac }
 end
 
 ---User home directory
@@ -149,7 +137,7 @@ M.get_cwd_hostname = function(pane, search_git_root_instead)
     hostname = hostname:gsub("^%l", string.upper)
   end
 
-  if M.is_windows() then
+  if M.platform().is_win then
     cwd = cwd:gsub("/" .. M.home .. "(.-)$", "~%1")
   else
     cwd = cwd:gsub(M.home .. "(.-)$", "~%1")
@@ -191,10 +179,10 @@ end
 ---Returns the colorscheme name absed on the system appearance
 ---@return '"kanagawa-lotus"'|'"kanagawa-wave"'|'"custom"'|'"rosepine"'|'"dracula"'|'"eldritch"'|'"kanagawa-dragon"' colorscheme name of the colorscheme
 M.get_scheme = function()
-  if (wez.gui and wez.gui.get_appearance() or "Dark"):find "Dark" then
+  if (wez.gui and wez.gui.get_appearance() or ""):find "Dark" then
     return "rosepine"
   end
-  return "eldritch"
+  return "rosepine"
 end
 
 M.gsplit = function(s, sep, opts)
@@ -276,7 +264,7 @@ end
 
 ---Map an action using (n)vim-like syntax
 ---@param lhs string keymap
----@param rhs function|string `wezterm.action.<action>`
+---@param rhs string|table `wezterm.action.<action>`
 ---@param tbl table table to insert keys to
 M.map = function(lhs, rhs, tbl)
   ---Inserts the keymap in the table
@@ -370,11 +358,11 @@ M.strwidth = function(str, num)
   return cells
 end
 
----comment
+---shorten the given path
 ---@param path string
 ---@param len any
 M.pathshortener = function(path, len)
-  local path_separator = M.is_windows() and "\\" or "/"
+  local path_separator = M.platform().is_win and "\\" or "/"
   local splitted_path = M.split(path, path_separator)
   local short_path = ""
   for _, dir in ipairs(splitted_path) do
@@ -386,7 +374,33 @@ M.pathshortener = function(path, len)
       .. (short_dir == "." and dir:sub(1, len + 1) or short_dir)
       .. path_separator
   end
-  wez.log_info(short_path)
+end
+
+---Returns a padded string and ensures that it's not shorter than 2 chars.
+---@param s string input string
+---@param padding? integer left/right padding. defaults to 1
+---@return string s the padded string
+M.pad = function(s, padding)
+  s = type(s) ~= "string" and tostring(s) or s
+  padding = padding or 1
+
+  local pad = (" "):rep(padding)
+  return ("%s%s%s"):format(pad, s, pad)
+end
+
+---Returns environment variables in a key/value fashion
+M.load_env = function()
+  local file = "C:/Users/ARK010/.config/wezterm/config/.env"
+  local env = {}
+  for line in io.lines(file) do
+    if line:sub(1, 1) ~= "#" then
+      local key, value = line:match "([^=]+)=(.*)"
+      if key and value then
+        env[key] = value
+      end
+    end
+  end
+  return env
 end
 
 return M

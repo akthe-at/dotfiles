@@ -1,6 +1,8 @@
 ---@class Layout
 local Layout = {}
 
+local insert = table.insert
+
 ---Creates a new instance of the Layout class.
 ---@return Layout instance newly created class instance.
 function Layout:new()
@@ -33,7 +35,6 @@ end
 ---@return Layout self The updated layout instance.
 function Layout:push(background, foreground, text, attributes)
   self = self or {}
-  local insert = table.insert
   insert(self, { Background = { Color = background } })
   insert(self, { Foreground = { Color = foreground } })
 
@@ -59,10 +60,17 @@ function Layout:push(background, foreground, text, attributes)
     end
   end
 
-  table.insert(self, { Text = text })
+  insert(self, { Text = text })
 
   return self
 end
 
-return Layout
+---Clears all elements from the layout
+---
+--- Layout self The cleared layout instance.
+function Layout:clear()
+  self.layout = {}
+  return self
+end
 
+return Layout

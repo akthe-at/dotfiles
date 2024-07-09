@@ -1,4 +1,4 @@
----@class WezTerm
+---@class Wezterm
 local wezterm = require "wezterm"
 local session_manager = require "wezterm-session-manager/session-manager"
 
@@ -11,4 +11,3 @@ end)
 wezterm.on("restore_session", function(window)
   session_manager.restore_state(window)
 end)
-
