@@ -3,49 +3,64 @@
   "app_specific_configuration_path": "$HOME/.config/komorebi/applications.yaml",
   "window_hiding_behaviour": "Cloak",
   "cross_monitor_move_behaviour": "Insert",
-  "default_workspace_padding": 10,
-  "default_container_padding": 10,
+  "default_workspace_padding": 0,
+  "global_work_area_offset": { "bottom": 2, "left": 1, "right": 1, "top": 2 },
+  "default_container_padding": 2,
   "border": true,
-  "border_width": 5,
+  "border_width": 3,
   "border_offset": 0,
   "border_colours": {
       "single": "#ea9a97",
-      "stack": "#31748f",
+      "stack": "#3e8fb0",
       "monocle": "#eb6f92",
       "unfocused": "#6e6a86"
     },
+  "float_rules": [
+    {
+      "kind": "Exe",
+      "id": "Zebar.exe",
+      "matching_strategy": "Equals"
+    },
+    {
+      "kind": "Exe",
+      "id": "python.exe",
+      "matching_strategy": "Equals"
+    },
+        {
+      "kind": "Title",
+      "id": "komorebi-gui",
+      "matching_strategy": "Equals"
+    },
+          ],
 "stackbar": {
     "height": 30,
     "mode": "OnStack",
+    "label": "Title",
     "tabs": {
       "width": 300,
       "focused_text": "#c4a7e7",
       "unfocused_text": "#908caa",
-      "background": "#232136"
+      "background": "#232136dd"
     },
   },
   "monitors": [
     {
       "workspaces": [
         {
-          "name": "I",
-          "layout": "UltrawideVerticalStack"
+          "name": "1",
+          "layout": "Grid"
         },
         {
-          "name": "II",
+          "name": "2",
           "layout": "VerticalStack"
         },
         {
-          "name": "III",
+          "name": "3",
           "layout": "HorizontalStack"
         },
         {
-          "name": "IV",
+          "name": "4",
           "layout": "BSP"
-        },
-        {
-          "name": "VII",
-          "layout": "RightMainVerticalStack"
         }
       ]
     }
