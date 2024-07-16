@@ -1,6 +1,8 @@
 return {
   {
     "pwntester/octo.nvim",
+    cmd = "Octo",
+    event = { { event = "BufReadCmd", pattern = "octo://*" } },
     opts = {
       enable_builtin = true,
       default_to_projects_v2 = true,
@@ -35,7 +37,6 @@ return {
   },
   {
     "NeogitOrg/neogit",
-    enabled = true,
     lazy = true,
     branch = "master",
     cmd = "Neogit",
@@ -49,29 +50,5 @@ return {
       commit_editor = { kind = "split" },
       integrations = { diffview = true, telescope = nil, fzf_lua = true },
     },
-    config = true,
   },
-  -- {
-  --   "tpope/vim-fugitive", -- Git commands in nvim
-  --   dependencies = { "tpope/vim-rhubarb" },
-  --   cmd = {
-  --     "Gvdiffsplit",
-  --     "Gdiffsplit",
-  --     "Gedit",
-  --     "Gsplit",
-  --     "Gread",
-  --     "Gwrite",
-  --     "Ggrep",
-  --     "GMove",
-  --     "GRename",
-  --     "GDelete",
-  --     "GRemove",
-  --     "GBrowse",
-  --     "Git",
-  --     "Gstatus",
-  --   },
-  --   init = function()
-  --     vim.g.fugitive_no_maps = 1
-  --   end,
-  -- },
 }

@@ -25,7 +25,6 @@ if vim.fn.has("nvim-0.10.0") == 0 then
 end
 -- highlight code cells similar to
 -- 'lukas-reineke/headlines.nvim'
--- (disabled in lua/plugins/ui.lua)
 local buf = api.nvim_get_current_buf()
 
 local parsername = "markdown"

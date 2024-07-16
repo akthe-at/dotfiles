@@ -1,7 +1,19 @@
 return {
   {
+    "meanderingprogrammer/markdown.nvim",
+    enabled = true,
+    ft = { "markdown", "quarto" },
+    cmd = "RenderMarkdownToggle",
+    name = "render-markdown", -- Only needed if you have another plugin named markdown.nvim
+    dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.icons" },
+    config = function()
+      require("render-markdown").setup({ exclude = { buftypes = { "rmd", "qmd", "quarto" } } })
+    end,
+  },
+  {
     "lukas-reineke/headlines.nvim",
-    ft = { "markdown", "rmd" },
+    enabled = true,
+    ft = { "qmd", "rmd" },
     dependencies = "nvim-treesitter/nvim-treesitter",
     config = function()
       local custom = {
@@ -65,6 +77,8 @@ return {
     cmd = {
       "ObsidianOpen",
       "ObsidianQuickSwitch",
+      "ObsidianNewFromTemplate",
+      "ObsidianTOC",
       "ObsidianNew",
       "ObsidianFollowLink",
       "ObsidianWorkspace",

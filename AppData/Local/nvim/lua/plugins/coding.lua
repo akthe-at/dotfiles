@@ -172,22 +172,22 @@ return {
       "onsails/lspkind-nvim",
       "L3MON4D3/LuaSnip",
       "saadparwaiz1/cmp_luasnip",
-      {
-        "zbirenbaum/copilot-cmp",
-        dependencies = "copilot.lua",
-        opts = {},
-        config = function(_, opts)
-          local copilot_cmp = require("copilot_cmp")
-          copilot_cmp.setup(opts)
-          -- attach cmp source whenever copilot attaches
-          -- fixes lazy-loading issues with the copilot cmp source
-          LazyVim.lsp.on_attach(function(client)
-            if client.name == "copilot" then
-              copilot_cmp._on_insert_enter({})
-            end
-          end)
-        end,
-      },
+      -- {
+      --   "zbirenbaum/copilot-cmp",
+      --   dependencies = "copilot.lua",
+      --   opts = {},
+      --   config = function(_, opts)
+      --     local copilot_cmp = require("copilot_cmp")
+      --     copilot_cmp.setup(opts)
+      --     -- attach cmp source whenever copilot attaches
+      --     -- fixes lazy-loading issues with the copilot cmp source
+      --     LazyVim.lsp.on_attach(function(client)
+      --       if client.name == "copilot" then
+      --         copilot_cmp._on_insert_enter({})
+      --       end
+      --     end)
+      --   end,
+      -- },
     },
     opts = function(_, opts)
       local cmp = require("cmp")
@@ -214,7 +214,7 @@ return {
           ["<C-Space>"] = cmp.mapping.complete(),
         }),
         sources = cmp.config.sources({
-          { name = "copilot" },
+          -- { name = "copilot" },
           { name = "nvim_lsp" },
           { name = "cmp_r" },
           { name = "tailwindcss" },
@@ -252,12 +252,12 @@ return {
             hl_group = "CmpGhostText",
           },
         },
-      },
-        table.insert(opts.sources, 1, {
-          name = "copilot",
-          group_index = 1,
-          priority = 100,
-        })
+      }
+      -- table.insert(opts.sources, 1, { -- lets turn off copilot cmp for a bit
+      --   name = "copilot",
+      --   group_index = 1,
+      --   priority = 100,
+      -- })
     end,
     main = "lazyvim.util.cmp",
     ---@param opts cmp.ConfigSchema | {auto_brackets?: string[]}
@@ -301,6 +301,7 @@ return {
           { "saadparwaiz1/cmp_luasnip" },
           {
             "L3MON4D3/LuaSnip",
+            lazy = true,
             dependencies = {
               "rafamadriz/friendly-snippets",
               "saadparwaiz1/cmp_luasnip",

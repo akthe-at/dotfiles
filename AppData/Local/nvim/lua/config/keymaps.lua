@@ -180,23 +180,23 @@ end
 --show up in the popup as well
 
 -- normal mode
-wk.register({
-  ["<c-LeftMouse>"] = { "<cmd>lua vim.lsp.buf.definition()<CR>", "go to definition" },
-  ["<localleader>ir"] = { insert_r_chunk, "r code chunk" },
-  ["<localleader>ip"] = { insert_py_chunk, "python code chunk" },
-  ["zl"] = { ":FzfLua spell_suggest<cr>", "[l]ist spelling suggestions" },
-}, { mode = "n", silent = true })
+wk.add({
+  { "<c-LeftMouse>", "<cmd>lua vim.lsp.buf.definition()<CR>", desc = "go to definition", mode = "n", silent = true },
+  { "<localleader>ir", insert_r_chunk, desc = "r code chunk", mode = "n", silent = true },
+  { "<localleader>ip", insert_py_chunk, desc = "python code chunk", mode = "n", silent = true },
+  { "zl", ":FzfLua spell_suggest<cr>", desc = "[l]ist spelling suggestions", mode = "n", silent = true },
+})
 
 -- visual mode
-wk.register({
-  ["<localleader><cr>"] = { send_region, "run code region" },
-}, { mode = "v" })
+wk.add({
+  { "<localleader><cr>", send_region, desc = "run code region", mode = "v" },
+})
 
 -- insert mode
-wk.register({
-  ["<m-->"] = { " <- ", "assign" },
-  ["<m-m>"] = { " |>", "pipe" },
-}, { mode = "i" })
+wk.add({
+  { "<m-->", " <- ", desc = "assign", mode = "i" },
+  { "<m-m>", " |>", desc = "pipe", mode = "i" },
+})
 
 local function new_terminal(lang)
   vim.cmd("vsplit term://" .. lang)
@@ -219,9 +219,9 @@ local function new_terminal_shell()
 end
 
 -- normal mode with <leader>
-wk.register({
-  ["<cr>"] = { send_cell, "run code cell" },
-}, { mode = "n", prefix = "<leader>" })
+wk.add({
+  { "<cr>", send_cell, desc = "run code cell", prefix = "<leader>", mode = "n" },
+})
 
 -- normal mode with <localleader>
 wk.register({

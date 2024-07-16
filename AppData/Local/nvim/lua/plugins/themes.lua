@@ -1,17 +1,17 @@
 return {
   { "xiyaowong/transparent.nvim", cmd = { "TransparentToggle", "TransparentEnable", "TransparentDisable" } },
-  {
-    "oxfist/night-owl.nvim",
-    priority = 1000,
-    opts = {},
-    config = function()
-      require("night-owl").setup()
-      vim.cmd.colorscheme("night-owl")
-      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = "rounded",
-      })
-    end,
-  },
+  -- {
+  --   "oxfist/night-owl.nvim",
+  --   priority = 1000,
+  --   opts = {},
+  --   config = function()
+  --     require("night-owl").setup()
+  --     vim.cmd.colorscheme("night-owl")
+  --     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+  --       border = "rounded",
+  --     })
+  --   end,
+  -- },
   {
     "luckasRanarison/tailwind-tools.nvim",
     ft = { "html", "htmldjango" },
@@ -20,36 +20,36 @@ return {
       require("tailwind-tools").setup({ opts })
     end,
   },
-  {
-    "scottmckendry/cyberdream.nvim",
-    enabled = true,
-    priority = 1000,
-    opts = {},
-    config = function()
-      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = "rounded",
-      })
-    end,
-  },
-  {
-    "eldritch-theme/eldritch.nvim",
-    enabled = true,
-    priority = 1000,
-    opts = {
-      dim_inactive = true,
-      hide_inactive_statusline = true,
-      lualine_bold = true,
-    },
-    config = function()
-      require("eldritch").setup({
-        dim_inactive = true,
-        transparent = false,
-        hide_inactive_statusline = true,
-        lualine_bold = true,
-      })
-      vim.o.termguicolors = true
-    end,
-  },
+  -- {
+  --   "scottmckendry/cyberdream.nvim",
+  --   enabled = true,
+  --   priority = 1000,
+  --   opts = {},
+  --   config = function()
+  --     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+  --       border = "rounded",
+  --     })
+  --   end,
+  -- },
+  -- {
+  --   "eldritch-theme/eldritch.nvim",
+  --   enabled = true,
+  --   priority = 1000,
+  --   opts = {
+  --     dim_inactive = true,
+  --     hide_inactive_statusline = true,
+  --     lualine_bold = true,
+  --   },
+  --   config = function()
+  --     require("eldritch").setup({
+  --       dim_inactive = true,
+  --       transparent = false,
+  --       hide_inactive_statusline = true,
+  --       lualine_bold = true,
+  --     })
+  --     vim.o.termguicolors = true
+  --   end,
+  -- },
   -- {
   --   "mofiqul/dracula.nvim",
   --   enabled = true,
@@ -95,25 +95,24 @@ return {
       })
     end,
   },
-  {
-    "rebelot/kanagawa.nvim",
-    enabled = true,
-    priority = 1000,
-    opts = {
-      colors = {
-        theme = {
-          all = {
-            ui = {
-              bg_gutter = "none",
-            },
-          },
-        },
-      },
-      -- transparent = false,
-      theme = "wave",
-    },
-  },
-  -- Using lazy.nvim
+  -- {
+  --   "rebelot/kanagawa.nvim",
+  --   enabled = true,
+  --   priority = 1000,
+  --   opts = {
+  --     colors = {
+  --       theme = {
+  --         all = {
+  --           ui = {
+  --             bg_gutter = "none",
+  --           },
+  --         },
+  --       },
+  --     },
+  --     -- transparent = false,
+  --     theme = "wave",
+  --   },
+  -- },
   {
     "ribru17/bamboo.nvim",
     lazy = true,
@@ -122,7 +121,7 @@ return {
       require("bamboo").setup({
         -- optional configuration here
         style = "multiplex",
-        lualine = { transparent = true },
+        lualine = { transparent = false },
       })
       require("bamboo").load()
     end,
@@ -157,12 +156,12 @@ return {
       })
     end,
   },
-  {
-    "craftzdog/solarized-osaka.nvim",
-    enabled = true,
-    priority = 1000,
-    opts = {},
-  },
+  -- {
+  --   "craftzdog/solarized-osaka.nvim",
+  --   enabled = true,
+  --   priority = 1000,
+  --   opts = {},
+  -- },
   {
     "ellisonleao/gruvbox.nvim",
     priority = 1000,
@@ -193,7 +192,7 @@ return {
       contrast = "soft", -- can be "hard", "soft" or empty string
       palette_overrides = {},
       overrides = {},
-      dim_inactive = false,
+      dim_inactive = true,
       transparent_mode = false,
     },
   },
@@ -253,7 +252,7 @@ return {
         extend_background_behind_borders = false,
         styles = { bold = true, italic = true, transparency = false },
         groups = {
-          border = "pine", --"pine",
+          border = "pine",
         },
         highlight_groups = {
           TelescopeResultsTitle = { fg = "rose", bg = "surface" },
