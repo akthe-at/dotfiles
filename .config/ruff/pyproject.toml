@@ -12,8 +12,6 @@ select = [
   "E",
   # Pyflakes
   "F",
-  # pyupgrade
-  #    "UP",
   # flake8-bugbear
   "B",
   # flake8-simplify
@@ -30,4 +28,33 @@ select = [
   "DJ",
   # Ruff specific
   "RUF",
+  #mccabe
+  "C90",
+  # pyupgrade
+  "UP",
+  #flake8-annotations
+  "ANN",
+  # flake8-bandit
+  "S",
+  # flake8-boolean-trap
+  "FBT",
+  # flake8-builtins
+  "A",
+  # flake8-commas
+  "COM",
+  # flake8-comprehensions
+  "C4",
+  # flake8-datetimez
+  "DTZ",
+  # flake8-errormsg
+  "EM",
+  # pandas-vet
+  "PD",
+  "R",
+  "C",
+  "TRY",
+  "FLY",
+  "NPY",
+  "PERF",
+  "FURB",
 ]
