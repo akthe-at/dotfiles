@@ -3,9 +3,15 @@
   "app_specific_configuration_path": "$HOME/.config/komorebi/applications.yaml",
   "window_hiding_behaviour": "Cloak",
   "cross_monitor_move_behaviour": "Insert",
-  "default_workspace_padding": 0,
-  "global_work_area_offset": { "bottom": 2, "left": 1, "right": 1, "top": 2 },
+  "default_workspace_padding": 2,
   "default_container_padding": 2,
+  "global_work_area_offset": { "bottom": 55, "left": 1, "right": 1, "top": 55 },
+  "animation": {
+  "enabled": true,
+  "duration": 250,
+  "style": "EaseOutExpo",
+  "fps": 60
+  },
   "border": true,
   "border_width": 3,
   "border_offset": 0,
@@ -23,6 +29,11 @@
     },
     {
       "kind": "Exe",
+      "id": "zebar.exe",
+      "matching_strategy": "Equals"
+    },
+    {
+      "kind": "Exe",
       "id": "python.exe",
       "matching_strategy": "Equals"
     },
@@ -33,17 +44,59 @@
     },
           ],
 "stackbar": {
-    "height": 30,
+    "height": 24,
     "mode": "OnStack",
     "label": "Title",
     "tabs": {
-      "width": 300,
-      "focused_text": "#c4a7e7",
-      "unfocused_text": "#908caa",
-      "background": "#232136dd"
+      "width": 200,
+      "focused_text": "#ea9a97",
+      "unfocused_text": "#6e6a86",
+      "background": "#232136",
+      "font_family": "JetBrainsMono Nerd Font",
+      "font_size": 14
     },
   },
   "monitors": [
+    {
+      "workspaces": [
+        {
+          "name": "1",
+          "layout": "Grid"
+        },
+        {
+          "name": "2",
+          "layout": "VerticalStack"
+        },
+        {
+          "name": "3",
+          "layout": "HorizontalStack"
+        },
+        {
+          "name": "4",
+          "layout": "BSP"
+        }
+      ]
+    },
+    {
+      "workspaces": [
+        {
+          "name": "1",
+          "layout": "Grid"
+        },
+        {
+          "name": "2",
+          "layout": "VerticalStack"
+        },
+        {
+          "name": "3",
+          "layout": "HorizontalStack"
+        },
+        {
+          "name": "4",
+          "layout": "BSP"
+        }
+      ]
+    },
     {
       "workspaces": [
         {
