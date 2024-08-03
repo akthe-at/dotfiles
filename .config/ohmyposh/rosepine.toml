@@ -1,0 +1,145 @@
+#:schema https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
+
+version = 2
+console_title_template = '{{ .Shell }} in {{ .Folder }}'
+auto_upgrade = true
+
+[[blocks]]
+type = 'prompt'
+alignment = 'left'
+newline = true
+
+[[blocks.segments]]
+type = 'path'
+style = 'plain'
+foreground = 'p:path'
+template = ' {{ .Path }} '
+
+[blocks.segments.properties]
+folder_icon = '..'
+home_icon = '~'
+style = 'agnoster_short'
+
+[[blocks.segments]]
+type = 'git'
+style = 'plain'
+foreground = 'p:git'
+template = '{{ .UpstreamIcon }} {{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} {{ .Working.String }}{{ end }}{{ if and (.Staging.Changed) (.Working.Changed) }} |{{ end }}{{ if .Staging.Changed }} {{ .Staging.String }}{{ end }} '
+
+[blocks.segments.properties]
+branch_icon = ' '
+cherry_pick_icon = ' '
+commit_icon = ' '
+fetch_bare_info = true
+fetch_stash_count = false
+fetch_status = true
+fetch_upstream_icon = true
+merge_icon = ' '
+no_commits_icon = ' '
+rebase_icon = ' '
+revert_icon = ' '
+tag_icon = ' '
+
+[[blocks.segments]]
+type = 'go'
+style = 'plain'
+foreground = 'p:go'
+template = ' {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} '
+
+[[blocks.segments]]
+type = 'haskell'
+style = 'plain'
+foreground = 'p:haskell'
+template = ' {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} '
+
+[[blocks.segments]]
+type = 'julia'
+style = 'plain'
+foreground = 'p:julia'
+template = ' {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} '
+
+[[blocks.segments]]
+type = 'lua'
+style = 'plain'
+foreground = 'p:lua'
+template = ' {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} '
+
+[[blocks.segments]]
+type = 'python'
+style = 'plain'
+foreground = 'p:python'
+template = ' {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} {{ if .Venv }}{{ .Venv }}{{end}} '
+
+[blocks.segments.properties]
+display_default = true
+display_mode = 'context'
+folder_name_fallback = false
+
+[[blocks.segments]]
+type = 'rust'
+style = 'plain'
+foreground = 'p:rust'
+template = ' {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} '
+
+[[blocks.segments]]
+type = 'executiontime'
+style = 'plain'
+foreground = 'p:true'
+foreground_templates = ['{{ if .Code }}p:false{{ end }}']
+template = '󰔟 {{ .FormattedMs }} '
+
+[blocks.segments.properties]
+style = 'austin'
+threshold = 500.0
+
+[[blocks]]
+type = 'prompt'
+alignment = 'left'
+newline = true
+
+[[blocks.segments]]
+type = 'status'
+style = 'plain'
+foreground = 'p:true'
+foreground_templates = ['{{ if gt .Code 0 }}p:false{{ end }}']
+template = '   '
+
+[blocks.segments.properties]
+always_enabled = true
+
+[transient_prompt]
+foreground = 'p:time'
+template = '{{ now | date "3:04:05 PM" }} {{ if gt .Code 0 }}<p:false>❯</>{{ else }}<p:true>❯</>{{ end }} '
+
+[palette]
+base = '#191724'
+docker = 'p:foam'
+false = 'p:love'
+foam = '#9ccfd8'
+git = 'p:iris'
+go = 'p:rose'
+gold = '#f6c177'
+haskell = 'p:rose'
+highlight-high = '#524f67'
+highlight-low = '#21202e'
+highlight-med = '#403d52'
+iris = '#c4a7e7'
+julia = 'p:rose'
+love = '#eb6f92'
+lua = 'p:rose'
+muted = '#6e6a86'
+os-bg = 'p:base'
+os-fg = 'p:subtle'
+overlay = '#26233a'
+path = 'p:gold'
+pine = '#31748f'
+python = 'p:rose'
+root-bg = 'p:gold'
+root-fg = 'p:base'
+rose = '#ebbcba'
+rust = 'p:rose'
+subtle = '#908caa'
+surface = '#1f1d2e'
+text = '#e0def4'
+time = 'p:muted'
+true = 'p:pine'
