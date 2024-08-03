@@ -3,10 +3,9 @@ return {
     "michaelrommel/nvim-silicon",
     cmd = "Silicon",
     config = function()
-      require("silicon").setup({
-        -- Configuration here, or leave empty to use defaults
+      require("nvim-silicon").setup({
         font = "JetBrainsMono Nerd Font=34;Noto Color Emoji=34",
-        theme = "Monokai Extended",
+        theme = "Dracula",
         to_clipboard = true,
         output = function()
           return "~/.code-shots/" .. os.date("!%Y-%m-%dT%H-%M-%S") .. "_code.png"

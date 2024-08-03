@@ -263,69 +263,13 @@ return {
   },
   {
     "quarto-dev/quarto-nvim",
-    ft = { "quarto", "markdown" },
+    ft = { "quarto", "markdown"},
     dependencies = {
       {
         "jmbuhr/otter.nvim",
-        ft = { "quarto", "markdown" },
-        opts = {
-          handle_leading_whitespace = true,
-          lsp = {
-            hover = {},
-          },
         },
       },
-      "hrsh7th/nvim-cmp",
-      "neovim/nvim-lspconfig",
-      "nvim-treesitter/nvim-treesitter",
     },
-    config = function()
-      local quarto = require("quarto")
-      quarto.setup({
-        debug = false,
-        closePreviewOnExit = true,
-        lspFeatures = {
-          languages = { "lua", "r", "python", "sql", "bash", "julia", "html", "javacsripts" },
-          chunks = "all",
-          diagnostics = {
-            enabled = true,
-            triggers = { "BufWritePost" },
-          },
-          completion = {
-            enabled = true,
-          },
-        },
-        keymap = {
-          hover = "K",
-          definition = "gd",
-          type_definition = "gD",
-          rename = "<leader>rn",
-          references = "gr",
-          format = "<leader>gf",
-        },
-        codeRunner = {
-          enabled = true,
-          ft_runners = { python = "molten" },
-          default_method = "slime",
-          never_run = { "yaml" },
-        },
-      })
-
-      vim.keymap.set("n", "<localleader>qp", quarto.quartoPreview, {
-        desc = "Preview the Quarto document",
-        silent = true,
-        noremap = true,
-      })
-      -- to create a cell in insert mode, I have the ` snippet
-      vim.keymap.set("n", "<localleader>cc", "i`<c-j>", { desc = "Create a new code cell", silent = true })
-      vim.keymap.set(
-        "n",
-        "<localleader>cs",
-        "i```\r\r```{}<left>",
-        { desc = "Split code cell", silent = true, noremap = true }
-      )
-    end,
-  },
   {
     "R-nvim/R.nvim",
     lazy = false,
@@ -354,21 +298,21 @@ return {
           -- Increase the width of which-key to handle the longer r-nvim descriptions
           local wk = require("which-key")
           -- Workaround from https://github.com/folke/which-key.nvim/issues/514#issuecomment-1987286901
-          wk.register({
-            ["<localleader>"] = {
-              a = { name = "+(a)ll", ["🚫"] = "which_key_ignore" },
-              b = { name = "+(b)etween marks", ["🚫"] = "which_key_ignore" },
-              c = { name = "+(c)hunks", ["🚫"] = "which_key_ignore" },
-              f = { name = "+(f)unctions", ["🚫"] = "which_key_ignore" },
-              g = { name = "+(g)oto", ["🚫"] = "which_key_ignore" },
-              k = { name = "+(k)nit", ["🚫"] = "which_key_ignore" },
-              p = { name = "+(p)aragraph", ["🚫"] = "which_key_ignore" },
-              q = { name = "+(q)uarto", ["🚫"] = "which_key_ignore" },
-              r = { name = "+(r) general", ["🚫"] = "which_key_ignore" },
-              s = { name = "+(s)plit or (s)end", ["🚫"] = "which_key_ignore" },
-              t = { name = "+(t)erminal", ["🚫"] = "which_key_ignore" },
-              v = { name = "+(v)iew", ["🚫"] = "which_key_ignore" },
-            },
+          wk.add({
+            buffer = true,
+            { "<localleader>a", group = "all" },
+            { "<localleader>b", group = "between marks" },
+            { "<localleader>c", group = "chunks" },
+            { "<localleader>f", group = "functions" },
+            { "<localleader>g", group = "goto" },
+            { "<localleader>i", group = "install" },
+            { "<localleader>k", group = "knit" },
+            { "<localleader>p", group = "paragraph" },
+            { "<localleader>q", group = "quarto" },
+            { "<localleader>r", group = "r general" },
+            { "<localleader>s", group = "split or send" },
+            { "<localleader>t", group = "terminal" },
+            { "<localleader>v", group = "view" },
           })
         end,
       },

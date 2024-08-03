@@ -17,13 +17,13 @@ return {
       { "<leader>gor", "<cmd>Octo repo list<CR>", desc = "List Repos (Octo)" },
       { "<leader>goS", "<cmd>Octo search<CR>", desc = "Search (Octo)" },
 
-      { "<leader>a", "", desc = "+assignee (Otco)", ft = "octo" },
-      { "<leader>c", "", desc = "+comment/code (Otco)", ft = "octo" },
-      { "<leader>l", "", desc = "+label (Otco)", ft = "octo" },
-      { "<leader>i", "", desc = "+issue (Otco)", ft = "octo" },
-      { "<leader>r", "", desc = "+react (Otco)", ft = "octo" },
-      { "<leader>p", "", desc = "+pr (Otco)", ft = "octo" },
-      { "<leader>v", "", desc = "+review (Otco)", ft = "octo" },
+      { "<leader>a", "", desc = "+assignee (Octo)", ft = "octo" },
+      { "<leader>c", "", desc = "+comment/code (Octo)", ft = "octo" },
+      { "<leader>l", "", desc = "+label (Octo)", ft = "octo" },
+      { "<leader>i", "", desc = "+issue (Octo)", ft = "octo" },
+      { "<leader>r", "", desc = "+react (Octo)", ft = "octo" },
+      { "<leader>p", "", desc = "+pr (Octo)", ft = "octo" },
+      { "<leader>v", "", desc = "+review (Octo)", ft = "octo" },
       { "@", "@<C-x><C-o>", mode = "i", ft = "octo", silent = true },
       { "#", "#<C-x><C-o>", mode = "i", ft = "octo", silent = true },
       ---- Disable Lazy's version below ----
@@ -46,7 +46,7 @@ return {
       "ibhagwan/fzf-lua", -- optional
     },
     opts = {
-      kind = "split",
+      kind = "tab",
       commit_editor = { kind = "split" },
       integrations = { diffview = true, telescope = nil, fzf_lua = true },
     },

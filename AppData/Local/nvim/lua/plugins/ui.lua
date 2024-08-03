@@ -113,7 +113,7 @@ return {
       local lualine_require = require("lualine_require")
       lualine_require.require = require
 
-      local icons = require("lazyvim.config").icons
+      local icons = LazyVim.config.icons
 
       vim.o.laststatus = vim.g.lualine_laststatus
 
@@ -122,7 +122,7 @@ return {
         options = {
           theme = "auto",
           globalstatus = vim.o.laststatus == 3,
-          disabled_filetypes = { statusline = { "alpha", "dashboard", "starter" } },
+          disabled_filetypes = { statusline = { "alpha", "dashboard", "ministarter" } },
         },
         sections = {
           lualine_a = {
@@ -207,20 +207,21 @@ return {
       }
 
       -- do not add trouble symbols if aerial is enabled
-      if vim.g.trouble_lualine then
+      if vim.g.trouble_lualine and LazyVim.has("trouble.nvim") then
         local trouble = require("trouble")
-        local symbols = trouble.statusline
-          and trouble.statusline({
-            mode = "symbols",
-            groups = {},
-            title = false,
-            filter = { range = true },
-            format = "{kind_icon}{symbol.name:Normal}",
-            hl_group = "lualine_c_normal",
-          })
+        local symbols = trouble.statusline({
+          mode = "symbols",
+          groups = {},
+          title = false,
+          filter = { range = true },
+          format = "{kind_icon}{symbol.name:Normal}",
+          hl_group = "lualine_c_normal",
+        })
         table.insert(opts.sections.lualine_c, {
           symbols and symbols.get,
-          cond = symbols and symbols.has,
+          cond = function()
+            return vim.b.trouble_lualine ~= false and symbols.has()
+          end,
         })
       end
 

@@ -2,7 +2,8 @@ return {
   {
     "letieu/wezterm-move.nvim",
     lazy = true,
-    keys = { -- Lazy loading, don't need call setup() function
+    -- Lazy loading, don't need call setup() function
+    keys = {
       {
         "<C-h>",
         function()
@@ -33,20 +34,6 @@ return {
     "willothy/wezterm.nvim",
     config = true,
     cmd = "WeztermSpawn",
-  },
-  {
-    "echasnovski/mini.files",
-    priority = 999,
-    opts = {
-      windows = {
-        preview = true,
-        width_focus = 30,
-        width_preview = 30,
-      },
-      options = {
-        use_as_default_explorer = true,
-      },
-    },
   },
   {
     "stevearc/oil.nvim",

@@ -31,7 +31,7 @@ return {
     dependencies = { "mason.nvim" },
     cmd = "ConformInfo",
     opts = {
-      format = {
+      default_format_opts = {
         timeout_ms = 3000,
         async = false, -- not recommended to change
         quiet = false, -- not recommended to change
@@ -319,6 +319,10 @@ return {
             override_builtin = true,
           })
 
+          require("luasnip.loaders.from_vscode").lazy_load({ paths = { vim.fn.stdpath("config") .. "/snips" } })
+          -- link quarto and rmarkdown to markdown snippets
+          ls.filetype_extend("quarto", { "markdown" })
+          ls.filetype_extend("rmarkdown", { "markdown" })
           for _, ft_path in ipairs(vim.api.nvim_get_runtime_file("lua/custom/snippets/*.lua", true)) do
             loadfile(ft_path)()
           end
@@ -384,7 +388,6 @@ return {
     event = "LazyFile",
     config = function()
       -- Save undo history
-      --Undo tree
       vim.g.undotree_DiffCommand = "FC"
       vim.keymap.set("n", "<leader>uu", vim.cmd.UndotreeToggle)
     end,

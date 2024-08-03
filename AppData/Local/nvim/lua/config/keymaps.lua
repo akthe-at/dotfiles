@@ -182,8 +182,6 @@ end
 -- normal mode
 wk.add({
   { "<c-LeftMouse>", "<cmd>lua vim.lsp.buf.definition()<CR>", desc = "go to definition", mode = "n", silent = true },
-  { "<localleader>ir", insert_r_chunk, desc = "r code chunk", mode = "n", silent = true },
-  { "<localleader>ip", insert_py_chunk, desc = "python code chunk", mode = "n", silent = true },
   { "zl", ":FzfLua spell_suggest<cr>", desc = "[l]ist spelling suggestions", mode = "n", silent = true },
 })
 
@@ -219,53 +217,47 @@ local function new_terminal_shell()
 end
 
 -- normal mode with <leader>
-wk.add({
-  { "<cr>", send_cell, desc = "run code cell", prefix = "<leader>", mode = "n" },
-})
+-- wk.add({
+--   { "<cr>", send_cell, desc = "run code cell", prefix = "<leader>", mode = "n" },
+-- })
 
--- normal mode with <localleader>
-wk.register({
-  c = {
-    name = "[c]ode / [c]ell / [c]hunk",
-    n = { new_terminal_shell, "[n]ew terminal with shell" },
-    R = {
-      function()
-        vim.b["quarto_is_r_mode"] = true
-        new_terminal_r()
-      end,
-      "new [R] terminal",
-    },
-    P = { new_terminal_python, "new [p]ython terminal" },
-    I = { new_terminal_ipython, "new [i]python terminal" },
-  },
-  q = {
-    name = "[q]uarto",
-    a = { ":QuartoActivate<cr>", "[a]ctivate" },
-    q = { ":lua require'quarto'.quartoClosePreview()<cr>", "[q]uiet preview" },
-    h = { ":QuartoHelp ", "[h]elp" },
-    r = {
-      name = "[r]un",
-      r = { ":QuartoSendAbove<cr>", "to cu[r]sor" },
-      a = { ":QuartoSendAll<cr>", "run [a]ll" },
-      b = { ":QuartoSendBelow<cr>", "run [b]elow" },
-    },
-  },
-  o = {
-    name = "[otter]&[r] R specific tools",
-    a = { require("otter").activate, "otter [a]ctivate" },
-    d = { require("otter").deactivate, "otter [d]eactivate" },
-    c = { "O# %%<cr>", "magic [c]omment code chunk # %%" },
-    r = { insert_r_chunk, "[r] code chunk" },
-    p = { insert_py_chunk, "[p]ython code chunk" },
-    b = { insert_bash_chunk, "[b]ash code chunk" },
-    l = { insert_lua_chunk, "[l]lua code chunk" },
-    t = { show_r_table, "show [t]able" },
-  },
-  x = {
-    name = "e[x]ecute",
-    e = { ":w<cr>:source %<cr>", "[x] source %" },
-  },
-}, { mode = "n", prefix = "<localleader>" })
+
+-- normal mode with <leader>
+wk.add({
+  {
+    { "<localleader><cr>", send_cell, desc = "run code cell" },
+    { "<localleader>c", group = "[c]ode / [c]ell / [c]hunk" },
+    { "<localleader>ci", new_terminal_ipython, desc = "new [i]python terminal" },
+    { "<localleader>cn", new_terminal_shell, desc = "[n]ew terminal with shell" },
+    { "<localleader>cp", new_terminal_python, desc = "new [p]ython terminal" },
+    { "<localleader>cr", new_terminal_r, desc = "new [R] terminal" },
+    { "<localleader>gwc", ":lua require('telescope').extensions.git_worktree.create_git_worktree()<cr>", desc = "worktree create" },
+    { "<localleader>gws", ":lua require('telescope').extensions.git_worktree.git_worktrees()<cr>", desc = "worktree switch" },
+    { "<localleader>o", group = "[o]tter & c[o]de" },
+    { "<localleader>oa", require'otter'.activate, desc = "otter [a]ctivate" },
+    { "<localleader>ob", insert_bash_chunk, desc = "[b]ash code chunk" },
+    { "<localleader>oc", "O# %%<cr>", desc = "magic [c]omment code chunk # %%" },
+    { "<localleader>od", require'otter'.activate, desc = "otter [d]eactivate" },
+    { "<localleader>ol", insert_lua_chunk, desc = "[l]lua code chunk" },
+    { "<localleader>op", insert_py_chunk, desc = "[p]ython code chunk" },
+    { "<localleader>or", insert_r_chunk, desc = "[r] code chunk" },
+    { "<localleader>q", group = "[q]uarto" },
+    { "<localleader>qE", function() require('otter').export(true) end, desc = "[E]xport with overwrite" },
+    { "<localleader>qa", ":QuartoActivate<cr>", desc = "[a]ctivate" },
+    { "<localleader>qe", require('otter').export, desc = "[e]xport" },
+    { "<localleader>qh", ":QuartoHelp ", desc = "[h]elp" },
+    { "<localleader>qp", ":lua require'quarto'.quartoPreview()<cr>", desc = "[p]review" },
+    { "<localleader>qq", ":lua require'quarto'.quartoClosePreview()<cr>", desc = "[q]uiet preview" },
+    { "<localleader>qr", group = "[r]un" },
+    { "<localleader>qra", ":QuartoSendAll<cr>", desc = "run [a]ll" },
+    { "<localleader>qrb", ":QuartoSendBelow<cr>", desc = "run [b]elow" },
+    { "<localleader>qrr", ":QuartoSendAbove<cr>", desc = "to cu[r]sor" },
+    { "<localleader>r", group = "[r] R specific tools" },
+    { "<localleader>rt", show_r_table, desc = "show [t]able" },
+    { "<localleader>x", group = "e[x]ecute" },
+    { "<localleader>xx", ":w<cr>:source %<cr>", desc = "[x] source %" },
+  }
+}, { mode = 'n'})
 -- END OF QUARTO SECTION --
 -----------------------------
 -----------------------------

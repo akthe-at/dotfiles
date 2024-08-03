@@ -1,77 +1,9 @@
 return {
-  { "xiyaowong/transparent.nvim", cmd = { "TransparentToggle", "TransparentEnable", "TransparentDisable" } },
-  -- {
-  --   "oxfist/night-owl.nvim",
-  --   priority = 1000,
-  --   opts = {},
-  --   config = function()
-  --     require("night-owl").setup()
-  --     vim.cmd.colorscheme("night-owl")
-  --     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-  --       border = "rounded",
-  --     })
-  --   end,
-  -- },
   {
     "luckasRanarison/tailwind-tools.nvim",
     ft = { "html", "htmldjango" },
-    opts = { document_coolor = { enabled = false } },
-    config = function(opts)
-      require("tailwind-tools").setup({ opts })
-    end,
+    opts = { document_color = { enabled = false } },
   },
-  -- {
-  --   "scottmckendry/cyberdream.nvim",
-  --   enabled = true,
-  --   priority = 1000,
-  --   opts = {},
-  --   config = function()
-  --     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-  --       border = "rounded",
-  --     })
-  --   end,
-  -- },
-  -- {
-  --   "eldritch-theme/eldritch.nvim",
-  --   enabled = true,
-  --   priority = 1000,
-  --   opts = {
-  --     dim_inactive = true,
-  --     hide_inactive_statusline = true,
-  --     lualine_bold = true,
-  --   },
-  --   config = function()
-  --     require("eldritch").setup({
-  --       dim_inactive = true,
-  --       transparent = false,
-  --       hide_inactive_statusline = true,
-  --       lualine_bold = true,
-  --     })
-  --     vim.o.termguicolors = true
-  --   end,
-  -- },
-  -- {
-  --   "mofiqul/dracula.nvim",
-  --   enabled = true,
-  --   priority = 1000,
-  --   opts = {},
-  --   config = function()
-  --     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-  --       border = "rounded",
-  --     })
-  --   end,
-  -- },
-  -- {
-  --   "maxmx03/dracula.nvim",
-  --   enabled = true,
-  --   priority = 1000,
-  --   opts = {},
-  --   config = function()
-  --     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-  --       border = "rounded",
-  --     })
-  --   end,
-  -- },
   {
     "binhtran432k/dracula.nvim", -- There are a lot of dracula esque nvim themes but I like this one the most so far.
     enabled = true,
@@ -95,27 +27,8 @@ return {
       })
     end,
   },
-  -- {
-  --   "rebelot/kanagawa.nvim",
-  --   enabled = true,
-  --   priority = 1000,
-  --   opts = {
-  --     colors = {
-  --       theme = {
-  --         all = {
-  --           ui = {
-  --             bg_gutter = "none",
-  --           },
-  --         },
-  --       },
-  --     },
-  --     -- transparent = false,
-  --     theme = "wave",
-  --   },
-  -- },
   {
     "ribru17/bamboo.nvim",
-    lazy = true,
     priority = 1000,
     config = function()
       require("bamboo").setup({
@@ -128,7 +41,6 @@ return {
   },
   {
     "uloco/bluloco.nvim",
-    lazy = true,
     enabled = true,
     priority = 1000,
     dependencies = { "rktjmp/lush.nvim" },
@@ -156,12 +68,6 @@ return {
       })
     end,
   },
-  -- {
-  --   "craftzdog/solarized-osaka.nvim",
-  --   enabled = true,
-  --   priority = 1000,
-  --   opts = {},
-  -- },
   {
     "ellisonleao/gruvbox.nvim",
     priority = 1000,
@@ -272,12 +178,117 @@ return {
           CmpWinBorder = { fg = "overlay", bg = "base" },
         },
       })
-      -- vim.cmd("colorscheme rose-pine")
-      -- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-      --   border = "rounded",
-      -- })
+      vim.cmd("colorscheme rose-pine")
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+        border = "rounded",
+      })
     end,
   },
+  -- { "xiyaowong/transparent.nvim", cmd = { "TransparentToggle", "TransparentEnable", "TransparentDisable" } },
+  -- {
+  --   "oxfist/night-owl.nvim",
+  --   priority = 1000,
+  --   opts = {},
+  --   config = function()
+  --     require("night-owl").setup()
+  --     vim.cmd.colorscheme("night-owl")
+  --     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+  --       border = "rounded",
+  --     })
+  --   end,
+  -- },
+  -- {
+  --   "0xstepit/flow.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   opts = {},
+  --   config = function()
+  --     require("flow").setup_options({
+  --       transparent = true, -- Set transparent background.
+  --       fluo_color = "pink", --  Fluo color: pink, yellow, orange, or green.
+  --       mode = "normal", -- Intensity of the palette: normal, dark, or bright. Notice that dark is ugly!
+  --       aggressive_spell = false, -- Display colors for spell check.
+  --     })
+  --
+  --     vim.cmd("colorscheme flow")
+  --   end,
+  -- },
+  -- {
+  --   "scottmckendry/cyberdream.nvim",
+  --   enabled = true,
+  --   priority = 1000,
+  --   opts = {},
+  --   config = function()
+  --     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+  --       border = "rounded",
+  --     })
+  --   end,
+  -- },
+  -- {
+  --   "eldritch-theme/eldritch.nvim",
+  --   enabled = true,
+  --   priority = 1000,
+  --   opts = {
+  --     dim_inactive = true,
+  --     hide_inactive_statusline = true,
+  --     lualine_bold = true,
+  --   },
+  --   config = function()
+  --     require("eldritch").setup({
+  --       dim_inactive = true,
+  --       transparent = false,
+  --       hide_inactive_statusline = true,
+  --       lualine_bold = true,
+  --     })
+  --     vim.o.termguicolors = true
+  --   end,
+  -- },
+  -- {
+  --   "mofiqul/dracula.nvim",
+  --   enabled = true,
+  --   priority = 1000,
+  --   opts = {},
+  --   config = function()
+  --     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+  --       border = "rounded",
+  --     })
+  --   end,
+  -- },
+  -- {
+  --   "maxmx03/dracula.nvim",
+  --   enabled = true,
+  --   priority = 1000,
+  --   opts = {},
+  --   config = function()
+  --     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+  --       border = "rounded",
+  --     })
+  --   end,
+  -- },
+  -- {
+  --   "rebelot/kanagawa.nvim",
+  --   enabled = true,
+  --   priority = 1000,
+  --   opts = {
+  --     colors = {
+  --       theme = {
+  --         all = {
+  --           ui = {
+  --             bg_gutter = "none",
+  --           },
+  --         },
+  --       },
+  --     },
+  --     -- transparent = false,
+  --     theme = "wave",
+  --   },
+  -- },
+  -- {
+  --   "craftzdog/solarized-osaka.nvim",
+  --   enabled = true,
+  --   priority = 1000,
+  --   opts = {},
+  -- },
   -- {
   --   "asilvam133/rose-pine.nvim",
   --   name = "rose-pine",

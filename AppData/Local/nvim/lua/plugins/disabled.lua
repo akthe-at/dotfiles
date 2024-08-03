@@ -9,14 +9,10 @@ return {
     enabled = false,
   },
   {
-    "nvim-treesitter/nvim-treesitter-context",
-    enabled = false,
-  },
-  {
     "rcarriga/nvim-notify",
     enabled = false,
   },
-
+  -- { "folke/noice.nvim", enabled = false },
   {
     "mfussenegger/nvim-lint",
     enabled = false,
@@ -26,7 +22,7 @@ return {
     "folke/ts-comments.nvim",
     enabled = false,
   },
-  { "nvim-treesitter/nvim-tresitter-textobjects", enabled = false },
+  { "nvim-treesitter/nvim-treesitter-textobjects", enabled = true },
   {
     "windwp/nvim-ts-autotag",
     enabled = false,
@@ -40,12 +36,4 @@ return {
   --   enabled = false,
   -- },
   -- { "nvim-telescope/telescope.nvim", enabled = false },
-  -- {
-  --   "ibhagwan/fzf-lua",
-  --   enabled = false,
-  -- },
-  -- {
-  --   "linux-cultist/venv-selector.nvim",
-  --   -- enabled = false,
-  -- },
 }

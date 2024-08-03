@@ -1,59 +1,63 @@
 return {
   {
     "meanderingprogrammer/markdown.nvim",
-    enabled = true,
-    ft = { "markdown", "quarto" },
-    cmd = "RenderMarkdownToggle",
-    name = "render-markdown", -- Only needed if you have another plugin named markdown.nvim
-    dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.icons" },
-    config = function()
-      require("render-markdown").setup({ exclude = { buftypes = { "rmd", "qmd", "quarto" } } })
-    end,
+    opts = {
+      file_types = { "markdown", "quarto", "norg", "rmd", "org" },
+      code = {
+        sign = true,
+        width = "block",
+        right_pad = 1,
+      },
+      heading = {
+        sign = true,
+        icons = { "󰲡 ", "󰲣 ", "󰲥 ", "󰲧 ", "󰲩 ", "󰲫 " },
+      },
+    },
   },
-  {
-    "lukas-reineke/headlines.nvim",
-    enabled = true,
-    ft = { "qmd", "rmd" },
-    dependencies = "nvim-treesitter/nvim-treesitter",
-    config = function()
-      local custom = {
-        codeblock_highlight = false,
-        dash_string = "━",
-        fat_headlines = false,
-        headline_highlights = { "Headline1", "Headline2", "Headline3" },
-        bullet_highlights = { "Headline1", "Headline2", "Headline3" },
-        bullets = { "❯", "❯", "❯", "❯" },
-      }
-      local qmd = vim.tbl_deep_extend("force", custom, { treesitter_language = "markdown" })
-      local bg = "#292e42"
-      vim.api.nvim_set_hl(0, "Headline1", { fg = "#39DDFD", bg = bg })
-      vim.api.nvim_set_hl(0, "Headline2", { fg = "#04d1f9", bg = bg })
-      vim.api.nvim_set_hl(0, "Headline3", { fg = "#10A1BD", bg = bg })
-      vim.api.nvim_set_hl(0, "CodeBlock", { bg = bg })
-      vim.api.nvim_set_hl(0, "Dash", { fg = "#37f499", bold = true })
-      require("headlines").setup({
-        quarto = {
-          query = vim.treesitter.query.parse(
-            "markdown",
-            [[
-                (fenced_code_block) @codeblock
-                ]]
-          ),
-          codeblock_highlight = "CodeBlock",
-          treesitter_language = "markdown",
-        },
-        markdown = {
-          query = vim.treesitter.query.parse(
-            "markdown",
-            [[
-                (fenced_code_block) @codeblock
-                ]]
-          ),
-          codeblock_highlight = "CodeBlock",
-        },
-      })
-    end,
-  },
+  -- {
+  --   "lukas-reineke/headlines.nvim",
+  --   enabled = true,
+  --   ft = { "qmd", "rmd" },
+  --   dependencies = "nvim-treesitter/nvim-treesitter",
+  --   config = function()
+  --     local custom = {
+  --       codeblock_highlight = false,
+  --       dash_string = "━",
+  --       fat_headlines = false,
+  --       headline_highlights = { "Headline1", "Headline2", "Headline3" },
+  --       bullet_highlights = { "Headline1", "Headline2", "Headline3" },
+  --       bullets = { "❯", "❯", "❯", "❯" },
+  --     }
+  --     local qmd = vim.tbl_deep_extend("force", custom, { treesitter_language = "markdown" })
+  --     local bg = "#292e42"
+  --     vim.api.nvim_set_hl(0, "Headline1", { fg = "#39DDFD", bg = bg })
+  --     vim.api.nvim_set_hl(0, "Headline2", { fg = "#04d1f9", bg = bg })
+  --     vim.api.nvim_set_hl(0, "Headline3", { fg = "#10A1BD", bg = bg })
+  --     vim.api.nvim_set_hl(0, "CodeBlock", { bg = bg })
+  --     vim.api.nvim_set_hl(0, "Dash", { fg = "#37f499", bold = true })
+  --     require("headlines").setup({
+  --       quarto = {
+  --         query = vim.treesitter.query.parse(
+  --           "markdown",
+  --           [[
+  --               (fenced_code_block) @codeblock
+  --               ]]
+  --         ),
+  --         codeblock_highlight = "CodeBlock",
+  --         treesitter_language = "markdown",
+  --       },
+  --       markdown = {
+  --         query = vim.treesitter.query.parse(
+  --           "markdown",
+  --           [[
+  --               (fenced_code_block) @codeblock
+  --               ]]
+  --         ),
+  --         codeblock_highlight = "CodeBlock",
+  --       },
+  --     })
+  --   end,
+  -- },
   {
     "shortcuts/no-neck-pain.nvim",
     cmd = "NoNeckPain",
@@ -192,7 +196,7 @@ return {
         template = "daily.md",
       },
       ui = {
-        enable = true,
+        enable = false,
       },
       nvim_cmp = true,
       min_chars = 2,
