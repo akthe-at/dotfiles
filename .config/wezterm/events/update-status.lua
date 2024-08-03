@@ -1,67 +1,98 @@
----@class Wezterm
-local wez = require "wezterm"
+---@module "events.update-status"
+---@author sravioli
+---@license GNU-GPLv3
 
----@class Fun
-local fun = require "utils.fun"
+local wt = require "wezterm"
 
----@class Icons
-local icons = require "utils.icons"
+local Utils = require "utils"
+local Icon = Utils.class.icon
+local StatusBar = Utils.class.layout
+local fs, mt, str = Utils.fn.fs, Utils.fn.mt, Utils.fn.str
 
----@class Layout
-local StatusBar = require "utils.layout"
+---@diagnostic disable-next-line: undefined-field
+local wt_format, strftime = wt.format, wt.strftime
 
-local strwidth = fun.platform().is_win and string.len or fun.strwidth
+local strwidth = fs.platform().is_win and string.len or str.strwidth
 
-wez.on("update-status", function(window, pane)
-  local theme = require("colors")[fun.get_scheme()]
-  local modes = require "utils.modes-list"
+-- luacheck: push ignore 561
+---@diagnostic disable-next-line: undefined-field
+wt.on("update-status", function(window, pane)
+  local Config = window:effective_config()
 
+  local Overrides = window:get_config_overrides() or {}
+  local theme = Config.color_schemes[Overrides.color_scheme or Config.color_scheme]
+
+  local modes = {
+    search_mode = { i = "󰍉", txt = "SEARCH", bg = theme.brights[4], pad = 10 },
+    window_mode = { i = "󱂬", txt = "WINDOW", bg = theme.ansi[6], pad = 8 },
+    copy_mode = { i = "󰆏", txt = "COPY", bg = theme.brights[3], pad = 8 },
+    font_mode = { i = "󰛖", txt = "FONT", bg = theme.ansi[7], pad = 7 },
+    help_mode = { i = "󰞋", txt = "NORMAL", bg = theme.ansi[5], pad = 9 },
+    pick_mode = { i = "󰢷", txt = "PICK", bg = theme.ansi[2], pad = 9 },
+  }
   local bg = theme.ansi[5]
   local mode_indicator_width = 0
 
   -- {{{1 LEFT STATUS
-  local LeftStatus = StatusBar:new() ---@class Layout
+  local LeftStatus = StatusBar:new()
   local name = window:active_key_table()
   if name and modes[name] then
-    local txt = modes[name].text or ""
-    mode_indicator_width, bg = strwidth(txt) + 2, modes[name].bg
-    LeftStatus:push(bg, theme.background, txt, { "Bold" })
+    local txt, ico = modes[name].txt or "", modes[name].i or ""
+    mode_indicator_width, bg = strwidth(txt) + 2 + strwidth(ico), modes[name].bg
+    LeftStatus:push(bg, theme.background, str.pad(ico .. " " .. txt, 1), { "Bold" })
   end
 
-  window:set_left_status(wez.format(LeftStatus))
+  window:set_left_status(LeftStatus:format())
   -- }}}
 
   -- {{{1 RIGHT STATUS
   local RightStatus = StatusBar:new() ---@class Layout
 
-  --~~ {{{2 Calculate the used width by the tabs
+  --~~ {{{2 Calculate the used width by the @tabs
   local MuxWindow = window:mux_window()
-  local tab_bar_width = 0
-  for _, MuxTab in ipairs(MuxWindow:tabs()) do
-    local tab_title = MuxTab:panes()[1]:get_title()
-    tab_bar_width = tab_bar_width + strwidth(tab_title) + 2
+  local tab_bar_width = 5
+  for i = 1, #MuxWindow:tabs() do
+    local MuxPane = MuxWindow:tabs()[i]:panes()[1]
+    local tab_title = MuxPane:get_title()
+
+    local process, other = tab_title:match "^(%S+)%s*%-?%s*%s*(.*)$"
+    tab_title = tab_title:gsub("^Copy mode: ", "")
+    if Icon.Progs[process] then
+      tab_title = Icon.Progs[process] .. " " .. (other or "")
+    end
+
+    local proc = MuxPane:get_foreground_process_name()
+    if proc and proc:find "nvim" then
+      proc = proc:sub(proc:find "nvim")
+    end
+    if proc == "nvim" then
+      local cwd = fs.basename(MuxPane:get_current_working_dir().file_path)
+      tab_title = ("%s ( %s)"):format(Icon.Progs[proc], cwd)
+    end
+    tab_title = tab_title:gsub(fs.basename(fs.home()), "󰋜 ")
+
+    tab_bar_width = tab_bar_width + strwidth(tab_title) + 3
   end
 
-  local Config = MuxWindow:gui_window():effective_config() ---@class Config
-  local has_button = Config.show_new_tab_button_in_tab_bar
-  local new_tab_button = has_button and Config.tab_bar_style.new_tab or ""
-  tab_bar_width = tab_bar_width + mode_indicator_width + strwidth(new_tab_button) + 2
+  local new_tab_button = Config.show_new_tab_button_in_tab_bar and 8 or 0
+  tab_bar_width = tab_bar_width + mode_indicator_width + new_tab_button
   --~~ }}}
 
-  local usable_width = pane:get_dimensions().cols - tab_bar_width - 6
+  local usable_width = pane:get_dimensions().cols - tab_bar_width - 2
 
   --~ {{{2 MODAL PROMPTS
   if name and modes[name] then
     local mode = modes[name]
     local prompt_bg, map_fg, txt_fg = theme.tab_bar.background, mode.bg, theme.foreground
-    local sep = icons.Separators.StatusBar.modal
+    local sep = Icon.Sep.sb.modal
 
     local key_tbl = require("mappings.modes")[2][name]
-    for idx, map_tbl in ipairs(key_tbl) do
+    for idx = 1, #key_tbl do
+      local map_tbl = key_tbl[idx]
       local map, desc = map_tbl[1], map_tbl[3]
       if map:find "%b<>" then
-        map = map:gsub("(%b<>)", function(str)
-          return str:sub(2, -2)
+        map = map:gsub("(%b<>)", function(s)
+          return s:sub(2, -2)
         end)
       end
 
@@ -70,46 +101,44 @@ wez.on("update-status", function(window, pane)
         RightStatus:push(prompt_bg, txt_fg, "<", { "Bold" })
         RightStatus:push(prompt_bg, map_fg, map)
         RightStatus:push(prompt_bg, txt_fg, ">")
-        RightStatus:push(prompt_bg, txt_fg, fun.pad(desc), { "Normal", "Italic" })
+        RightStatus:push(prompt_bg, txt_fg, str.pad(desc), { "Normal", "Italic" })
 
         ---add separator only if it's not the last item and there's enough space
         local next_prompt = key_tbl[idx]
         local next_prompt_len = strwidth(next_prompt[1] .. next_prompt[3]) + 4
         if idx < #key_tbl and usable_width - next_prompt_len > 0 then
           RightStatus:push(prompt_bg, theme.brights[1], sep .. " ", { "NoItalic" })
-        elseif usable_width - next_prompt_len <= 0 then
-          RightStatus:push(prompt_bg, theme.brights[1], sep .. " ...", { "NoItalic" })
         end
       end
 
       usable_width = usable_width - prompt_len
     end
 
-    window:set_right_status(wez.format(RightStatus))
+    window:set_right_status(wt_format(RightStatus))
     return ---return early to not render status bar
   end --~ }}}
 
   --~ {{{2 STATUS BAR
 
-  bg = wez.color.parse(bg)
+  bg = wt.color.parse(bg)
   local colors = { bg:darken(0.15), bg, bg:lighten(0.15), bg:lighten(0.25) }
 
-  local battery = wez.battery_info()[1]
+  local battery = wt.battery_info()[1]
   battery.charge = battery.state_of_charge * 100
-  battery.lvl_round = fun.toint(fun.mround(battery.charge, 10))
-  battery.ico = icons.Battery[battery.state][tostring(battery.lvl_round)]
-  wez.log_info(battery.state, battery.lvl_round)
+  battery.lvl_round = mt.toint(mt.mround(battery.charge, 10))
+  battery.ico = Icon.Bat[battery.state][tostring(battery.lvl_round)]
+  wt.log_info(battery.state, battery.lvl_round)
   battery.lvl = tonumber(math.floor(battery.charge + 0.5))
   battery.full = ("%s %i%%"):format(battery.ico, battery.lvl)
 
-  local cwd, hostname = fun.get_cwd_hostname(pane, true) -- current hostname turned to _ because unused.
+  local cwd, _ = fs.get_cwd_hostname(pane, true) -- current hostname turned to _ because unused.
   local workspace_name = window:active_workspace()
 
   local status_bar_cells = {
-    { cwd, fun.pathshortener(cwd, 4), fun.pathshortener(cwd, 1) },
+    { cwd, fs.pathshortener(cwd, 4), fs.pathshortener(cwd, 1) },
     -- { session_name .. ":" .. workspace_name, workspace_name:sub(1, 1) },
-    { fun.basename(workspace_name), fun.basename(workspace_name) },
-    { wez.strftime "%a %b %-d %H:%M", wez.strftime "%d/%m %R", wez.strftime "%R" },
+    { fs.basename(workspace_name), fs.basename(workspace_name) },
+    { wt.strftime "%a %b %-d %H:%M", wt.strftime "%d/%m %R", wt.strftime "%R" },
     { battery.full, battery.lvl .. "%", battery.ico },
   }
 
@@ -117,10 +146,10 @@ wez.on("update-status", function(window, pane)
   local last_fg = Config.use_fancy_tab_bar and fancy_bg or theme.tab_bar.background
 
   ---push each cell and the cells separator
-  for i, cell_group in ipairs(status_bar_cells) do --{ cwd, workspace_name, datetime } do
-    local cell_bg = colors[i]
-    local cell_fg = i == 1 and last_fg or colors[i - 1]
-    local sep = icons.Separators.StatusBar.right
+  for i = 1, #status_bar_cells do
+    local cell_group = status_bar_cells[i]
+    local cell_bg, cell_fg = colors[i], i == 1 and last_fg or colors[i - 1]
+    local sep = Icon.Sep.sb.right
 
     ---add each cell separator
     RightStatus:push(cell_fg, cell_bg, sep)
@@ -129,8 +158,8 @@ wez.on("update-status", function(window, pane)
     local cell_to_use, used_cell = cell_group[1], false
 
     ---try to use the longest cell of the list, then fallback to a shorter one
-    for _, cell in ipairs(cell_group) do
-      --local cell_width = strwidth(cell) + strwidth(sep)
+    for j = 1, #cell_group do
+      local cell = cell_group[j]
       local cell_width = 0
       if usable_width >= cell_width then
         cell_to_use, used_cell = cell, true
@@ -139,18 +168,28 @@ wez.on("update-status", function(window, pane)
     end
 
     --- use the cell that fits best, otherwise set it to an empty one
-    cell_to_use = not used_cell and "" or " " .. cell_to_use .. " "
+    cell_to_use = not used_cell and "" or str.pad(cell_to_use)
 
     ---push the cell
-    RightStatus:push(colors[i], theme.tab_bar.background, cell_to_use, { "Medium" })
+    RightStatus:push(colors[i], theme.tab_bar.background, cell_to_use, { "Bold" })
 
     ---update the usuable_width
     usable_width = usable_width - strwidth(cell_to_use) - strwidth(sep) - 2 -- padding
   end
 
-  window:set_right_status(wez.format(RightStatus))
+  window:set_right_status(RightStatus:format())
   --~ }}}
   -- }}}
+  --   local bar = wez.plugin.require "https://github.com/adriankarlen/bar.wezterm"
+  --   bar.apply_to_config(Config, {
+  --     max_width = 32,
+  --     enabled_modules = {
+  --       username = false,
+  --       hostname = false,
+  --       cwd = true,
+  --       clock = true,
+  --     },
+  --   })
 end)
 -- luacheck: pop
 

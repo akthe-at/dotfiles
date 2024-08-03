@@ -1,22 +1,22 @@
-local wezterm = require "wezterm"
-local act = wezterm.action
-local fun = require "utils.fun" ---@class Fun
+local wt = require "wezterm"
+local act = wt.action
+local fun = require "utils.fn"
 local M = {}
 
---- Converts Windows backslash to forwardslash
----@param path string
-local function normalize_path(path)
-  return fun.platform().is_win and path:gsub("\\", "/") or path
-end
+-- --- Converts Windows backslash to forwardslash
+-- ---@param path string
+-- local function normalize_path(path)
+--   return fun.fs.platform().is_win and path:gsub("\\", "/") or path
+-- end
 
-local home = normalize_path "C:/Users/ARK010/"
+local home = os.getenv "HOME" .. "/"
 
 --- If name nil or false print err_message
 ---@param name string|boolean|nil
 ---@param err_message string
 local function err_if_not(name, err_message)
   if not name then
-    wezterm.log_error(err_message)
+    wt.log_error(err_message)
   end
 end
 --
@@ -30,7 +30,7 @@ local function file_exists(path)
   -- io.open won't work to check if directories exist,
   -- but works for symlinks and regular files
   if f ~= nil then
-    wezterm.log_info(path .. " file or symlink found")
+    wt.log_info(path .. " file or symlink found")
     io.close(f)
     return path
   end
@@ -41,29 +41,25 @@ end
 -- PATHS
 --
 local fd = (
-  file_exists(home .. "/bin/fd")
+  file_exists(home .. "/scoop/apps/fd/current/fd.exe")
+  or file_exists(home .. "/bin/fd")
   or file_exists "usr/bin/fd"
   or file_exists(home .. "/bin/fd.exe")
-  or file_exists "C:\\Users\\ARK010\\scoop\\shims\\fd.exe"
 )
+
 err_if_not(fd, "fd not found")
 
 local git = (
-  file_exists "C:/Users/ARK010/scoop/apps/git/current/bin/git.exe"
+  file_exists(home .. "/scoop/apps/git/current/bin/git.exe")
   or file_exists "/usr/bin/git"
 )
 err_if_not(git, "git not found")
 
-local srcPath = home .. "Documents"
-err_if_not(srcPath, srcPath .. " not found")
-
-local search_folders = {
-  srcPath,
-  srcPath .. "/DEM",
-  home .. "/.plugins/",
-  home .. "/.config/",
-  -- srcPath .. "/other",
-}
+local mydocs = home .. "\\Documents"
+local dem = home .. "\\DEM"
+local plugins = home .. "\\.plugins"
+local config = home .. "\\.config"
+-- Add More ?,
 -------------------------------------------------------
 
 --- Merge numeric tables
@@ -83,50 +79,55 @@ end
 
 M.start = function(window, pane)
   local projects = {}
-
-  -- assumes  ~/src/www, ~/src/work to exist
-  -- ~/src
-  --  ├──nushell-config       # toplevel config stuff
-  --  ├──wezterm-config
-  --  ├──work                    # work stuff
-  --    ├──work/project.git      # git bare clones marked with .git at the end
-  --    ├──work/project-bugfix   # worktree of project.git
-  --    ├──work/project-feature  # worktree of project.git
-  --  │ └───31 unlisted
-  --  └──other                # 3rd party project
-  --     └──103 unlisted
-  local cmd = merge_tables({ fd, "-HI", "-td", "--max-depth=1", "." }, search_folders)
-  wezterm.log_info "cmd: "
-  wezterm.log_info(cmd)
-
-  for _, value in ipairs(cmd) do
-    wezterm.log_info(value)
-  end
-  local success, stdout, stderr = wezterm.run_child_process(cmd)
+  local success, stdout, stderr = wt.run_child_process {
+    fd,
+    "-HI",
+    ".git$",
+    "--max-depth=4",
+    "--prune",
+    mydocs,
+    dem,
+    plugins,
+    config,
+  }
 
   if not success then
-    wezterm.log_error("Failed to run fd: " .. stderr)
+    wt.log_error("Failed to run fd: " .. stderr)
     return
   end
 
   for line in stdout:gmatch "([^\n]*)\n?" do
-    local project = normalize_path(line)
-    local label = project
-    local id = project
+    -- create label from file path
+    local project = line:gsub("/.git.*", ""):gsub("\\.git.*", "")
+    project = project:gsub("/$", ""):gsub("\\$", "")
+    local label = project:gsub(home, "")
+
+    -- extract id. Used for workspace name
+    local _, _, id = string.find(project, ".*/(.+)")
+    id = id:gsub(".git", "") -- bare repo dirs typically end in .git, remove if so.
+
     table.insert(projects, { label = tostring(label), id = tostring(id) })
   end
 
   window:perform_action(
     act.InputSelector {
-      action = wezterm.action_callback(function(win, _, id, label)
+      action = wt.action_callback(function(win, pane, id, label)
         if not id and not label then
-          wezterm.log_info "Cancelled"
+          wt.log_info "Cancelled"
         else
-          wezterm.log_info("Selected " .. label)
+          wt.log_info("Selected " .. label)
+          local pretty_id = id:match ".*\\(.*)" -- This line is added
+          wt.emit("workspace_switcher.selected", window, id, label)
+
           win:perform_action(
-            act.SwitchToWorkspace { name = id, spawn = { cwd = label } },
+            act.SwitchToWorkspace { name = pretty_id, spawn = { cwd = home .. label } },
             pane
           )
+          for _, mux_win in ipairs(wt.mux.all_windows()) do
+            if mux_win:get_workspace() == pretty_id then
+              wt.emit("workspace_switcher.switched", mux_win, id, label)
+            end
+          end
         end
       end),
       fuzzy = true,

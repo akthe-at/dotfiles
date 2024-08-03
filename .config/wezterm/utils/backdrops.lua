@@ -1,6 +1,5 @@
 local wezterm = require "wezterm"
-local fun = require "utils.fun" ---@class Fun
-local colors = require "colors.custom"
+local fs = require("utils.fn").fs
 
 -- Seeding random numbers before generating for use
 -- Known issue with lua math library
@@ -10,7 +9,7 @@ math.random()
 math.random()
 math.random()
 
-local PATH_SEP = fun.platform().is_win and "\\" or "/"
+local PATH_SEP = fs.path_separator
 
 ---@class BackDrops
 ---@field current_idx number index of current image
@@ -52,7 +51,6 @@ function BackDrops:_set_opt(window)
         horizontal_align = "Center",
       },
       {
-        source = { Color = colors.background },
         height = "100%",
         width = "100%",
         opacity = 0.96,

@@ -1,13 +1,10 @@
----@class Wezterm
-local wez = require "wezterm"
-local icons = require "utils.icons" ---@class Icons
-local fun = require "utils.fun" ---@class Fun
-
-local env = fun.load_env()
+local Icons = require "utils.class.icon"
+local fs = require("utils.fn").fs
+local env = require("utils.fn").load_env()
 
 ------@class Config
 local Config = {}
-if fun.platform().is_win then
+if fs.platform().is_win then
   Config.default_prog = { "pwsh", "-NoLogo", "-ExecutionPolicy", "RemoteSigned" } --"-NoProfileLoadTime"
   -- Config.default_prog = { "bash", "-l" }
 else
@@ -17,7 +14,7 @@ end
 -- Config.default_prog = { "bash", "-l" }
 Config.launch_menu = {
   {
-    label = icons.Pwsh .. " PowerShell V7",
+    label = Icons.Progs["pwsh.exe"] .. " PowerShell V7",
     args = {
       "pwsh",
       "-NoLogo",
@@ -27,7 +24,7 @@ Config.launch_menu = {
     cwd = "~",
   },
   {
-    label = icons.Git .. " Git bash",
+    label = Icons.Progs["git"] .. " Git bash",
     args = { "bash", "-l" },
     cwd = "~",
   },
@@ -37,7 +34,7 @@ Config.launch_menu = {
 -- ref: https://wezfurlong.org/wezterm/config/lua/WslDomain.html
 Config.wsl_domains = {}
 
-Config.default_cwd = fun.home
+Config.default_cwd = fs.home()
 
 -- ref: https://wezfurlong.org/wezterm/config/lua/SshDomain.html
 -- TODO: replacing all my hard-coded paths with a local .env file that is read in would probably much better to make my config more interchangable between personal/work compueter

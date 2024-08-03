@@ -1,4 +1,7 @@
----@class Wezterm
+---@module "events.new-tab-button-click"
+---@author sravioli
+---@license GNU-GPLv3
+
 local wez = require "wezterm"
 
 wez.on("new-tab-button-click", function(window, pane, button, default_action)

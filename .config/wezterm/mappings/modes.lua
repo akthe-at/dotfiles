@@ -1,9 +1,11 @@
-local wez = require "wezterm" ---@class Wezterm
-local act = wez.action
+---@module "mappings.default"
+---@author sravioli
+---@license GNU-GPLv3
 
-local fun = require "utils.fun" ---@class Fun
+---@diagnostic disable-next-line: undefined-field
+local act = require("wezterm").action
+local key = require("utils.fn").key
 
----@class Config
 local Config = {}
 
 local key_tables = {
@@ -14,9 +16,7 @@ local key_tables = {
       "y",
       act.Multiple {
         { CopyTo = "ClipboardAndPrimarySelection" },
-        {
-          CopyMode = "Close",
-        },
+        { CopyMode = "Close" },
       },
       "copy selection",
     },
@@ -98,12 +98,6 @@ local key_tables = {
     { "-", act.AdjustPaneSize { "Down", 2 }, "resize bot" },
   }, -- }}}
 
-  -- {{{1 LOCK MODE (lock_mode)
-  lock_mode = {
-    { "<C-g>", "PopKeyTable", "" },
-  },
-  -- }}}
-
   help_mode = {
     { "<ESC>", "PopKeyTable", "exit" },
     { "<C-Tab>", act.ActivateTabRelative(1), "next tab" },
@@ -156,13 +150,24 @@ local key_tables = {
     { "<leader>c", act.ActivateCopyMode, "copy mode" },
     { "<leader>s", act.Search "CurrentSelectionOrEmptyString", "search mode" },
   },
+  -- }}}
+
+  -- {{{1 PICK MODE (pick_mode)
+  pick_mode = {
+    { "<ESC>", "PopKeyTable", "exit" },
+    { "c", require("picker.colorscheme"):pick(), "colorscheme" },
+    { "s", require("picker.font-size"):pick(), "fontsize" },
+    { "f", require("picker.font"):pick(), "font" },
+    { "l", require("picker.font-leadings"):pick(), "leading" },
+    -- { "p", require("picker.sessions"):pick(), "session picker" },
+  }, -- }}}
 }
 
 Config.key_tables = {}
 for mode, mode_table in pairs(key_tables) do
   Config.key_tables[mode] = {}
   for _, map_tbl in ipairs(mode_table) do
-    fun.map(map_tbl[1], map_tbl[2], Config.key_tables[mode])
+    key.map(map_tbl[1], map_tbl[2], Config.key_tables[mode])
   end
 end
 
