@@ -3,12 +3,6 @@ local act = wt.action
 local fun = require "utils.fn"
 local M = {}
 
--- --- Converts Windows backslash to forwardslash
--- ---@param path string
--- local function normalize_path(path)
---   return fun.fs.platform().is_win and path:gsub("\\", "/") or path
--- end
-
 local home = os.getenv "HOME" .. "/"
 
 --- If name nil or false print err_message
@@ -61,21 +55,6 @@ local plugins = home .. "\\.plugins"
 local config = home .. "\\.config"
 -- Add More ?,
 -------------------------------------------------------
-
---- Merge numeric tables
----@param t1 table
----@param t2 table
----@return table
-local function merge_tables(t1, t2)
-  local result = {}
-  for index, value in ipairs(t1) do
-    result[index] = value
-  end
-  for index, value in ipairs(t2) do
-    result[#t1 + index] = value
-  end
-  return result
-end
 
 M.start = function(window, pane)
   local projects = {}
