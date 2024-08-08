@@ -2,10 +2,13 @@
 ---@author sravioli
 ---@license GNU-GPLv3
 
-local Utils = require "utils"
-local wt = require "wezterm"
-local fs, str = Utils.fn.fs, Utils.fn.str
+---@diagnostic disable: undefined-field
 
+local wt = require "wezterm"
+
+local Utils = require "utils"
+
+local str = Utils.fn.str
 local Icon = Utils.class.icon
 local tabicons = Icon.Sep.tb
 
@@ -18,7 +21,7 @@ wt.on("format-tab-title", function(tab, _, _, config, hover, max_width)
   local bg = theme.tab_bar.background
   local fg
 
-  local Title = Utils.class.layout:new() ---@class Layout
+  local Title = Utils.class.layout:new "TabTitle"
 
   local tab_idx = tab.tab_index
   local attributes = {}

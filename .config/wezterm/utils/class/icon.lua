@@ -210,8 +210,6 @@ M.Progs = {
   ["lazygit"] = nf.cod_github,
 }
 
---@alias Icons Utils.Class.Icons
-
 return M
 
 -- vim: fdm=marker fdl=1

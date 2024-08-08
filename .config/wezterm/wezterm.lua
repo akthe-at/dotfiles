@@ -2,6 +2,7 @@ local Config = require("utils.class.config"):new()
 
 local wezterm = require "wezterm"
 local resurrect = wezterm.plugin.require "https://github.com/MLFlexer/resurrect.wezterm"
+wezterm.plugin.update_all()
 resurrect.save_state_dir = "C:\\Users\\ARK010\\.config\\wezterm\\state\\" -- Set some directory where wezterm has write access
 resurrect.periodic_save()
 

@@ -4,11 +4,11 @@
 ---@author sravioli
 ---@license GNU-GPLv3
 
-local wt = require "wezterm"
-local fs = require("utils").fn.fs
+local Utils = require "utils"
+local fs, Logger = Utils.fn.fs, Utils.class.logger
 
----@diagnostic disable-next-line: undefined-field
-local log_info, log_error, config_dir = wt.log_info, wt.log_error, wt.config_dir
+local wt = require "wezterm"
+local config_dir = wt.config_dir
 
 -- {{{1 Meta
 
@@ -102,6 +102,7 @@ local log_info, log_error, config_dir = wt.log_info, wt.log_error, wt.config_dir
 ---@field comp?              fun(a, b): boolean function to sort choices
 ---@field build?             fun(__choices: Choice.private[], comp: function, opts: table): Choice[]
 ---@field new                fun(opts: Utils.Class.Picker): Utils.Class.Picker
+---@field private log        Utils.Class.Logger
 
 --~ }}}
 
@@ -173,6 +174,7 @@ function M.new(opts)
   self.title = opts.title or "Pick a value"
   self.choices = {}
   self.__choices = {}
+  self.log = Logger:new("Picker > " .. self.title)
 
   self.comp = opts.comp
   self.build = opts.build or h.build
@@ -187,7 +189,8 @@ function M.new(opts)
   local dir = fs.pathconcat(config_dir, "picker", "assets", opts.subdir)
   local paths = fs.read_dir(dir)
   if not paths then
-    return log_error(("Cannot read files from: '%s'"):format(dir))
+    self.log:error("Cannot read files from %s", dir)
+    return {}
   end
   for i = 1, #paths do
     self:register(h.path_to_module(paths[i]))
@@ -224,12 +227,14 @@ end
 function M:select(Overrides, opts)
   local choice = self.__choices[opts.id]
   if not choice then
-    return log_error(("'%s' is not defined for %s"):format(opts.id, self.title))
+    return self.log:error("%s is not defined for %s", opts.id, self.title)
   end
 
   choice.module.activate(Overrides, opts)
 end
 
+---Invoke the picker.
+---@return nil
 function M:pick()
   return wt.action_callback(function(window, pane)
     local opts = { window = window, pane = pane }
@@ -237,10 +242,10 @@ function M:pick()
       wt.action.InputSelector {
         action = wt.action_callback(function(inner_window, _, id, label)
           if not id and not label then
-            log_error("Cancelled " .. self.title .. " by user")
+            self.log:error "cancelled by user"
           else
             local callback_opts = { window = window, pane = pane, id = id, label = label }
-            log_info("Applying " .. id .. " from " .. self.title)
+            self.log:info("applying %s", id)
             local Overrides = inner_window:get_config_overrides() or {}
             self:select(Overrides, callback_opts)
             window:set_config_overrides(Overrides)

@@ -147,13 +147,13 @@ local mappings = {
   --   "",
   -- },
   ---Custom Backdrops---
-  {
-    "<M-/>",
-    wezterm.action_callback(function(window, _)
-      backdrops:random(window)
-    end),
-    "",
-  },
+  -- {
+  --   "<leader>N>",
+  --   wezterm.action_callback(function(window, _)
+  --     backdrops:random(window)
+  --   end),
+  --   "",
+  -- },
   {
     "<leader>/",
     act.InputSelector {

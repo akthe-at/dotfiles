@@ -3,7 +3,6 @@ local mux = wt.mux
 local Utils = require "utils"
 local color = Utils.fn.color
 local fs = Utils.fn.fs
-local resurrect = wt.plugin.require "https://github.com/MLFlexer/resurrect.wezterm"
 
 wt.on("gui-startup", function(cmd)
   local screen = wt.gui.screens().active
@@ -32,6 +31,10 @@ Config.background = {
     width = "100%",
     height = "100%",
   },
+  -- {
+  --   source = { File = wt.GLOBAL.background },
+  --   horizontal_align = "Center",
+  -- },
 }
 
 Config.inactive_pane_hsb = {
@@ -82,8 +85,7 @@ Config.visual_bell = {
 
 ---window appearance
 Config.window_padding = { left = 1, right = 1, top = 1, bottom = 0 }
--- Config.window_background_opacity = 0
--- Config.win32_system_backdrop = "Acrylic"
+Config.window_background_opacity = 0.8
 if fs.platform().is_win then
   Config.window_decorations = "RESIZE"
 end
@@ -105,7 +107,6 @@ Config.window_close_confirmation = "AlwaysPrompt"
 
 color.set_tab_button(Config, theme)
 
-Config.window_background_opacity = 1
 Config.win32_system_backdrop = "Auto"
 
 return Config

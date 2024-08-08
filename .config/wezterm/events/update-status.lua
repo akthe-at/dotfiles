@@ -33,8 +33,8 @@ wt.on("update-status", function(window, pane)
   local bg = theme.ansi[5]
   local mode_indicator_width = 0
 
-  -- {{{1 LEFT STATUS
-  local LeftStatus = StatusBar:new()
+  -- {{{1 LEFT STATU
+  local LeftStatus = StatusBar:new "LeftStatus"
   local name = window:active_key_table()
   if name and modes[name] then
     local txt, ico = modes[name].txt or "", modes[name].i or ""
@@ -46,7 +46,7 @@ wt.on("update-status", function(window, pane)
   -- }}}
 
   -- {{{1 RIGHT STATUS
-  local RightStatus = StatusBar:new() ---@class Layout
+  local RightStatus = StatusBar:new "RightStatus"
 
   --~~ {{{2 Calculate the used width by the @tabs
   local MuxWindow = window:mux_window()
@@ -180,14 +180,18 @@ wt.on("update-status", function(window, pane)
   window:set_right_status(RightStatus:format())
   --~ }}}
   -- }}}
-  --   local bar = wez.plugin.require "https://github.com/adriankarlen/bar.wezterm"
+  --   local bar = wt.plugin.require "https://github.com/akthe-at/bar.wezterm"
   --   bar.apply_to_config(Config, {
-  --     max_width = 32,
+  --     max_width = 21,
   --     enabled_modules = {
   --       username = false,
   --       hostname = false,
+  --       pane = false,
+  --       workspace = true,
   --       cwd = true,
   --       clock = true,
+  --       left_status = false,
+  --       right_status = true,
   --     },
   --   })
 end)

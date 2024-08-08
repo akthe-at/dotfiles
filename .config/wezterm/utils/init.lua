@@ -1,12 +1,12 @@
 ---@class Utils
 ---@field fn    Utils.Fn
 ---@field class Utils.Class
----@field picker Utils.Class.Picker
 local M = {}
 
+local mod = ...
 setmetatable(M, {
   __index = function(t, k)
-    t[k] = require("utils." .. k)
+    t[k] = require(mod .. "." .. k)
     return t[k]
   end,
 })
