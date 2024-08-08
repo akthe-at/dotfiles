@@ -146,14 +146,14 @@ local mappings = {
   --   wezterm.action_callback(workspace_switcher.switch_workspace),
   --   "",
   -- },
-  ---Custom Backdrops---
-  -- {
-  --   "<leader>N>",
-  --   wezterm.action_callback(function(window, _)
-  --     backdrops:random(window)
-  --   end),
-  --   "",
-  -- },
+  -- -Custom Backdrops---
+  {
+    "<M-/>",
+    wezterm.action_callback(function(window, _)
+      backdrops:random(window)
+    end),
+    "",
+  },
   {
     "<leader>/",
     act.InputSelector {

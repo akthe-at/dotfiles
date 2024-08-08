@@ -180,20 +180,20 @@ wt.on("update-status", function(window, pane)
   window:set_right_status(RightStatus:format())
   --~ }}}
   -- }}}
-  --   local bar = wt.plugin.require "https://github.com/akthe-at/bar.wezterm"
-  --   bar.apply_to_config(Config, {
-  --     max_width = 21,
-  --     enabled_modules = {
-  --       username = false,
-  --       hostname = false,
-  --       pane = false,
-  --       workspace = true,
-  --       cwd = true,
-  --       clock = true,
-  --       left_status = false,
-  --       right_status = true,
-  --     },
-  --   })
+  local bar = wt.plugin.require "https://github.com/akthe-at/bar.wezterm"
+  bar.apply_to_config(Config, {
+    max_width = 21,
+    enabled_modules = {
+      username = false,
+      hostname = false,
+      pane = false,
+      workspace = true,
+      cwd = true,
+      clock = true,
+      left_status = false,
+      right_status = true,
+    },
+  })
 end)
 -- luacheck: pop
 
