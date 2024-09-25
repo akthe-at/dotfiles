@@ -6,6 +6,8 @@ local wk = require("which-key")
 -- the following keymap avoid the x delete key from overwriting the system clipboard
 vim.keymap.set("n", "x", '"_x')
 
+vim.api.nvim_set_keymap("n", "<localleader>pp", "<cmd>!uv run %<CR>", { noremap = false, silent = true })
+
 -- Launch Lua Debugger
 vim.keymap.set("n", "<leader>dl", '<cmd>lua require"osv".launch({port = 8086})<CR>', { desc = "Launch Lua Debugger" })
 
@@ -22,13 +24,8 @@ vim.keymap.set("n", "<leader>os", "<cmd>ObsidianSearch<CR>", { desc = "Search in
 vim.keymap.set("n", "<leader>oq", "<cmd>ObsidianQuickSwitch<CR>", { desc = "Quick switch to a note" })
 vim.keymap.set("n", "<leader>od", "<cmd>ObsidianToday<CR>", { desc = "Open today's note" })
 
--- next greatest remap ever : asbjornHaland
 -- Don't use anymore because by default yank goes to system clipboard for now, may change in the future.
 -- vim.keymap.set({ 'n', 'v' }, '<leader>y', [["+y]])
-
--- Some more keymaps I dont use currently
--- vim.keymap.set('i', '<S-n>', '<esc><cmd>m .+1<cr>==gi', { desc = 'Move down' })
--- vim.keymap.set('i', '<S-m>', '<esc><cmd>m .-2<cr>==gi', { desc = 'Move up' })
 
 -- vim.keymap.set({ "n", "v" }, "<leader>D", '"_d')
 vim.keymap.set("x", "<leader>p", [["_dP]])
@@ -58,11 +55,6 @@ vim.keymap.set("n", "<leader>gnp", ":Neogit pull<CR>", { desc = "Neogit Pull" })
 vim.keymap.set("n", "<leader>gnP", ":Neogit push<CR>", { desc = "Neogit push" })
 vim.keymap.set("n", "<leader>gB", ":FzfLua git_branches<CR>", { desc = "FzfLua [g]it_[B]ranches" })
 vim.keymap.set("n", "<leader>gnb", ":Git blame<CR>", { desc = "Git Blame" })
-
------------------------------
---huez
--- vim.keymap.set("n", "<leader>co", "<cmd>Huez<cr>", { desc = "Start Huez" })
--- end huez -----------------
 
 -----------------------------
 -- START OF QUARTO SECTION --
@@ -221,7 +213,6 @@ end
 --   { "<cr>", send_cell, desc = "run code cell", prefix = "<leader>", mode = "n" },
 -- })
 
-
 -- normal mode with <leader>
 wk.add({
   {
@@ -231,20 +222,34 @@ wk.add({
     { "<localleader>cn", new_terminal_shell, desc = "[n]ew terminal with shell" },
     { "<localleader>cp", new_terminal_python, desc = "new [p]ython terminal" },
     { "<localleader>cr", new_terminal_r, desc = "new [R] terminal" },
-    { "<localleader>gwc", ":lua require('telescope').extensions.git_worktree.create_git_worktree()<cr>", desc = "worktree create" },
-    { "<localleader>gws", ":lua require('telescope').extensions.git_worktree.git_worktrees()<cr>", desc = "worktree switch" },
+    {
+      "<localleader>gwc",
+      ":lua require('telescope').extensions.git_worktree.create_git_worktree()<cr>",
+      desc = "worktree create",
+    },
+    {
+      "<localleader>gws",
+      ":lua require('telescope').extensions.git_worktree.git_worktrees()<cr>",
+      desc = "worktree switch",
+    },
     { "<localleader>o", group = "[o]tter & c[o]de" },
-    { "<localleader>oa", require'otter'.activate, desc = "otter [a]ctivate" },
+    { "<localleader>oa", require("otter").activate, desc = "otter [a]ctivate" },
     { "<localleader>ob", insert_bash_chunk, desc = "[b]ash code chunk" },
     { "<localleader>oc", "O# %%<cr>", desc = "magic [c]omment code chunk # %%" },
-    { "<localleader>od", require'otter'.activate, desc = "otter [d]eactivate" },
+    { "<localleader>od", require("otter").activate, desc = "otter [d]eactivate" },
     { "<localleader>ol", insert_lua_chunk, desc = "[l]lua code chunk" },
     { "<localleader>op", insert_py_chunk, desc = "[p]ython code chunk" },
     { "<localleader>or", insert_r_chunk, desc = "[r] code chunk" },
     { "<localleader>q", group = "[q]uarto" },
-    { "<localleader>qE", function() require('otter').export(true) end, desc = "[E]xport with overwrite" },
+    {
+      "<localleader>qE",
+      function()
+        require("otter").export(true)
+      end,
+      desc = "[E]xport with overwrite",
+    },
     { "<localleader>qa", ":QuartoActivate<cr>", desc = "[a]ctivate" },
-    { "<localleader>qe", require('otter').export, desc = "[e]xport" },
+    { "<localleader>qe", require("otter").export, desc = "[e]xport" },
     { "<localleader>qh", ":QuartoHelp ", desc = "[h]elp" },
     { "<localleader>qp", ":lua require'quarto'.quartoPreview()<cr>", desc = "[p]review" },
     { "<localleader>qq", ":lua require'quarto'.quartoClosePreview()<cr>", desc = "[q]uiet preview" },
@@ -256,8 +261,8 @@ wk.add({
     { "<localleader>rt", show_r_table, desc = "show [t]able" },
     { "<localleader>x", group = "e[x]ecute" },
     { "<localleader>xx", ":w<cr>:source %<cr>", desc = "[x] source %" },
-  }
-}, { mode = 'n'})
+  },
+}, { mode = "n" })
 -- END OF QUARTO SECTION --
 -----------------------------
 -----------------------------

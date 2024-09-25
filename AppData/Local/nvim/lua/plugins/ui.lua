@@ -19,12 +19,12 @@ return {
     "folke/noice.nvim",
     event = "VeryLazy",
     opts = {
-      -- mini = {
-      --   position = {
-      --     -- row = -3,
-      --     -- col = "100%",
-      --   },
-      -- },
+      mini = {
+        position = {
+          -- row = -2,
+          -- col = -2,
+        },
+      },
       popupmenu = {
         enabled = true,
         backend = "nui",
@@ -58,9 +58,9 @@ return {
           },
         },
         override = {
-          ["vim.lsp.util.convert_input_to_markdown_lines"] = false,
-          ["vim.lsp.util.stylize_markdown"] = false,
-          ["cmp.entry.get_documentation"] = false,
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true,
         },
       },
       routes = {
@@ -76,12 +76,25 @@ return {
           view = "mini",
         },
       },
+      views = {
+        win_options = {
+          winblend = 0,
+        },
+        border = {
+          style = "single",
+        },
+        cmdline_popup = {
+          border = {
+            style = "single",
+          },
+        },
+      },
       presets = {
         bottom_search = true,
         command_palette = true,
         long_message_to_split = true,
         inc_rename = true,
-        -- lsp_doc_border = true, -- add a border to hover docs and signature help
+        lsp_doc_border = true, -- add a border to hover docs and signature help
       },
     },
   -- stylua: ignore

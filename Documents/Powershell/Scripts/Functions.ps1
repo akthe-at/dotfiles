@@ -1,5 +1,6 @@
 # Snagged from the one and only @AndrewPla
 # https://github.com/devops-collective-inc/PSHSummit2023/blob/main/andrew-pla-cross-platform-tuis/1%20-%20Basics/Out-ConsoleGridView%20Examples.ps1
+
 function ocgv_history
 {
   param(
@@ -51,6 +52,10 @@ function Test-Administrator
 # Aliases
 # Use function because it's faster to load
 
+function ls
+{ eza $args --icons=always
+}
+
 function ll
 { eza $args --long --icons=always
 }
@@ -69,7 +74,7 @@ function ActivatePyEnv
   [Alias('ape')]
   param()
 
-  $envPaths = @(".\env\Scripts\Activate.ps1", ".\.venv\Scripts\Activate.ps1", ".\venv\Scripts\Activate.ps1")
+  $envPaths = @(".\env\Scripts\Activate.ps1", ".\.venv\Scripts\Activate.ps1", ".\venv\Scripts\Activate.ps1", "..\.venv\Scripts\Activate.ps1", "..\..\.venv\Scripts\Activate.ps1", "..\..\..\.venv\Scripts\Activate.ps1\")
   
   $found = $false
   foreach ($path in $envPaths)

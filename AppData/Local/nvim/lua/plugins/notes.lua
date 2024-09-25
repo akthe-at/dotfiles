@@ -1,8 +1,10 @@
 return {
   {
-    "meanderingprogrammer/markdown.nvim",
+    "MeanderingProgrammer/render-markdown.nvim",
+    event = "LazyFile",
+    cmd = { "RenderMarkdown" },
     opts = {
-      file_types = { "markdown", "quarto", "norg", "rmd", "org" },
+      file_types = { "quarto", "markdown", "norg", "rmd", "org", "vimwiki" },
       code = {
         sign = true,
         width = "block",
@@ -10,54 +12,28 @@ return {
       },
       heading = {
         sign = true,
+        position = "inline",
         icons = { "󰲡 ", "󰲣 ", "󰲥 ", "󰲧 ", "󰲩 ", "󰲫 " },
       },
     },
+    config = function(_, opts)
+      require("render-markdown").setup(opts)
+      LazyVim.toggle.map("<leader>um", {
+        name = "Render Markdown",
+        get = function()
+          return require("render-markdown.state").enabled
+        end,
+        set = function(enabled)
+          local m = require("render-markdown")
+          if enabled then
+            m.enable()
+          else
+            m.disable()
+          end
+        end,
+      })
+    end,
   },
-  -- {
-  --   "lukas-reineke/headlines.nvim",
-  --   enabled = true,
-  --   ft = { "qmd", "rmd" },
-  --   dependencies = "nvim-treesitter/nvim-treesitter",
-  --   config = function()
-  --     local custom = {
-  --       codeblock_highlight = false,
-  --       dash_string = "━",
-  --       fat_headlines = false,
-  --       headline_highlights = { "Headline1", "Headline2", "Headline3" },
-  --       bullet_highlights = { "Headline1", "Headline2", "Headline3" },
-  --       bullets = { "❯", "❯", "❯", "❯" },
-  --     }
-  --     local qmd = vim.tbl_deep_extend("force", custom, { treesitter_language = "markdown" })
-  --     local bg = "#292e42"
-  --     vim.api.nvim_set_hl(0, "Headline1", { fg = "#39DDFD", bg = bg })
-  --     vim.api.nvim_set_hl(0, "Headline2", { fg = "#04d1f9", bg = bg })
-  --     vim.api.nvim_set_hl(0, "Headline3", { fg = "#10A1BD", bg = bg })
-  --     vim.api.nvim_set_hl(0, "CodeBlock", { bg = bg })
-  --     vim.api.nvim_set_hl(0, "Dash", { fg = "#37f499", bold = true })
-  --     require("headlines").setup({
-  --       quarto = {
-  --         query = vim.treesitter.query.parse(
-  --           "markdown",
-  --           [[
-  --               (fenced_code_block) @codeblock
-  --               ]]
-  --         ),
-  --         codeblock_highlight = "CodeBlock",
-  --         treesitter_language = "markdown",
-  --       },
-  --       markdown = {
-  --         query = vim.treesitter.query.parse(
-  --           "markdown",
-  --           [[
-  --               (fenced_code_block) @codeblock
-  --               ]]
-  --         ),
-  --         codeblock_highlight = "CodeBlock",
-  --       },
-  --     })
-  --   end,
-  -- },
   {
     "shortcuts/no-neck-pain.nvim",
     cmd = "NoNeckPain",

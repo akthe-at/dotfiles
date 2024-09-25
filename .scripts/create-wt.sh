@@ -12,49 +12,73 @@ trap cleanup SIGINT SIGTERM ERR EXIT
 # shellcheck disable=SC2034
 script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
 
-usage() {
-  cat <<EOF
-Usage: $(basename "${BASH_SOURCE[0]}") [-h] [-v] [-f] [-b branch_name] [-B base_branch_name] [-p prefix] [-N] <path>
-
-This script facilitates setting up a new worktree, including creating a new worktree, installing dependencies, and creating a new branch.
-
-Order of arguments:
-1. -h, --help: This should be the first argument if you want to display the help message and exit.
-2. -v, --verbose: This should be the second argument if you want to enable verbose mode.
-3. -b, --branch: This should be the third argument if you want to specify the branch to create. It should be followed by the branch name.
-4. -B, --base: This should be the fourth argument if you want to specify the base branch for the new worktree. It should be followed by the base branch name.
-5. -p, --prefix: This should be the fifth argument if you want to specify the prefix to apply to the branch name. It should be followed by the prefix.
-6. -N, --no-create-upstream: This should be the sixth argument if you do not want to create an upstream branch.
-7. <path>: This should be the last argument. It specifies the path where the new worktree will be created.
-
-Available options:
-
--h, --help                    Print this help and exit
--v, --verbose                 Print script debug info
--b, --branch                  The branch to create
--B, --base                    The branch to use as the base for the new worktree (default: main)
--p, --prefix                  The prefix to apply to the branch name (default: $(git config github.user)/)
--N, --no-create-upstream      Do not create an upstream branch
-
-This script performs the following steps:
-
-1. Create a new worktree, based off the base branch (default: main)
-2. Create a new upstream branch to track the work
-3. Install dependencies
-4. Run a build
-
-Examples:
-
-1. Create a new worktree with a new branch:
-   ./create-wt.sh -b new-feature -B main -p feature/ ~/worktrees/new-feature
-   or: 
-    gwt -b feat/shah_peds -B main shah-peds
-    gwt -b (prefix/branch_name) -B (branch_to_base_from) (location_to_put_repo)
-2. Create a new worktree from an existing branch:
-   ./create-wt.sh ~/worktrees/existing-feature
-EOF
-  exit
+setup_colors() {
+  if [[ -t 2 ]] && [[ -z "${NO_COLOR-}" ]] && [[ "${TERM-}" != "dumb" ]]; then
+    NOFORMAT='\033[0m' RED='\033[0;31m' GREEN='\033[0;32m' ORANGE='\033[0;33m' BLUE='\033[0;34m' PURPLE='\033[0;35m' CYAN='\033[0;36m' YELLOW='\033[1;33m'
+  else
+    NOFORMAT='' RED='' GREEN='' ORANGE='' BLUE='' PURPLE='' CYAN='' YELLOW=''
+  fi
 }
+
+echocolor() {
+  local color="$1"
+  shift
+  printf "%b%s%b\n" "${!color}" "$*" "$NOFORMAT"
+}
+
+usage() {
+  echocolor BLUE "Usage: $(basename "${BASH_SOURCE[0]}") [-h] [-v] [-b branch_name] [-B base_branch_name] [-p prefix] [-N] <path>"
+  echo
+
+  echocolor YELLOW "This script facilitates setting up a new worktree, including creating a new worktree, creating a new branch, setting up remote tracking, and running uv sync if pyproject.toml is present."
+  echo
+
+  echocolor PURPLE "Order of arguments:"
+  echocolor GREEN "1. -h, --help:" "This should be the first argument if you want to display the help message and exit."
+  echocolor GREEN "2. -v, --verbose:" "This should be the second argument if you want to enable verbose mode."
+  echocolor GREEN "3. -b, --branch:" "This should be the third argument if you want to specify the branch to create. It should be followed by the branch name."
+  echocolor GREEN "4. -B, --base:" "This should be the fourth argument if you want to specify the base branch for the new worktree. It should be followed by the base branch name."
+  echocolor GREEN "5. -p, --prefix:" "This should be the fifth argument if you want to specify the prefix to apply to the branch name. It should be followed by the prefix."
+  echocolor GREEN "6. -N, --no-create-upstream:" "This should be the sixth argument if you do not want to create an upstream branch."
+  echocolor GREEN "7. <path>:" "This should be the last argument. It specifies the path where the new worktree will be created."
+  echo
+
+  echocolor PURPLE "Available options:"
+  echocolor GREEN "-h, --help" "                   Print this help and exit"
+  echocolor GREEN "-v, --verbose" "                Print script debug info"
+  echocolor GREEN "-b, --branch" "                 The branch to create"
+  echocolor GREEN "-B, --base" "                   The branch to use as the base for the new worktree (default: main)"
+  echocolor GREEN "-p, --prefix" "                 The prefix to apply to the branch name (default: $(git config github.user)/)"
+  echocolor GREEN "-N, --no-create-upstream" "     Do not create an upstream branch"
+  echo
+
+  echocolor PURPLE "This script performs the following steps:"
+  echo "1. Create a new worktree, based off the base branch (default: main)"
+  echo "2. Create a new upstream branch to track the work (unless -N is specified)"
+  echo "3. Install dependencies if pyproject.toml is present (using uv sync)"
+  echo
+
+  echocolor PURPLE "Examples:"
+  echocolor CYAN "1. Create a new worktree with a new branch:"
+  echocolor YELLOW "   $(basename "${BASH_SOURCE[0]}") -b new-feature -B main -p feature/ ~/worktrees/new-feature"
+  echocolor ORANGE "   or:"
+  echocolor YELLOW "   $(basename "${BASH_SOURCE[0]}") -b feat/user_auth -B develop user-authentication"
+  echo
+
+  echocolor CYAN "2. Create a new worktree from an existing branch:"
+  echocolor YELLOW "   $(basename "${BASH_SOURCE[0]}") ~/worktrees/existing-feature"
+  echo
+
+  echocolor CYAN "3. Create a new worktree without creating an upstream branch:"
+  echocolor YELLOW "   $(basename "${BASH_SOURCE[0]}") -N -b local-experiment ~/worktrees/experiment"
+  echo
+
+  echocolor CYAN "4. Create a new worktree with a custom prefix:"
+  echocolor YELLOW "   $(basename "${BASH_SOURCE[0]}") -p hotfix/ -b critical-fix ~/worktrees/urgent-fix"
+}
+
+# Make sure to call setup_colors before usage
+setup_colors
 
 cleanup() {
   trap - SIGINT SIGTERM ERR EXIT
@@ -62,23 +86,9 @@ cleanup() {
   # script cleanup here
 }
 
-setup_colors() {
-  if [[ -t 2 ]] && [[ -z "${NO_COLOR-}" ]] && [[ "${TERM-}" != "dumb" ]]; then
-    # shellcheck disable=SC2034
-    NOFORMAT='\033[0m' GRAY='\033[0;90m' RED='\033[0;31m' GREEN='\033[0;32m' ORANGE='\033[0;33m' BLUE='\033[0;34m' PURPLE='\033[0;35m' CYAN='\033[0;36m' YELLOW='\033[1;33m'
-  else
-    # shellcheck disable=SC2034
-    NOFORMAT='' GRAY='' RED='' GREEN='' ORANGE='' BLUE='' PURPLE='' CYAN='' YELLOW=''
-  fi
-}
-
 msg() {
   echo >&2 -e "${1-}"
 }
-
-# log() {
-#   echo >&2 -ne "${1-}"
-# }
 
 info() {
   msg "${GRAY}[INFO]${NOFORMAT} ${1-}"
@@ -87,7 +97,7 @@ info() {
 die() {
   local msg=$1
   local code=${2-1} # default exit status 1
-  msg "$msg"
+  msg "${RED}${msg}${NOFORMAT}"
   exit "$code"
 }
 
@@ -142,11 +152,15 @@ parse_params() {
     --no-color) NO_COLOR=1 ;;
     -N | --no-create-upstream) create_upstream=0 ;;
     -b | --branch)
-      branch="$2"
+      branch="${2-}"
       shift
       ;;
     -B | --base)
       base="${2-}"
+      shift
+      ;;
+    -p | --prefix)
+      prefix="${2-}"
       shift
       ;;
     -?*) die "Unknown option: $1" ;;
@@ -157,13 +171,11 @@ parse_params() {
 
   args=("$@")
 
-  # check required params and arguments
-  # [[ -z "${param-}" ]] && die "Missing required parameter: param"
   [[ ${#args[@]} -eq 0 ]] && die "Missing script arguments"
 
   # if a branch was not specified, generate one based on the prefix and folder name
   if [[ -z "$branch" ]]; then
-    branch="${prefix}${args[0]}"
+    branch="${prefix}${args[0]##*/}"
   fi
 
   worktree="${args[0]}"
@@ -172,7 +184,6 @@ parse_params() {
 }
 
 parse_params "$@"
-setup_colors
 
 update_remote() {
   local branch="$1"
@@ -180,27 +191,42 @@ update_remote() {
   # do nothing if create_upstream is disabled
   [ $create_upstream -eq 0 ] && return 0
 
-  if [[ -z "$(git ls-remote --heads origin "$branch")" ]]; then
-    # create remote branch
-    msg "${GRAY}Branch '$branch' does not exist on remote. Creating."
-    run_command "Creating remote branch ${branch}..." git push -u origin "$branch"
+  if ! git ls-remote --exit-code --heads origin "$branch" &>/dev/null; then
+    msg "${CYAN}Branch '$branch' does not exist on remote. Creating.${NOFORMAT}"
+    if ! git push -u origin "$branch"; then
+      die "Failed to create remote branch ${branch}"
+    fi
   else
-    msg "${GRAY}Branch '$branch' exists. Setting upstream."
-    run_command "Setting upstream branch to 'origin/$branch'" git branch --set-upstream-to="origin/$branch"
+    msg "${CYAN}Branch '$branch' exists. Setting upstream.${NOFORMAT}"
+    if ! git branch --set-upstream-to="origin/$branch"; then
+      die "Failed to set upstream to 'origin/$branch'"
+    fi
   fi
 }
 
 # check if branch already exists
-if [[ -n "$(git branch --list "$branch")" ]]; then
-  run_command "Generating new worktree from existing branch: $branch" git worktree add "$worktree" "$branch"
+if git show-ref --verify --quiet "refs/heads/$branch"; then
+  if ! git worktree add "$worktree" "$branch"; then
+    die "Failed to create worktree from existing branch: $branch"
+  fi
 else
-  run_command "Generating new worktree: $worktree" git worktree add -b "$branch" "$worktree" "$base"
+  if ! git worktree add -b "$branch" "$worktree" "$base"; then
+    die "Failed to create new worktree: $worktree"
+  fi
 fi
 
-msg "${GRAY}Moving into worktree: $worktree${NOFORMAT}"
-cd "$worktree"
+msg "${CYAN}Moving into worktree: $worktree${NOFORMAT}"
+cd "$worktree" || die "Failed to change directory to $worktree"
+
 update_remote "$branch"
-# run_command "Setting Node version" fnm use < .nvmrc
-# run_command "Installing dependencies" npm --no-progress --silent install
-# run_command "Building App" npm run --silent build
-msg "${GREEN}Success.${NOFORMAT}"
+# Check for pyproject.toml and run uv sync if present
+if [ -f "pyproject.toml" ]; then
+  msg "${CYAN}pyproject.toml found. Running uv sync...${NOFORMAT}"
+  if ! run_command "Installing dependencies" uv sync; then
+    die "Failed to run uv sync"
+  fi
+else
+  msg "${YELLOW}No pyproject.toml found. Skipping dependency installation.${NOFORMAT}"
+fi
+# run_command "Installing dependencies" uv sync
+msg "${GREEN}Worktree setup complete.${NOFORMAT}"

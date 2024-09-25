@@ -1,4 +1,38 @@
 return {
+  {
+    "LazyVim/LazyVim",
+    version = false,
+    opts = {
+      colorscheme = "onenord",
+      -- colorscheme = "rose-pine",
+      -- colorscheme = "rose-pine-moon",
+      -- colorscheme = "rose-pine-dawn",
+      -- colorscheme = "tokyonight",
+      -- colorscheme = "tokyonight-day",
+      -- colorscheme = "tokyonight-night",
+      -- colorscheme = "dracula",
+      -- colorscheme = "miss-dracula",
+      -- colorscheme = "nordern",
+      -- colorscheme = "arctic",
+      -- colorscheme = "lavish-dark",
+      -- colorscheme = "onedark_vivid",
+      -- colorscheme = "bluloco",
+      -- colorscheme = "vscode",
+      -- colorscheme = "bamboo",
+      -- colorscheme = "everforest",
+      -- colorscheme = "cyberdream",
+      -- colorscheme = "night-owl",
+      -- colorscheme = "eldritch",
+      -- colorscheme = "evangelion",
+      -- colorscheme = "catppuccin",
+      -- colorscheme = "kanagawa",
+      -- colorscheme = "hardhacker",
+      -- colorscheme = "gruvbox",
+      -- colorscheme = "gruvbox-baby",
+      -- colorscheme = "gruvbox-material",
+      -- colorscheme = "yorumi",
+    },
+  },
   -- {
   --   dir = "C:/Users/ARK010/.plugins/venv-selector.nvim",
   --   branch = "regexp",
@@ -10,135 +44,18 @@ return {
   --   --  Call config for python files and load the cached venv automatically
   --   -- ft = "python",
   --   keys = { { "<leader>cv", "<cmd>:VenvSelect<cr>", desc = "Select VirtualEnv", ft = "python" } },
-  --   opts = {
-  --     settings = {
-  --       debug = true,
-  --       notify_user_on_venv_activation = true,
-  --       -- picker = "fzf-lua",
-  --     },
-  --   },
+  --   config = function()
+  --     require("venv-selector").setup({
+  --       settings = {
+  --         options = {
+  --           debug = true,
+  --           notify_user_on_venv_activation = true,
+  --           picker = "telescope",
+  --         },
+  --       },
+  --     })
+  --   end,
   -- },
-  {
-    "nvim-neotest/neotest",
-    dependencies = {
-      "nvim-neotest/nvim-nio",
-      "nvim-lua/plenary.nvim",
-      "antoinemadec/FixCursorHold.nvim",
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-neotest/neotest-python",
-    },
-    opts = {
-      -- Can be a list of adapters like what neotest expects,
-      -- or a list of adapter names,
-      -- or a table of adapter names, mapped to adapter configs.
-      -- The adapter will then be automatically loaded with the config.
-      adapters = {
-        ["neotest-python"] = {
-          -- Here you can specify the settings for the adapter, i.e.
-          runner = "pytest",
-          python = ".venv/Scripts/python",
-        },
-      },
-      status = { virtual_text = true },
-      output = { open_on_run = true },
-      quickfix = {
-        open = function()
-          if LazyVim.has("trouble.nvim") then
-            require("trouble").open({ mode = "quickfix", focus = false })
-          else
-            vim.cmd("copen")
-          end
-        end,
-      },
-    },
-    config = function(_, opts)
-      local neotest_ns = vim.api.nvim_create_namespace("neotest")
-      vim.diagnostic.config({
-        virtual_text = {
-          format = function(diagnostic)
-            -- Replace newline and tab characters with space for more compact diagnostics
-            local message = diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
-            return message
-          end,
-        },
-      }, neotest_ns)
-
-      if LazyVim.has("trouble.nvim") then
-        opts.consumers = opts.consumers or {}
-        -- Refresh and auto close trouble after running tests
-        ---@type neotest.Consumer
-        opts.consumers.trouble = function(client)
-          client.listeners.results = function(adapter_id, results, partial)
-            if partial then
-              return
-            end
-            local tree = assert(client:get_position(nil, { adapter = adapter_id }))
-
-            local failed = 0
-            for pos_id, result in pairs(results) do
-              if result.status == "failed" and tree:get_key(pos_id) then
-                failed = failed + 1
-              end
-            end
-            vim.schedule(function()
-              local trouble = require("trouble")
-              if trouble.is_open() then
-                trouble.refresh()
-                if failed == 0 then
-                  trouble.close()
-                end
-              end
-            end)
-            return {}
-          end
-        end
-      end
-
-      if opts.adapters then
-        local adapters = {}
-        for name, config in pairs(opts.adapters or {}) do
-          if type(name) == "number" then
-            if type(config) == "string" then
-              config = require(config)
-            end
-            adapters[#adapters + 1] = config
-          elseif config ~= false then
-            local adapter = require(name)
-            if type(config) == "table" and not vim.tbl_isempty(config) then
-              local meta = getmetatable(adapter)
-              if adapter.setup then
-                adapter.setup(config)
-              elseif adapter.adapter then
-                adapter.adapter(config)
-                adapter = adapter.adapter
-              elseif meta and meta.__call then
-                adapter(config)
-              else
-                error("Adapter " .. name .. " does not support setup")
-              end
-            end
-            adapters[#adapters + 1] = adapter
-          end
-        end
-        opts.adapters = adapters
-      end
-
-      require("neotest").setup(opts)
-    end,
-  -- stylua: ignore
-  keys = {
-    {"<leader>t", "", desc = "+test"},
-    { "<leader>tt", function() require("neotest").run.run(vim.fn.expand("%")) end, desc = "Run File" },
-    { "<leader>tT", function() require("neotest").run.run(vim.uv.cwd()) end, desc = "Run All Test Files" },
-    { "<leader>tr", function() require("neotest").run.run() end, desc = "Run Nearest" },
-    { "<leader>tl", function() require("neotest").run.run_last() end, desc = "Run Last" },
-    { "<leader>ts", function() require("neotest").summary.toggle() end, desc = "Toggle Summary" },
-    { "<leader>to", function() require("neotest").output.open({ enter = true, auto_close = true }) end, desc = "Show Output" },
-    { "<leader>tO", function() require("neotest").output_panel.toggle() end, desc = "Toggle Output Panel" },
-    { "<leader>tS", function() require("neotest").run.stop() end, desc = "Stop" },
-    { "<leader>tw", function() require("neotest").watch.toggle(vim.fn.expand("%")) end, desc = "Toggle Watch" },
-  },
-  },
   {
     "linux-cultist/venv-selector.nvim",
     dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
@@ -154,32 +71,6 @@ return {
     preset = "modern",
     notify = false,
   } },
-  {
-    "LazyVim/LazyVim",
-    version = false,
-    opts = {
-      -- colorscheme = "tokyonight-night",
-      -- colorscheme = "bamboo",
-      -- colorscheme = "tokyonight",
-      -- colorscheme = "tokyonight-day",
-      -- colorscheme = "dracula",
-      -- colorscheme = "rose-pine-dawn",
-      colorscheme = "rose-pine-moon",
-      -- colorscheme = "flow",
-      -- colorscheme = "rose-pine",
-      -- colorscheme = "bluloco",
-      -- colorscheme = "everforest",
-      -- colorscheme = "cyberdream",
-      -- colorscheme = "night-owl",
-      -- colorscheme = "arctic",
-      -- colorscheme = "gruvbox-material",
-      -- colorscheme = "eldritch",
-      -- colorscheme = "kanagawa",
-      -- colorscheme = "catppuccin",
-      -- colorscheme = "miss-dracula",
-      -- colorscheme = "gruvbox",
-    },
-  },
   {
     "neovim/nvim-lspconfig",
     ---@class PluginLspOpts
@@ -231,6 +122,7 @@ return {
           timous_ms = nil,
         },
         -- LSP Server Settings
+        ---@diagnostic disable-next-line: undefined-doc-name
         ---@type lspconfig.options
         servers = {
           -- clangd = {},
@@ -287,6 +179,31 @@ return {
             filetypes_exclude = { "markdown", "md" },
             filetypes_include = { "html", "htmldjango" },
           },
+          harper_ls = {
+            filetypes = { "markdown", "quarto", "python", "qmd" },
+            settings = {
+              ["harper-ls"] = {
+                userDictPath = "~/dict.txt",
+                linters = {
+                  spell_check = true,
+                  spelled_numbers = false,
+                  an_a = true,
+                  sentence_capitalization = true,
+                  unclosed_quotes = true,
+                  wrong_quotes = false,
+                  long_sentences = true,
+                  repeated_words = true,
+                  spaces = true,
+                  matcher = true,
+                  correct_number_suffix = true,
+                  number_suffix_capitalization = true,
+                  multiple_sequential_pronouns = true,
+                  linking_verbs = false,
+                  avoid_curses = true,
+                },
+              },
+            },
+          },
           lua_ls = {
             settings = {
               Lua = {
@@ -329,6 +246,10 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter",
+    dependencies = {
+      { "nushell/tree-sitter-nu", build = ":TSUpdate nu" },
+    },
+    build = ":TSUpdate",
     opts = {
       highlight = { enable = true },
       indent = { enable = true },
@@ -356,8 +277,8 @@ return {
       incremental_selection = {
         enable = true,
         keymaps = {
-          init_selection = "<C-space>",
-          node_incremental = "<C-space>",
+          init_selection = "<c-space>",
+          node_incremental = "<c-space>",
           scope_incremental = false,
           node_decremental = "<bs>",
         },

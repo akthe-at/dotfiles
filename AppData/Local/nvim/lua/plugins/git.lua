@@ -46,7 +46,7 @@ return {
       "ibhagwan/fzf-lua", -- optional
     },
     opts = {
-      kind = "tab",
+      kind = "floating",
       commit_editor = { kind = "split" },
       integrations = { diffview = true, telescope = nil, fzf_lua = true },
     },

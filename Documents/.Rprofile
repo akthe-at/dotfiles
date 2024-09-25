@@ -7,4 +7,5 @@ options(styler.cache_root = "styler-perm")
 #   languageserver.server_capabilities =
 #     list(completionProvider = FALSE, completionItemResolve = FALSE)
 # )
-options(download.file.method="auto", download.file.extra="--ssl-revoke-best-effort")
+options(download.file.method = "auto", download.file.extra = "--ssl-revoke-best-effort")
+options(repos = c(CRAN = "https://repo.miserver.it.umich.edu/cran/"))

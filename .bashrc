@@ -14,34 +14,34 @@ alias wezmux='bash ~/.scripts/wezmux.sh'
 
 # yazi quick start
 function yy() {
-	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
-	yazi "$@" --cwd-file="$tmp"
-	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-		cd -- "$cwd"
-	fi
-	rm -f -- "$tmp"
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+  yazi "$@" --cwd-file="$tmp"
+  if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+    cd -- "$cwd"
+  fi
+  rm -f -- "$tmp"
 }
 
 # Disable the bell
 if [[ $iatest -gt 0 ]]; then bind "set bell-style visible"; fi
 
-ActivatePyEnv() {
-	envPaths=("env/Scripts/activate" ".venv/Scripts/activate" "venv/Scripts/activate")
-
-	found=false
-	for path in "${envPaths[@]}"; do
-		if [ -f "$path" ]; then
-			source "$path"
-			found=true
-			break
-		fi
-	done
-
-	if [ "$found" = false ]; then
-		echo "No virtual environment found in this directory"
-	fi
-}
-alias ape=ActivatePyEnv
+# ActivatePyEnv() {
+#   envPaths=("env/Scripts/activate" ".venv/Scripts/activate" "venv/Scripts/activate")
+#
+#   found=false
+#   for path in "${envPaths[@]}"; do
+#     if [ -f "$path" ]; then
+#       source "$path"
+#       found=true
+#       break
+#     fi
+#   done
+#
+#   if [ "$found" = false ]; then
+#     echo "No virtual environment found in this directory"
+#   fi
+# }
+# alias ape=ActivatePyEnv
 # Expand the history size
 export HISTFILESIZE=10000
 export HISTSIZE=500
@@ -62,6 +62,8 @@ if [[ $iatest -gt 0 ]]; then bind "set completion-ignore-case on"; fi
 
 # Show auto-completion list automatically, without double tab
 if [[ $iatest -gt 0 ]]; then bind "set show-all-if-ambiguous On"; fi
+# Show list of options?
+if [[ $iatest -gt 0 ]]; then bind 'TAB:menu-complete'; fi
 
 # To have colors for ls and all grep commands such as grep, egrep and zgrep
 export CLICOLOR=1
@@ -122,49 +124,34 @@ alias h="history | grep "
 
 # Search files in the current folder
 alias f="find . | grep "
-
-function activate_pyenv() {
-	env_paths=("env/Scripts/activate" ".venv/Scripts/activate" "venv/Scripts/activate")
-	found=false
-
-	for path in "${env_paths[@]}"; do
-		if [ -f "$path" ]; then
-			source $path
-			found=true
-			break
-		fi
-	done
-
-	if [ "$found" = false ]; then
-		echo "No virtual environment found in this directory"
-	fi
-}
+source ~/.scripts/env_act.sh
+alias ape='activate_pyenv'
 
 _z_cd() {
-	cd "$@" || return "$?"
+  cd "$@" || return "$?"
 
-	if [ "$_ZO_ECHO" = "1" ]; then
-		echo "$PWD"
-	fi
+  if [ "$_ZO_ECHO" = "1" ]; then
+    echo "$PWD"
+  fi
 }
 
 z() {
-	if [ "$#" -eq 0 ]; then
-		_z_cd ~
-	elif [ "$#" -eq 1 ] && [ "$1" = '-' ]; then
-		if [ -n "$OLDPWD" ]; then
-			_z_cd "$OLDPWD"
-		else
-			echo 'zoxide: $OLDPWD is not set'
-			return 1
-		fi
-	else
-		_zoxide_result="$(zoxide query -- "$@")" && _z_cd "$_zoxide_result"
-	fi
+  if [ "$#" -eq 0 ]; then
+    _z_cd ~
+  elif [ "$#" -eq 1 ] && [ "$1" = '-' ]; then
+    if [ -n "$OLDPWD" ]; then
+      _z_cd "$OLDPWD"
+    else
+      echo 'zoxide: $OLDPWD is not set'
+      return 1
+    fi
+  else
+    _zoxide_result="$(zoxide query -- "$@")" && _z_cd "$_zoxide_result"
+  fi
 }
 
 zi() {
-	_zoxide_result="$(zoxide query -i -- "$@")" && _z_cd "$_zoxide_result"
+  _zoxide_result="$(zoxide query -i -- "$@")" && _z_cd "$_zoxide_result"
 }
 
 alias ape='activate_pyenv'
@@ -175,16 +162,16 @@ alias zqi='zoxide query -i'
 
 alias zr='zoxide remove'
 zri() {
-	_zoxide_result="$(zoxide query -i -- "$@")" && zoxide remove "$_zoxide_result"
+  _zoxide_result="$(zoxide query -i -- "$@")" && zoxide remove "$_zoxide_result"
 }
 
 _zoxide_hook() {
-	if [ -z "${_ZO_PWD}" ]; then
-		_ZO_PWD="${PWD}"
-	elif [ "${_ZO_PWD}" != "${PWD}" ]; then
-		_ZO_PWD="${PWD}"
-		zoxide add "$(pwd -L)"
-	fi
+  if [ -z "${_ZO_PWD}" ]; then
+    _ZO_PWD="${PWD}"
+  elif [ "${_ZO_PWD}" != "${PWD}" ]; then
+    _ZO_PWD="${PWD}"
+    zoxide add "$(pwd -L)"
+  fi
 }
 
 case "$PROMPT_COMMAND" in

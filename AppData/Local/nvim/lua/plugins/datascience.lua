@@ -88,20 +88,25 @@ return {
             "n",
             "<localleader>e",
             ":MoltenEvaluateOperator<CR>",
-            { desc = "evaluate operator", silent = true }
+            { desc = "Evaluate Operator - Molten", silent = true }
           )
-          vim.keymap.set("n", "<localleader>rr", ":MoltenReevaluateCell<CR>", { desc = "re-eval cell", silent = true })
+          vim.keymap.set(
+            "n",
+            "<localleader>rr",
+            ":MoltenReevaluateCell<CR>",
+            { desc = "Re-eval Cell - Molten", silent = true }
+          )
           vim.keymap.set(
             "v",
             "<localleader>r",
             ":<C-u>MoltenEvaluateVisual<CR>gv",
-            { desc = "execute visual selection", silent = true }
+            { desc = "Execute Visual Selection - Molten", silent = true }
           )
           vim.keymap.set(
             "n",
             "<localleader>os",
             ":noautocmd MoltenEnterOutput<CR>",
-            { desc = "open output window", silent = true }
+            { desc = "Open Output Window - Molten", silent = true }
           )
           vim.keymap.set(
             "n",
@@ -263,20 +268,21 @@ return {
   },
   {
     "quarto-dev/quarto-nvim",
-    ft = { "quarto", "markdown"},
+    ft = { "quarto", "markdown" },
     dependencies = {
       {
         "jmbuhr/otter.nvim",
-        },
       },
     },
+  },
   {
     "R-nvim/R.nvim",
     lazy = false,
     opts = {
-      R_path = "C:\\Users\\ARK010\\AppData\\Local\\Programs\\R\\R-4.3.3\\bin\\x64",
+      -- R_path = "C:\\Users\\ARK010\\AppData\\Local\\Programs\\R\\R-4.3.3\\bin\\x64",
       open_html = "open",
-      objbr_auto_start = true,
+      objbr_auto_start = false,
+      assignment_keymap = "\\]",
       objbr_opendf = false,
       objbr_place = "console, below",
       open_pdf = "no",
@@ -285,7 +291,7 @@ return {
       close_term = true,
       auto_quit = true,
       R_args = { "--no-save" },
-      pdfviewer = "sumatrapdf",
+      -- pdfviewer = "sumatrapdf",
       nvim_pager = "split_h",
       hook = {
         on_filetype = function()
@@ -294,6 +300,7 @@ return {
           -- opportunity to create mappings local to buffers.
           vim.keymap.set("n", "<Enter>", "<Plug>RDSendLine", { buffer = true })
           vim.keymap.set("v", "<Enter>", "<Plug>RSendSelection", { buffer = true })
+          vim.keymap.set("n", "<localleader>ir", ":Roxygenize<cr>", { buffer = true })
 
           -- Increase the width of which-key to handle the longer r-nvim descriptions
           local wk = require("which-key")
@@ -320,23 +327,23 @@ return {
     config = function(_, opts)
       vim.g.R_bracketed_paste = 0
       vim.g.rout_follow_colorscheme = false
-      vim.g.rout_color_input = "guifg=#f265b5"
-      vim.g.rout_color_normal = "guifg=#10A1BD"
-      vim.g.rout_color_number = "guifg=#c0c95f"
-      vim.g.rout_color_integer = "guifg=#c0c95f"
-      vim.g.rout_color_float = "guifg=#c0c95f"
-      vim.g.rout_color_complex = "guifg=#c0c95f"
-      vim.g.rout_color_negnum = "guifg=#a48cf2"
-      vim.g.rout_color_negfloat = "guifg=#a48cf2"
-      vim.g.rout_color_date = "guifg=#37f499"
-      vim.g.rout_color_true = "guifg=#37f499"
+      vim.g.rout_color_input = "guifg=#eb6f92"
+      vim.g.rout_color_normal = "guifg=#e0def4"
+      vim.g.rout_color_number = "guifg=#f6c177"
+      vim.g.rout_color_integer = "guifg=#f6c177"
+      vim.g.rout_color_float = "guifg=#f6c177"
+      vim.g.rout_color_complex = "guifg=#f6c177"
+      vim.g.rout_color_negnum = "guifg=#c4a7e7"
+      vim.g.rout_color_negfloat = "guifg=#c4a7e7"
+      vim.g.rout_color_date = "guifg=#56949f"
+      vim.g.rout_color_true = "guifg=#56949f"
       vim.g.rout_color_false = "guifg=#ff5d5e"
-      vim.g.rout_color_inf = "guifg=#04d1f9"
-      vim.g.rout_color_constant = "guifg=#39DDFD"
-      vim.g.rout_color_string = "guifg=#37f499"
-      vim.g.rout_color_error = "guifg=#ffffff guibg=#f0313e"
-      vim.g.rout_color_warn = "guifg=#f0313e"
-      vim.g.rout_color_index = "guifg=#d0d080"
+      vim.g.rout_color_inf = "guifg=#286983"
+      vim.g.rout_color_constant = "guifg=#286983"
+      vim.g.rout_color_string = "guifg=#56949f"
+      vim.g.rout_color_error = "guifg=#ffffff guibg=#b4637a"
+      vim.g.rout_color_warn = "guifg=#b4637a"
+      vim.g.rout_color_index = "guifg=#ea9d34"
       require("r").setup(opts)
       require("r.pdf.generic").open = vim.ui.open
     end,

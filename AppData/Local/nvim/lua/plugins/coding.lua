@@ -37,14 +37,26 @@ return {
         quiet = false, -- not recommended to change
       },
       formatters = {
-        injected = { options = { ignore_errors = true } },
-        -- custom script for using stylr on R files
-        -- rpretty = {
-        --   inherit = false,
-        --   stdin = false,
-        --   command = "StyleScript",
-        --   args = { "$FILENAME" },
-        -- },
+        injected = {
+          options = { ignore_errors = false },
+          lang_to_ext = {
+            bash = "sh",
+            c_sharp = "cs",
+            elixir = "exs",
+            javascript = "js",
+            julia = "jl",
+            latex = "tex",
+            markdown = "md",
+            python = "py",
+            ruby = "rb",
+            rust = "rs",
+            teal = "tl",
+            quarto = "qmd",
+            r = "r",
+            typescript = "ts",
+          },
+          lang_to_formatters = {},
+        },
         sql_formatter = {
           prepend_args = { "-c", vim.fn.expand("~/.config/sql_formatter.json") },
         },
@@ -55,8 +67,8 @@ return {
         htmldjango = { "djlint" },
         quarto = { "injected" },
         javascript = { "prettier" },
-        -- r = { "rpretty" },
         sh = { "shfmt" },
+        quarto = { "injected" },
         sql = { "sql_formatter" },
         ["*"] = { "injected" },
       },
@@ -66,7 +78,7 @@ return {
     "CopilotC-Nvim/CopilotChat.nvim",
     event = "LazyFile",
     branch = "canary",
-    cmd = "CopilotChat",
+    cmd = { "CopilotChat", "CopilotChatModel", "CopilotChatModels" },
     dependencies = {
       { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
       { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
@@ -140,6 +152,7 @@ return {
         end,
       })
 
+      require("CopilotChat.integrations.cmp").setup()
       chat.setup(opts)
     end,
   },
@@ -172,22 +185,22 @@ return {
       "onsails/lspkind-nvim",
       "L3MON4D3/LuaSnip",
       "saadparwaiz1/cmp_luasnip",
-      -- {
-      --   "zbirenbaum/copilot-cmp",
-      --   dependencies = "copilot.lua",
-      --   opts = {},
-      --   config = function(_, opts)
-      --     local copilot_cmp = require("copilot_cmp")
-      --     copilot_cmp.setup(opts)
-      --     -- attach cmp source whenever copilot attaches
-      --     -- fixes lazy-loading issues with the copilot cmp source
-      --     LazyVim.lsp.on_attach(function(client)
-      --       if client.name == "copilot" then
-      --         copilot_cmp._on_insert_enter({})
-      --       end
-      --     end)
-      --   end,
-      -- },
+      {
+        "zbirenbaum/copilot-cmp",
+        dependencies = "copilot.lua",
+        opts = {},
+        config = function(_, opts)
+          local copilot_cmp = require("copilot_cmp")
+          copilot_cmp.setup(opts)
+          -- attach cmp source whenever copilot attaches
+          -- fixes lazy-loading issues with the copilot cmp source
+          LazyVim.lsp.on_attach(function(client)
+            if client.name == "copilot" then
+              copilot_cmp._on_insert_enter({})
+            end
+          end)
+        end,
+      },
     },
     opts = function(_, opts)
       local cmp = require("cmp")
@@ -206,15 +219,16 @@ return {
         mapping = cmp.mapping.preset.insert({
           ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
           ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-f>"] = cmp.mapping.scroll_docs(4),
+          ["<C-h>"] = cmp.mapping.scroll_docs(-4),
+          ["<C-l>"] = cmp.mapping.scroll_docs(4),
           ["<C-y>"] = LazyVim.cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
           ["<CR>"] = cmp.config.disable,
           ["<C-e>"] = cmp.mapping.abort(),
           ["<C-Space>"] = cmp.mapping.complete(),
         }),
         sources = cmp.config.sources({
-          -- { name = "copilot" },
+          { name = "copilot" },
+          { name = "CopilotChat" },
           { name = "nvim_lsp" },
           { name = "cmp_r" },
           { name = "tailwindcss" },

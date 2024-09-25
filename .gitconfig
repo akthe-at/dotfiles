@@ -1,6 +1,8 @@
 [core]
 	editor = nvim
   autocrlf = false
+	fsmonitor = true
+	untrackedcache = true
 
 [mergetool]
   keepBackup = false

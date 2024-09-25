@@ -1,4 +1,4 @@
-#Set-PSDebug -Trace 1
+#Set-PSDebu -Trace 1
 
 #function prdb
 #{
@@ -264,3 +264,4 @@ $Env:KOMOREBI_CONFIG_HOME = 'C:\Users\ARK010\.config\komorebi'
 $Env:WHKD_CONFIG_HOME = 'C:\Users\ARK010\.config\komorebi'
 
 #Set-PSDebug -Trace 0
+Invoke-Expression (& { (zoxide init powershell --cmd cd | Out-String) })
