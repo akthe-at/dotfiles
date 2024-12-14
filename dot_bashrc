@@ -6,10 +6,6 @@ iatest=$(expr index "$-" i)
 # SOURCED ALIAS'S AND SCRIPTS BY zachbrowne.me
 #
 #######################################################
-# if [ -f /usr/bin/fastfetch ]; then
-#   fastfetch
-# fi
-
 # Source global definitions
 if [ -f /etc/bashrc ]; then
   . /etc/bashrc
@@ -91,21 +87,6 @@ export LESS_TERMCAP_se=$'\E[0m'
 export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
-
-#######################################################
-# MACHINE SPECIFIC ALIAS'S
-#######################################################
-
-# Alias's for SSH
-# alias SERVERNAME='ssh YOURWEBSITE.com -l USERNAME -p PORTNUMBERHERE'
-
-# Alias's to change the directory
-alias web='cd /var/www/html'
-
-# Alias's to mount ISO files
-# mount -o loop /home/NAMEOFISO.iso /home/ISOMOUNTDIR/
-# umount /home/NAMEOFISO.iso
-# (Both commands done as root only.)
 
 #######################################################
 # GENERAL ALIAS'S
@@ -457,45 +438,6 @@ ver() {
   esac
 }
 
-# Automatically install the needed support files for this .bashrc file
-install_bashrc_support() {
-  local dtype
-  dtype=$(distribution)
-
-  case $dtype in
-  "redhat")
-    sudo yum install multitail tree zoxide trash-cli fzf bash-completion fastfetch
-    ;;
-  "suse")
-    sudo zypper install multitail tree zoxide trash-cli fzf bash-completion fastfetch
-    ;;
-  "debian")
-    sudo apt-get install multitail tree zoxide trash-cli bash-completion
-    # Fetch the latest fastfetch release URL for linux-amd64 deb file
-    FASTFETCH_URL=$(curl -s https://api.github.com/repos/fastfetch-cli/fastfetch/releases/latest | grep "browser_download_url.*linux-amd64.deb" | cut -d '"' -f 4)
-
-    # Download the latest fastfetch deb file
-    curl -sL $FASTFETCH_URL -o /tmp/fastfetch_latest_amd64.deb
-
-    # Install the downloaded deb file using apt-get
-    sudo apt-get install /tmp/fastfetch_latest_amd64.deb
-    ;;
-  "arch")
-    sudo paru multitail tree zoxide trash-cli fzf bash-completion fastfetch
-    ;;
-  "slackware")
-    echo "No install support for Slackware"
-    ;;
-  *)
-    echo "Unknown distribution"
-    ;;
-  esac
-}
-
-function open() {
-  Explorer.exe "$(wslpath -w $1)"
-}
-
 # IP address lookup
 alias whatismyip="whatsmyip"
 function whatsmyip() {
@@ -520,12 +462,6 @@ trim() {
   var="${var%"${var##*[![:space:]]}"}" # remove trailing whitespace characters
   echo -n "$var"
 }
-
-#######################################################
-# Set the ultimate amazing command prompt
-#######################################################
-
-alias hug="hugo server -F --bind=10.0.0.97 --baseURL=http://10.0.0.97"
 
 # Check if the shell is interactive
 if [[ $- == *i* ]]; then
