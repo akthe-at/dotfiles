@@ -1,0 +1,204 @@
+ls
+exot
+exit
+ls
+exit
+ls
+cd slides.json
+nvim slides.json
+nvim
+ls
+nvim slides.json
+nvim
+cd ..
+ls
+cd PeerReview/
+ls
+git status
+nvim
+sudo apt-get install r-base-dev<\n>
+nvim
+ls
+config nu
+lsa
+la
+ls
+this
+lsa
+ls -a
+ls
+ls -a
+nvim
+ls
+ll
+l
+ls
+cd ~
+ls
+cd work
+ls
+cd DEMNm
+cd DEM
+ls
+cd PeerReview
+cd ..
+cd LeadershipSlides/
+ls
+nvim slides.json
+ls
+git status
+nvim
+R --help
+R -v
+ls
+uv sync
+tldr fzf
+ls
+fd
+find
+tldr find
+apt install fd-find
+sudo apt install fd-find
+fd
+fd-find
+fd
+ln -s $(which fdfind) ~/.local/bin/fd
+which fdfind
+bash
+sudo vim /etc/shells
+tmux
+chsh
+exit
+ls
+sudo vim /etc/shells
+ls
+zellij
+snap
+sudo snap find zellij
+sudo snap install zellij
+sudo snap install zellij --classic
+zellij
+/snap/zellij/current/bin/
+ls
+zellij
+sudo snap uninstall zellij
+snap help
+sudo snap remove zellij
+cargo install --locked zellij
+cd ~
+cargo install --locked zellij
+exit
+bash
+exit
+ls
+nvim .bashrc
+chsh
+<\n>bash
+exit
+exit
+open the_bank.db
+ls
+open the_bank.db | schema
+open the_bank.db | select * from schema
+exit
+open the_bank.db
+open the_bank.db | schema
+ls
+open 'the_bank.db' | schema
+cd ..
+ls
+cd ..
+ls
+open 'the_bank.db' | schema
+open the_bank.db | schema
+open the_bank.db
+open the_bank.db | schema
+ls
+cd src
+ls
+cd textual_bank/
+ls
+exit
+ls
+open the_bank.db | schema
+open the_bank.db
+open the_bank.db | query db "SELECT * FROM MyAccounts"
+ls
+open the_bank.db | query db "SELECT * FROM MyAccounts"
+open the_bank.db | query db "SELECT AccountType, strftime('%Y-%m-%d', PostedDate), Balance, Description, Category, Amount, Processed, Flagged FROM MyAccounts WHERE Processed = 'No' ORDER BY PostedDate DESC"
+exit
+exot
+exit
+ls
+bash
+exit
+ls
+exit
+ls
+exit
+ls
+ll
+config nu
+$nu.env-path
+config env
+config nu
+ls
+exit
+ls
+fzf
+config nu
+ls
+cd ..
+cd ~
+open new_demo.db 
+open new_demo.db | query 'SELECT * FROM tasks' 
+open new_demo.db | query "SELECT * FROM tasks"
+open new_demo.db | query db "SELECT * FROM tasks"
+open the_test_db.db | query db "SELECT * FROM tasks"
+nvim
+open the_test_db.db | query db "SELECT * FROM tasks"
+open new_demo.db | query "SELECT * FROM tasks"
+open new_demo.db | db query "SELECT * FROM tasks"
+open new_demo.db | query db "SELECT * FROM tasks"
+vim
+ls
+nvim
+vi
+nvim
+go run .
+open new_demo.db | query db "SELECT * FROM tasks"
+exit
+nu
+nvim
+go run .
+go run . task --help
+go run . task new
+ls
+rm the_test_db.db
+ls
+exit
+ls
+cd projects
+cd go_task
+ls
+nvim
+zellij
+exit
+open new_demo.db | query db "SELECT * FROM tasks"
+open new_demo.db | query db "UPDATE tasks set status = 'completed' where id = 2"
+open new_demo.db | query db "SELECT * FROM tasks"
+open new_demo.db | query db "UPDATE tasks set status = 'todo' where id = 3"
+open new_demo.db | query db "SELECT * FROM tasks"
+go run .
+exit
+ls
+ls -a
+ls | order by modified
+ls | sort by modified
+ls | sort
+exit
+ls
+config nu
+config
+config env
+exit
