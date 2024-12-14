@@ -1,0 +1,13 @@
+options(styler.cache_root = "styler-perm")
+
+options(
+  # languageserver.server_capabilities = list(
+  #   completionProvider = FALSE, completionItemResolve = FALSE
+  # ),
+  languageserver.formatting_style = function(options) {
+    style <- styler::tidyverse_style(scope = "indentation", indent_by = options$tabSize)
+    style$token$fix_quotes <- NULL
+    style
+  }
+)
+
