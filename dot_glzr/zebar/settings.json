@@ -1,0 +1,5 @@
+{
+  "startupConfigs": [
+    "neobrutal-zebar/bar.zebar.json"
+  ]
+}
