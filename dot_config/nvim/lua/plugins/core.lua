@@ -75,9 +75,6 @@ return {
         codelens = {
           enabled = false,
         },
-        document_highlight = {
-          enabled = true,
-        },
         capabilities = {
           workspace = {
             fileOperations = {
@@ -101,7 +98,7 @@ return {
               gopls = {
                 gofumpt = true,
                 codelenses = {
-                  gc_details = true,
+                  gc_details = false,
                   generate = true,
                   regenerate_cgo = true,
                   run_govulncheck = true,
@@ -112,11 +109,11 @@ return {
                 },
                 hints = {
                   assignVariableTypes = false,
-                  compositeLiteralFields = false,
-                  compositeLiteralTypes = false,
-                  constantValues = false,
-                  functionTypeParameters = false,
-                  parameterNames = false,
+                  compositeLiteralFields = true,
+                  compositeLiteralTypes = true,
+                  constantValues = true,
+                  functionTypeParameters = true,
+                  parameterNames = true,
                   rangeVariableTypes = true,
                 },
                 analyses = {
@@ -126,7 +123,7 @@ return {
                   unusedwrite = true,
                   useany = true,
                 },
-                usePlaceholders = false,
+                usePlaceholders = true,
                 completeUnimported = true,
                 staticcheck = true,
                 directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
@@ -138,7 +135,6 @@ return {
             root_dir = function(fname)
               return require("lspconfig.util").root_pattern("DESCRIPTION", "NAMESPACE", ".Rbuildignore")(fname)
                 or require("lspconfig.util").find_git_ancestor(fname)
-                ---@diagnostic disable-next-line: undefined-field
                 or vim.loop.os_homedir()
             end,
           },

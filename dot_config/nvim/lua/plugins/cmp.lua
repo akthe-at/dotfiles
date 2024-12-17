@@ -1,7 +1,13 @@
 return {
   {
     "saghen/blink.cmp",
+    dependencies = { "R-nvim/cmp-r" },
     opts = {
+      snippets = {
+        expand = function(snippet, _)
+          return LazyVim.cmp.expand(snippet)
+        end,
+      },
       appearance = {
         -- sets the fallback highlight groups to nvim-cmp's highlight groups
         -- useful for when your theme doesn't support blink.cmp
@@ -38,16 +44,13 @@ return {
       sources = {
         -- adding any nvim-cmp sources here will enable them
         -- with blink.compat
-        compat = { "tailwindcss", "luasnip" },
+        compat = { "tailwindcss", "luasnip", "cmp_r" },
         default = { "lsp", "snippets", "path", "buffer" },
       },
 
       keymap = {
         preset = "default",
-        ["<Tab>"] = {
-          LazyVim.cmp.map({ "snippet_forward", "ai_accept" }),
-          "fallback",
-        },
+        ["<C-y>"] = { "select_and_accept" },
       },
     },
   },

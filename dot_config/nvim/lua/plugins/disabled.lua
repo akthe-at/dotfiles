@@ -1,6 +1,5 @@
 --disabling plugins from LazyVim distro
 return {
-  -- { "nvim-lualine/lualine.nvim", enabled = false },
   {
     "echasnovski/mini.pairs",
     enabled = false,
@@ -9,12 +8,10 @@ return {
     "nvim-neo-tree/neo-tree.nvim",
     enabled = false,
   },
-  -- { "folke/noice.nvim", enabled = false },
-  {
-    "mfussenegger/nvim-lint",
-    enabled = false,
-  },
-  -- { "garymjr/nvim-snippets", enabled = false },
+  -- {
+  --   "mfussenegger/nvim-lint",
+  --   enabled = false,
+  -- },
   {
     "folke/ts-comments.nvim",
     enabled = true,
