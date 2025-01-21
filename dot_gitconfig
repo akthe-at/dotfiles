@@ -1,0 +1,7 @@
+[user]
+	email = arkelly2@medicine.wisc.edu
+	name = Adam K.
+[pull]
+	rebase = true
+[credential]
+	helper = cache
