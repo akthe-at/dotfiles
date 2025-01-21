@@ -60,10 +60,11 @@ if [[ $iatest -gt 0 ]]; then bind "set show-all-if-ambiguous On"; fi
 # Set the default editor
 export EDITOR=nvim
 export VISUAL=nvim
-alias vim='nvim'
 
 # Delete junk transfer files between WSL and Windows
 alias dzi='find . -name "*Zone.Identifier" -type f -delete'
+# personal task app
+alias gt='go_task'
 
 # To have colors for ls and all grep commands such as grep, egrep and zgrep
 export CLICOLOR=1
@@ -469,10 +470,10 @@ if [[ $- == *i* ]]; then
   bind '"\C-f":"zi\n"'
 fi
 
-export PATH=$PATH:"$HOME/.local/bin:$HOME/.cargo/bin:/var/lib/flatpak/exports/bin:/.local/share/flatpak/exports/bin:/opt/nvim-linux64/bin:/mnt/c/Program Files/neovim/bin/:$GOBIN"
-
+export PATH=$PATH:"$HOME/.local/bin:$HOME/.cargo/bin:/var/lib/flatpak/exports/bin:/.local/share/flatpak/exports/bin:/mnt/c/Program Files/neovim/bin/:$GOBIN:$HOME/.local/share/bob/nvim-bin/:$HOME/.local/share/mise/shims"
+#/opt/nvim-linux64/bin: -- remove from path to use nightly
 source /etc/profile.d/wezterm.sh
-
+export SYSTEMD_EDITOR=vim
 . "$HOME/.cargo/env"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 eval "$(starship init bash)"
