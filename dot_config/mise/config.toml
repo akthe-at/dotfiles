@@ -1,0 +1,7 @@
+[tools]
+node = "lts"
+go = "latest"
+zig = "0.13.0"
+
+[settings]
+experimental = true
