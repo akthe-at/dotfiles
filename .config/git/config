@@ -1,0 +1,79 @@
+[user]
+	email = arkelly2@medicine.wisc.edu
+  name = Adam K.
+
+[commit]
+  template = ~/.config/git/template
+
+[core]
+  autocrlf = input
+  whitespace = error
+  fsync = none
+  compression = 9
+
+[blame]
+  coloring = highlightRecent
+  date = relative
+
+[diff]
+  context = 4
+  renames = copies
+  interHunkContext = 10
+
+[init]
+  defaultBranch = main
+
+[log]
+  abbrevCommit = true
+  graphColors = blue,yellow,cyan,magenta,green,red
+
+[status]
+  branch = true
+  short = false
+  showStash = true
+  showUntrackedFiles = all
+
+[pager]
+  branch = false
+
+[push]
+  autoSetupRemote = true
+  default = current
+
+[pull]
+  rebase = true
+
+[rebase]
+  autoStash = true
+
+[credential]
+	helper = cache#
+
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+
+[credential "https://gist.github.com"]
+	helper = 
+  helper = !/usr/bin/gh auth git-credential
+
+# Colors
+[color "blame"]
+    highlightRecent = black bold,1 year ago,white,1 month ago,default,7 days ago,blue
+
+[color "branch"]
+    current  = magenta
+    local    = default
+    remote   = yellow
+    upstream = green
+    plain    = blue
+
+[color "diff"]
+    meta       = black bold
+    frag       = magenta
+    context    = white
+  whitespace = yellow reverse
+
+[interactive]
+    singlekey = true
+
