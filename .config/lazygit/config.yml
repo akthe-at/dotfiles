@@ -1,0 +1,2 @@
+os:
+  openLink: 'xdg-open {{link}}'
